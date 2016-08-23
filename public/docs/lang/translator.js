@@ -4,8 +4,8 @@
  * Translator for documentation pages.
  *
  * To enable translation you should include one of language-files in your index.html
- * after <script src='lang/translator.js' type='text/javascript'></script>.
- * For example - <script src='lang/ru.js' type='text/javascript'></script>
+ * after <script source='lang/translator.js' type='text/javascript'></script>.
+ * For example - <script source='lang/ru.js' type='text/javascript'></script>
  *
  * If you wish to translate some new texsts you should do two things:
  * 1. Add a new phrase pair ("New Phrase": "New Translation") into your language file (for example lang/ru.js). It will be great if you add it in other language files too.

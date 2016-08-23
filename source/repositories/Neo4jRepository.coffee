@@ -1,12 +1,10 @@
 async = require('async')
-request = require('superagent')
-iRepository = require('./iRepository')
+iGraphRepository = require('./iGraphRepository')
 combyne = require('combyne')
 neo4j = require('neo4j-driver').v1
 uuid = require('uuid')
-math = require('mathjs')
 
-module.exports = class iRepository
+module.exports = class iGraphRepository
     constructor: (@config) ->
         @buffer = null
         if !@config.url?
@@ -42,7 +40,7 @@ module.exports = class iRepository
                             results.push(record._fields[0].properties)
                         callback(null, results)
                 else
-                    callback(null, "{}")
+                    callback(null, "[]")
                 return
             )
             .catch((error) =>
@@ -58,6 +56,7 @@ module.exports = class iRepository
             callback(null,"{}")
             return
         cypher = "MATCH (n:#{example.type}) WHERE n.id = {id} RETURN n"
+        console.log("Cypher: "+cypher)
         @run(cypher, example, callback)
 
 

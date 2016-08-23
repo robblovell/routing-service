@@ -881,7 +881,7 @@ Renderer.prototype.link = function(href, title, text) {
 };
 
 Renderer.prototype.image = function(href, title, text) {
-  var out = '<img src="' + href + '" alt="' + text + '"';
+  var out = '<img source="' + href + '" alt="' + text + '"';
   if (title) {
     out += ' title="' + title + '"';
   }

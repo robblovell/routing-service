@@ -5,7 +5,7 @@
   Importer = require('./importers/ImportFromCSV');
 
   config = {
-    cypher: "CREATE (:Warehouse { id:line.WarehouseId, warehouseId:line.WarehouseId, pimcoreId:line.PIMCoreWarehouseID, postalCode:line.PostalCode, name:line.Name, isSuperDC:line.isSuperDC})"
+    cypher: "CREATE (:Product { id:line.ProductItemId, productItemId:line.ProductItemId })"
   };
 
   importer = new Importer(config);
@@ -14,4 +14,4 @@
 
 }).call(this);
 
-//# sourceMappingURL=importWarehouses.js.map
+//# sourceMappingURL=importProducts.js.map

@@ -6,7 +6,7 @@ favicon = require('serve-favicon')
 logger = require('morgan')
 cookieParser = require('cookie-parser')
 bodyParser = require('body-parser')
-routes = require('./routes/index')
+routes = require('./paths/index')
 config = require('./config/configuration')
 
 app = express()
@@ -38,7 +38,8 @@ Routes = require('./controllers/routes')(app, route.model)
 Resources = {
   Routes:Routes
 }
-require('./controllers/swagger')(app, Resources, '/api', config)
+swagger = require('./controllers/swagger')
+swagger(app, Resources, '/api', config)
 
 timeout = require('connect-timeout')
 

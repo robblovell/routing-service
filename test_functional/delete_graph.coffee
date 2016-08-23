@@ -1,31 +1,26 @@
 should = require('should')
 assert = require('assert')
-math = require('mathjs')
-async = require('async')
-neo4j = require('neo4j-driver').v1
-#driver = neo4j.driver('bolt://sb10.stations.graphenedb.com:24786', neo4j.auth.basic('network','3n6CUgoYeboY0PYjHLaa'))
-driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j','macro7'))
+
+config = require('../config/configuration')
+Neo4jRepostitory = require('../source/repositories/Neo4jRepository')
+repoConfig = {url: config.neo4jurl}
+repo = new Neo4jRepostitory(repoConfig)
+
 describe 'Delete Graph', () ->
 
     deleteGraph = (done) ->
-        session = driver.session()
-        tx = session.beginTransaction()
-
         console.log("Delete edges")
-        tx.run("MATCH ()-[r]->() DELETE r")
-        console.log("Delete nodes")
-        tx.run("MATCH (n) delete n")
-        tx.commit().subscribe({
-            onCompleted: () ->
+
+        repo.run("MATCH ()-[r]->() DELETE r", {}, (error, result) ->
+            console.log("Delete nodes")
+
+            repo.run("MATCH (n) delete n", {}, (error, result) ->
                 console.log("delete completed")
-                session.close()
                 done()
-            ,
-            onError: (error) ->
-                console.log(error)
-                session.close()
-                done()
-        })
+            ) unless error?
+            return
+        )
+        return
 
     it 'deleting graph', (done) ->
         deleteGraph(()->
