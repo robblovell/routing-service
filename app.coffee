@@ -34,9 +34,14 @@ mongoose.connect(config.db) # connect to our database
 
 route= require('./models/route')
 Routes = require('./controllers/routes')(app, route.model)
-
+edge= require('./models/edge')
+Edges = require('./controllers/edges')(app, edge.model)
+node= require('./models/node')
+Nodes = require('./controllers/nodes')(app, node.model)
 Resources = {
   Routes:Routes
+  Edges:Edges
+  Nodes:Nodes
 }
 swagger = require('./controllers/swagger')
 swagger(app, Resources, '/api', config)

@@ -5,7 +5,9 @@ config = {
 CREATE (s)-[:BELONGS_TO{
 sourceId:line.SourceNodeID,
 inventory:line.ProductAvailability,
-visibility:1}]->(b)"
+visibility:1,
+id:s.id+'_'+b.id
+}]->(b)"
 }
 importer = new Importer(config)
 

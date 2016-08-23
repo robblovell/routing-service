@@ -5,7 +5,7 @@
   Importer = require('./importers/ImportFromCSV');
 
   config = {
-    cypher: "MATCH (s:Satellite {id:line.ExternalLocationKey}),(b:Zone {id:line.RadiusZipId}) CREATE (s)-[:LAST_MILE{ id:line.RadiusZipId, zip:line.RadiusZip }]->(b)"
+    cypher: "MATCH (s:Satellite {id:line.ExternalLocationKey}),(b:Zone {id:line.RadiusZipId}) CREATE (s)-[:LAST_MILE{ id:s.id+'_'+line.RadiusZipId, zip:line.RadiusZip }]->(b)"
   };
 
   importer = new Importer(config);

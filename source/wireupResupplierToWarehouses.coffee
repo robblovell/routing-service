@@ -6,7 +6,9 @@ CREATE (s)-[:RESUPPLIES{
 sellerCost:line.sellercost,
 leadTime:line.leadtime,
 bdCost:line.bdCost,
-custCost:line.custCost}]->(b)"
+custCost:line.custCost,
+id:s.id+'_'+b.id
+}]->(b)"
 }
 importer = new Importer(config)
 

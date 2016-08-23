@@ -98,6 +98,17 @@
       throw new Error('not implemented');
     };
 
+    iGraphRepository.prototype.getEdge = function(example, callback) {
+      var cypher;
+      if (example.id === "" || example.id === null) {
+        callback(null, "{}");
+        return;
+      }
+      cypher = "MATCH ()-[n:" + example.type + "]->() WHERE n.id = {id} RETURN n LIMIT 1";
+      console.log("Cypher: " + cypher);
+      return this.run(cypher, example, callback);
+    };
+
     iGraphRepository.prototype.setEdge = function(params, edge, callback) {
       var data, makeUpsert, ref, session, upsert;
       makeUpsert = (function(_this) {

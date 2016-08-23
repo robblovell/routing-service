@@ -66,6 +66,14 @@ module.exports = class iGraphRepository
     add: (cypher, callback) ->
         throw new Error 'not implemented'
 
+    getEdge: (example, callback) ->
+        if (example.id == "" or example.id == null)
+            callback(null,"{}")
+            return
+        cypher = "MATCH ()-[n:#{example.type}]->() WHERE n.id = {id} RETURN n LIMIT 1"
+        console.log("Cypher: "+cypher)
+        @run(cypher, example, callback)
+
     setEdge: (params, edge, callback) =>
         makeUpsert = (params, data) =>
             ###

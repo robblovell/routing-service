@@ -1,20 +1,25 @@
 mongoose = require('mongoose')
 Resource = require('resourcejs')
+Neo4jRepository = require('../source/repositories/Neo4jRepository')
+config = require('../config/configuration')
+
+repoConfig = {url: config.neo4jurl}
+repo = new Neo4jRepository(repoConfig)
 
 module.exports = (app, model) ->
-    resource = Resource(app, '', 'Edges', model)
-    .patch({
-        before: (req, res, next) ->
-            traverse = require('helpers/traverse')
-
-            if not(req.body? and req.body[0]? and req.body[0].op?)
-                result = traverse(req.body[0],'', [])
-                req.body[0] = result[0]
-
-    })
+    resource = Resource(app, '/edgetypes/:edgesType', 'edges', model)
     .get({
         before: (req, res, next) ->
-
+            example = {id: req.params.edgesId, type: req.params.edgesType}
+            console.log(JSON.stringify(example,null,3))
+            repo.getEdge(example, (error, result) ->
+                if (error?)
+                    res.send {error: Error.message}
+                    return
+                res.send JSON.stringify(result)
+                return
+            )
+            return
     })
     .put({
         before: (req, res, next) ->
