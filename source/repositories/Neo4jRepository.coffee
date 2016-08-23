@@ -33,11 +33,11 @@ module.exports = class iGraphRepository
                 if (result and result.records[0] and result.records[0]._fields)
                     # todo:: be consistent in returning results. Return an array of objects.
                     if (result.records.length == 1)
-                        callback(null, JSON.stringify(result.records[0]._fields[0].properties))
+                        callback(null, JSON.stringify(result.records[0].toObject))
                     else
                         results = []
                         for record in result.records
-                            results.push(record._fields[0].properties)
+                            results.push(record.toObject())
                         callback(null, results)
                 else
                     callback(null, "[]")

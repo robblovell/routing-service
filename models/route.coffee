@@ -1,13 +1,18 @@
 Mongoose = require('mongoose')
 Schema = require('mongoose').Schema
 ObjectId = Mongoose.Schema.Types.ObjectId
+PathSchema = new Schema(
+    {
 
+    },
+    { strict: false, _id: false }
+)
 RouteSchema = new Schema(
     {
         to: String,
         skus: [String]
-        routes: [String]
+        routes: [PathSchema]
     },
-    { strict: false }
+    { strict: true }
 )
 module.exports = { model: Mongoose.model("Route", RouteSchema), schema: RouteSchema }

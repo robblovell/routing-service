@@ -1,15 +1,40 @@
 mongoose = require('mongoose')
 Resource = require('resourcejs')
+async = require('async')
+config = require('../config/configuration')
+Neo4jRepostitory = require('../source/repositories/Neo4jRepository')
 
+repoConfig = {url: config.neo4jurl}
+repo = new Neo4jRepostitory(repoConfig)
+
+QueryRoutes = require('../source/queries/QueryRoutes')
+queryRoute = new QueryRoutes({})
 module.exports = (app, model) ->
     resource = Resource(app, '', 'Routes', model)
     .get()
     .post({
         before: (req, res, next) ->
-            next()
-            return
-        after: (req, res, next) ->
-            next()
+            queries = []
+            makeQuery = (to, sku) ->
+                return (callback) ->
+                    queryRoute.query({to: to, sku: sku}, repo, (error, result) ->
+                        if (!error?)
+                            result = {sku: sku, routes: result}
+                        callback(error, result)
+                    )
+            for sku in req.body.skus
+                queries.push(makeQuery(req.body.to, sku))
+            async.parallelLimit(queries, 10, (error, result) ->
+                if (error?)
+                    res.render('error', {
+                        error: {status: "Error finding and creating routes", stack: "In controllers/Routes"},
+                        message: ' Error is' + error.message
+                    })
+                else
+                    req.body.routes = result # todo add the routes properly to the request so they get posted to mongodb and returned.
+                    next()
+            )
+
             return
     })
     .delete()

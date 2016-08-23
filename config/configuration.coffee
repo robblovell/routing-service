@@ -5,7 +5,7 @@ config =
     port: process.env.PORT || '3000'
     host: process.env.HOST || 'localhost'
     basepath: "/"
-    scheme: process.env.SCHEME || 'https'
+    scheme: process.env.SCHEME || 'http'
     insightsKey: ""
     segementKey: ""
     version: "0.0.1"

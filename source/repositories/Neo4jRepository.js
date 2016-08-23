@@ -53,13 +53,13 @@
             session.close();
             if (result && result.records[0] && result.records[0]._fields) {
               if (result.records.length === 1) {
-                callback(null, JSON.stringify(result.records[0]._fields[0].properties));
+                callback(null, JSON.stringify(result.records[0].toObject));
               } else {
                 results = [];
                 ref = result.records;
                 for (i = 0, len = ref.length; i < len; i++) {
                   record = ref[i];
-                  results.push(record._fields[0].properties);
+                  results.push(record.toObject());
                 }
                 callback(null, results);
               }
