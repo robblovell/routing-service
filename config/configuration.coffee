@@ -8,7 +8,7 @@ config =
     scheme: process.env.SCHEME || 'http'
     insightsKey: ""
     segementKey: ""
-    version: "0.0.1"
+    version: "0.0.2"
     timeout: 15000
 
 switch config.env
