@@ -45,7 +45,7 @@
             callback(error, result);
             return;
           }
-          data = JSON.parse(result);
+          data = result[0];
           data.id.should.be.equal(testImport.spotid);
           console.log("completed: " + testImport.nodetype);
           callback(error, result);

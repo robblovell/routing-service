@@ -11,9 +11,9 @@ config =
     version: "0.0.2"
     timeout: process.env.SEGMENT_KEY || 15000
 
-if config.env != 'develop' and config.env != 'staging' and config.env != 'production'
-    config.db = "mongodb://localhost:27017/network" #"mongodb://localhost:27017"
-    config.host = "localhost:3000"
+if process.env.NODE_ENV == "test"
+    config.db = "mongodb://bd-rulesservice-dev:iJyHMx2TJBxv2GLFXE1WNinuiC3P5IAZRPIMU55Ctd3xeLjBCSSKJtWoi5hDEk5pTM16TcZbDDUiNbnTV1rAFg==@bd-rulesservice-dev.documents.azure.com:10250/?ssl=true"
+    config.neo4jurl = "bolt://develop:k3qPB4V2yxPNAivieu3B@sb10.stations.graphenedb.com:24786"
 
 console.log("configuration: "+JSON.stringify(config))
 module.exports = config
