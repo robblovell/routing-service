@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "wireupResupplierToWarehouses.js",
+  "sourceRoot": "",
+  "sources": [
+    "wireupResupplierToWarehouses.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,MAAA;;EAAA,QAAA,GAAW,OAAA,CAAQ,2BAAR;;EAEX,MAAA,GAAS;IACL,MAAA,EAAQ,uNADH;;;EAQT,QAAA,GAAe,IAAA,QAAA,CAAS,MAAT;;EAEf,MAAM,CAAC,OAAP,GAAiB;AAZjB"
+}
