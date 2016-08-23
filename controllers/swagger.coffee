@@ -6,16 +6,16 @@ module.exports = (app, resources, spec='/spec', config) ->
     _.each(resources, (resource) ->
 
         swagger = resource.swagger()
-#        if (swagger.paths["/items"]?)
-#            swagger.paths["/items"].get.parameters.push({
-#                    name: 'query',
-#                    in: 'query',
-#                    description: 'Query by example. Pass a JSON object to find, for example: {"age": {"$gte": 21, "$lte": 65}.',
-#                    type: 'string',
-#                    required: false,
-#                    default: ''
-#                }
-#            )
+        if (swagger.paths["/routes"]?)
+            swagger.paths["/routes"].get.parameters.push({
+                    name: 'query',
+                    in: 'query',
+                    description: 'Query by example. Pass a JSON object to find, for example: {"age": {"$gte": 21, "$lte": 65}.',
+                    type: 'string',
+                    required: false,
+                    default: ''
+                }
+            )
         paths = _.assign(paths, swagger.paths)
         definitions = _.assign(definitions, swagger.definitions)
     )

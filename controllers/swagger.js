@@ -14,6 +14,16 @@
     _.each(resources, function(resource) {
       var swagger;
       swagger = resource.swagger();
+      if ((swagger.paths["/routes"] != null)) {
+        swagger.paths["/routes"].get.parameters.push({
+          name: 'query',
+          "in": 'query',
+          description: 'Query by example. Pass a JSON object to find, for example: {"age": {"$gte": 21, "$lte": 65}.',
+          type: 'string',
+          required: false,
+          "default": ''
+        });
+      }
       paths = _.assign(paths, swagger.paths);
       return definitions = _.assign(definitions, swagger.definitions);
     });

@@ -2,20 +2,157 @@ extends layout
 
 block content
   h1= title
-  p stores a network to use with routing algorithms that calculate a set of routes with minimal cost and time for delivery.
-
-  p Swagger documentation is at:
-  a(href='/docs/index.html') /docs/index.html
+  p Stores a network to use with routing algorithms that calculate a set of routes with minimal cost and time for delivery.
 
   h2= "Setup"
-  p npm install
+  p Install mongoDB locally with no username and password, port 27017.
 
-  h2="Test"
-  p npm test
+  p Install neo4jDB locally with username and password: neo4j/macro7
 
-  h2= "Import network from S3"
-  p npm run import
+  p Install utilities, you will need gulp and coffeescript installed globally:
 
-  h2= "Start server on "
-    a(href='localhost:3000') localhost:3000
-  p npm start
+  pre npm install gulp -g
+    | npm install coffee-script -g.
+
+  p Load dependencies:
+
+  pre npm install
+    | npm run build
+
+  h2="Test (currently none written)"
+  pre npm test
+
+  h2="Configuration"
+  p The file config/configuration.coffee will connect to a
+    | local mongodb and neo4j database with no environment variables set.
+  p With NODE_ENV='test', the config/configuration.coffee will connect to an Azure development
+    | environment. See config/configuration.coffee for more details.
+  p Other environments require that environment variables set in config/configuration.coffee be set.
+    | Particularlly: NODE_ENV, DB, NEO4J_URL, HOST, PORT, and SCHEME (the last three are for swagger).
+
+  h2= "Import network from S3 to GrapheneDB "
+  p The import will DELETE the current database and load a new one from files stored at https://s3-us-west-1.amazonaws.com/bd-ne04j
+
+  pre npm run import
+
+  h4= "Developer database is located here: "
+    a(href='https://app.graphenedb.com/dbs/network/overview') (https://app.graphenedb.com/dbs/network/overview)
+
+  h2= "Start server"
+
+  pre npm start
+
+  h4= "Server at: "
+    a(href='localhost:3000') http://localhost:3000
+
+  h4= "Swagger documentation is at: "
+    a(href='/docs/index.html') http://localhost:3000/docs/index.html
+
+  h2="Update nodes"
+  p TODO.
+
+  h2= "Get Routing for Products"
+  h3= "Request:"
+  pre
+    code(class="javascript")
+      | POST: {
+      |   to: "313",
+      |   skus: [
+      |     "10081155"
+      |   ]
+      | }
+
+  h3= "Response:"
+  pre
+    code(class="javascript")
+      | {
+      |   "__v": 0,
+      |   "to": "313",
+      |   "_id": "57bc24dc5cf6fef875de27a1",
+      |   "routes": [
+      |     {
+      |       "sku": "10081155",
+      |       "routes": [
+      |         {
+      |           "totalBDCost": {
+      |             "low": 0,
+      |             "high": 0
+      |           },
+      |           "totalSellerCost": {
+      |             "low": 0,
+      |             "high": 0
+      |           },
+      |           "totalCustCost": {
+      |             "low": 0,
+      |             "high": 0
+      |           },
+      |           "Relations": [],
+      |           "LastMileFromZip": "21784",
+      |           "Warehouses": [
+      |             "2000097"
+      |           ]
+      |         },
+      |         {
+      |           "totalBDCost": {
+      |             "low": 0,
+      |             "high": 0
+      |           },
+      |           "totalSellerCost": {
+      |             "low": 0,
+      |             "high": 0
+      |           },
+      |           "totalCustCost": {
+      |             "low": 0,
+      |             "high": 0
+      |           },
+      |           "Relations": [],
+      |           "LastMileFromZip": "91761",
+      |           "Warehouses": [
+      |             "2000101"
+      |           ]
+      |         },
+      |         {
+      |           "totalBDCost": {
+      |             "low": 0,
+      |             "high": 0
+      |           },
+      |           "totalSellerCost": {
+      |             "low": 0,
+      |             "high": 0
+      |           },
+      |           "totalCustCost": {
+      |             "low": 0,
+      |             "high": 0
+      |           },
+      |           "Relations": [],
+      |           "LastMileFromZip": "75182",
+      |           "Warehouses": [
+      |             "2000112"
+      |           ]
+      |         },
+      |         {
+      |           "totalBDCost": {
+      |             "low": 0,
+      |             "high": 0
+      |           },
+      |           "totalSellerCost": {
+      |             "low": 0,
+      |             "high": 0
+      |           },
+      |           "totalCustCost": {
+      |             "low": 0,
+      |             "high": 0
+      |           },
+      |           "Relations": [],
+      |           "LastMileFromZip": "33023",
+      |           "Warehouses": [
+      |             "2000103"
+      |           ]
+      |         }
+      |       ]
+      |     }
+      |   ],
+      |   "skus": [
+      |     "10081155"
+      |   ]
+      | }

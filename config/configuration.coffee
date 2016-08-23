@@ -9,7 +9,7 @@ config =
     insightsKey: process.env.INSIGHTS_KEY || ""
     segementKey: process.env.SEGMENT_KEY || ""
     version: "0.0.2"
-    timeout: process.env.SEGMENT_KEY || 15000
+    timeout: process.env.TIMEOUT || 15000
 
 if process.env.NODE_ENV == "test"
     config.db = "mongodb://bd-rulesservice-dev:iJyHMx2TJBxv2GLFXE1WNinuiC3P5IAZRPIMU55Ctd3xeLjBCSSKJtWoi5hDEk5pTM16TcZbDDUiNbnTV1rAFg==@bd-rulesservice-dev.documents.azure.com:10250/?ssl=true"
