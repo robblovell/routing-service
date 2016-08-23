@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "importSatellites.js",
+  "sourceRoot": "",
+  "sources": [
+    "importSatellites.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,MAAA;;EAAA,QAAA,GAAW,OAAA,CAAQ,2BAAR;;EAEX,MAAA,GAAS;IACL,MAAA,EAAQ,mKADH;;;EAQT,QAAA,GAAe,IAAA,QAAA,CAAS,MAAT;;EAEf,MAAM,CAAC,OAAP,GAAiB;AAZjB"
+}

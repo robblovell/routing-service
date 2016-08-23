@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "iQuery.js",
+  "sourceRoot": "",
+  "sources": [
+    "iQuery.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAEA;AAAA,MAAA;;EAAM;IACW,iBAAC,MAAD;MAAC,IAAC,CAAA,SAAD;IAAD;;sBAEb,KAAA,GAAO,SAAC,OAAD,EAAU,IAAV,EAAgB,QAAhB;AACH,YAAU,IAAA,KAAA,CAAM,iBAAN;IADP;;;;;AAHX"
+}

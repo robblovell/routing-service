@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "importZoneGlobal.js",
+  "sourceRoot": "",
+  "sources": [
+    "importZoneGlobal.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,MAAA;;EAAA,QAAA,GAAW,OAAA,CAAQ,2BAAR;;EAEX,MAAA,GAAS;IACL,MAAA,EAAQ,0CADH;;;EAMT,QAAA,GAAe,IAAA,QAAA,CAAS,MAAT;;EAEf,MAAM,CAAC,OAAP,GAAiB;AAVjB"
+}

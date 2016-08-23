@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "wireupWarehousesToGlobalZone.js",
+  "sourceRoot": "",
+  "sources": [
+    "wireupWarehousesToGlobalZone.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,MAAA;;EAAA,QAAA,GAAW,OAAA,CAAQ,2BAAR;;EAEX,MAAA,GAAS;IACL,MAAA,EAAQ,qFADH;;;EAMT,QAAA,GAAe,IAAA,QAAA,CAAS,MAAT;;EAEf,MAAM,CAAC,OAAP,GAAiB;AAVjB"
+}

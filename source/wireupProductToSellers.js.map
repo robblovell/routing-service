@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "wireupProductToSellers.js",
+  "sourceRoot": "",
+  "sources": [
+    "wireupProductToSellers.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,MAAA;;EAAA,QAAA,GAAW,OAAA,CAAQ,2BAAR;;EAEX,MAAA,GAAS;IACL,MAAA,EAAQ,2LADH;;;EAST,QAAA,GAAe,IAAA,QAAA,CAAS,MAAT;;EAEf,MAAM,CAAC,OAAP,GAAiB;AAbjB"
+}

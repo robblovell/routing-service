@@ -3,29 +3,17 @@ config =
     db: process.env.DB || "mongodb://localhost:27017"
     neo4jurl: process.env.NEO4J_URL || "bolt://neo4j:macro7@localhost"
     port: process.env.PORT || '3000'
-    host: process.env.HOST || 'localhost'
+    host: process.env.HOST || 'localhost:3000'
     basepath: "/"
     scheme: process.env.SCHEME || 'http'
-    insightsKey: ""
-    segementKey: ""
+    insightsKey: process.env.INSIGHTS_KEY || ""
+    segementKey: process.env.SEGMENT_KEY || ""
     version: "0.0.2"
-    timeout: 15000
+    timeout: process.env.SEGMENT_KEY || 15000
 
-switch config.env
-# todo:: develop and staging databases
-    when 'develop'
-        config.db = process.env.DB
-        config.host = process.env.HOST
-    when 'staging'
-        config.db = process.env.DB
-        config.host = process.env.HOST
-    when 'production'
-        config.db = process.env.DB
-        config.host = process.env.HOST
-    else
-        config.db = "mongodb://localhost:27017/network" #"mongodb://localhost:27017"
-        config.host = "localhost:3000"
-        config.schemes = ['http']
+if config.env != 'develop' and config.env != 'staging' and config.env != 'production'
+    config.db = "mongodb://localhost:27017/network" #"mongodb://localhost:27017"
+    config.host = "localhost:3000"
 
 console.log("configuration: "+JSON.stringify(config))
 module.exports = config
