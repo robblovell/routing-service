@@ -30,10 +30,13 @@ module.exports = class iGraphRepository
             session.run(cypher, data)
             .then((result) =>
                 session.close()
-                if (result and result.records[0] and result.records[0]._fields)
-                    # todo:: be consistent in returning results. Return an array of objects.
-                    if (result.records.length == 1)
-                        callback(null, JSON.stringify(result.records[0].toObject))
+                if (result and result.records.length > 0)
+                    if (result.records[0] and result.records[0].toObject? and
+                    result.records[0].toObject().n and result.records[0].toObject().n.properties)
+                        results = []
+                        for record in result.records
+                            results.push(record.toObject().n.properties)
+                        callback(null, results)
                     else
                         results = []
                         for record in result.records

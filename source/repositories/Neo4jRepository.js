@@ -49,16 +49,22 @@
         session = this.neo4j.session();
         session.run(cypher, data).then((function(_this) {
           return function(result) {
-            var i, len, record, ref, results;
+            var i, j, len, len1, record, ref, ref1, results;
             session.close();
-            if (result && result.records[0] && result.records[0]._fields) {
-              if (result.records.length === 1) {
-                callback(null, JSON.stringify(result.records[0].toObject));
-              } else {
+            if (result && result.records.length > 0) {
+              if (result.records[0] && (result.records[0].toObject != null) && result.records[0].toObject().n && result.records[0].toObject().n.properties) {
                 results = [];
                 ref = result.records;
                 for (i = 0, len = ref.length; i < len; i++) {
                   record = ref[i];
+                  results.push(record.toObject().n.properties);
+                }
+                callback(null, results);
+              } else {
+                results = [];
+                ref1 = result.records;
+                for (j = 0, len1 = ref1.length; j < len1; j++) {
+                  record = ref1[j];
                   results.push(record.toObject());
                 }
                 callback(null, results);
