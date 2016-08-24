@@ -7,10 +7,10 @@
   Schema = require('mongoose').Schema;
 
   NodeSchema = new Schema({
-    id: String,
-    type: String
+    id: String
   }, {
-    strict: false
+    strict: false,
+    _id: false
   });
 
   module.exports = {
