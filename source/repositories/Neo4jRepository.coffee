@@ -62,9 +62,56 @@ module.exports = class iGraphRepository
         console.log("Cypher: "+cypher)
         @run(cypher, example, callback)
 
+    makeQuery = (query, type) ->
+        paging = ""
+        if query.skip? && query.limit?
+            paging += " SKIP "+query.skip
+        if query.limit?
+            paging += " LIMIT "+query.limit
+
+        queryStr = ""
+        if query.query?
+            queryStr = " WHERE "
+            example = JSON.parse(query.query)
+            if typeof example is 'string'
+                queryStr = " WHERE "+example # .replace(/(\S+\s*=)/g,"n.$&") # put a n. in front of all keys.
+            else
+                for k,v of example
+                    if typeof v is 'string'
+                        queryStr+= type+"."+k+"='"+v+"' and "
+                    else
+                        queryStr+= type+"."+k+"="+v+" and "
+                queryStr = queryStr.slice(0,-5)
+        return [queryStr, paging]
+
+    index: (nodesType, query, callback) ->
+
+        [queryStr,paging] = makeQuery(query,'n')
+
+        cypher = "MATCH (n:#{nodesType}) #{queryStr} RETURN n #{paging}"
+
+        console.log("Cypher: "+cypher)
+        @run(cypher, {}, callback)
 
     add: (cypher, callback) ->
         throw new Error 'not implemented'
+
+    indexEdge: (edgesType, query, callback) ->
+
+        [queryStr,paging] = makeQuery(query,'e')
+
+        cypher = "MATCH ()-[e:#{edgesType}]->() #{queryStr} RETURN e #{paging}"
+
+        console.log("Cypher: "+cypher)
+        @run(cypher, {}, callback)
+
+    getEdge: (example, callback) ->
+        if (example.id == "" or example.id == null)
+            callback(null,"{}")
+            return
+        cypher = "MATCH ()-[n:#{example.type}]->() WHERE n.id = {id} RETURN n LIMIT 1"
+        console.log("Cypher: "+cypher)
+        @run(cypher, example, callback)
 
     setEdge: (params, edge, callback) =>
         makeUpsert = (params, data) =>
