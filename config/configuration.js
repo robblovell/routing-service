@@ -12,7 +12,7 @@
     scheme: process.env.SCHEME || 'http',
     insightsKey: process.env.INSIGHTS_KEY || "",
     segementKey: process.env.SEGMENT_KEY || "",
-    version: "0.0.3",
+    version: "0.0.4",
     timeout: process.env.TIMEOUT || 15000
   };
 

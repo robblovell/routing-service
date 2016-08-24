@@ -29,9 +29,6 @@ The network consists of a warehouse node type where products or "products" can r
 **Warehouses (BDWP and SuperDC's), Seller (Sweeps and doesn't sweep), or Satellite for Warehouses**
 
 TODO:
-* Cost updates
-* Inventory updates
+
 * CLI for imports
-* Node updates (warehouses, satellites and sellers)
-* Relationship updates
 
