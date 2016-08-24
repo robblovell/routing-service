@@ -295,6 +295,40 @@
       }
     };
 
+    iGraphRepository.prototype["delete"] = function(nodeid, nodekind, callback) {
+      var data, deleteStatement, makeDelete, ref, session;
+      makeDelete = (function(_this) {
+        return function(nodeid, nodekind) {
+          var data, deleteStatement, deleteString;
+          data = {
+            nodeid: nodeid
+          };
+          deleteString = "MATCH " + "(n:" + nodekind + " {id:" + nodeid + "}) " + "DELETE n";
+          console.log(deleteString);
+          deleteStatement = "MATCH " + "(n:" + nodekind + " {id:{nodeid}}" + ") " + "DELETE n";
+          console.log(deleteStatement);
+          return [data, deleteStatement];
+        };
+      })(this);
+      ref = makeDelete(nodeid, nodekind), data = ref[0], deleteStatement = ref[1];
+      if ((this.buffer != null) || (callback == null)) {
+        this.buffer.run(deleteStatement, data);
+      } else {
+        session = this.neo4j.session();
+        session.run(deleteStatement, data).then((function(_this) {
+          return function(result) {
+            session.close();
+            return callback(null, result);
+          };
+        })(this))["catch"]((function(_this) {
+          return function(error) {
+            session.close();
+            return callback(error, null);
+          };
+        })(this));
+      }
+    };
+
     iGraphRepository.prototype.pipeline = function() {
       this.session = this.neo4j.session();
       this.buffer = this.session.beginTransaction();

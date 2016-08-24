@@ -37,11 +37,65 @@
         });
       }
     }).put({
-      before: function(req, res, next) {}
+      before: function(req, res, next) {
+        req.body.id = req.params.nodesId;
+        req.body.type = req.params.nodesType;
+        repo.set(req.body.id, req.body, function(error, result) {
+          if ((error != null)) {
+            if (error.fields != null) {
+              res.send({
+                error: error.fields[0].message,
+                code: error.fields[0].code
+              });
+            } else {
+              res.send({
+                error: "error in post: " + JSON.stringify(error)
+              });
+            }
+            return;
+          }
+          res.send(JSON.stringify(result));
+        });
+      }
     }).post({
-      before: function(req, res, next) {}
+      before: function(req, res, next) {
+        req.body.type = req.params.nodesType;
+        repo.set(req.body.id, req.body, function(error, result) {
+          if ((error != null)) {
+            if (error.fields != null) {
+              res.send({
+                error: error.fields[0].message,
+                code: error.fields[0].code
+              });
+            } else {
+              res.send({
+                error: "error in post: " + JSON.stringify(error)
+              });
+            }
+            return;
+          }
+          res.send(JSON.stringify(result));
+        });
+      }
     })["delete"]({
-      before: function(req, res, next) {}
+      before: function(req, res, next) {
+        repo["delete"](req.params.nodesId, req.params.nodesType, function(error, result) {
+          if ((error != null)) {
+            if (error.fields != null) {
+              res.send({
+                error: error.fields[0].message,
+                code: error.fields[0].code
+              });
+            } else {
+              res.send({
+                error: "error in post: " + JSON.stringify(error)
+              });
+            }
+            return;
+          }
+          res.send(JSON.stringify(result));
+        });
+      }
     }).index({
       before: function(req, res, next) {
         repo.index(req.params.nodesType, req.query, function(error, result) {

@@ -233,6 +233,36 @@ module.exports = class iGraphRepository
             )
         return
 
+    delete: (nodeid, nodekind, callback) ->
+        makeDelete = (nodeid, nodekind) =>
+            data = {nodeid:nodeid}
+            deleteString = "MATCH "+
+                "(n:"+nodekind+" {id:"+nodeid+"}) "+
+                "DELETE n"
+
+            console.log(deleteString)
+            deleteStatement = "MATCH "+
+                "(n:"+nodekind+" {id:{nodeid}}"+") "+
+                "DELETE n"
+
+            console.log(deleteStatement)
+            return [data, deleteStatement]
+
+        [data, deleteStatement] = makeDelete(nodeid, nodekind)
+        if (@buffer? || !callback?)
+            @buffer.run(deleteStatement, data)
+        else
+            session = @neo4j.session()
+            session.run(deleteStatement, data)
+            .then((result) =>
+                session.close()
+                callback(null, result)
+            )
+            .catch((error) =>
+                session.close()
+                callback(error, null)
+            )
+        return
 
     pipeline: () ->
         @session = @neo4j.session()
