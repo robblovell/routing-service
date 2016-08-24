@@ -36,6 +36,14 @@ module.exports = (app, model) ->
     .index({
         before: (req, res, next) ->
 
+            repo.index(req.params.nodesType, req.query, (error, result) ->
+                if (error?)
+                    res.send {error: error.fields[0].message}
+                    return
+                res.send JSON.stringify(result)
+                return
+            )
+            return
     })
 
     return resource

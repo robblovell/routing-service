@@ -43,7 +43,17 @@
     })["delete"]({
       before: function(req, res, next) {}
     }).index({
-      before: function(req, res, next) {}
+      before: function(req, res, next) {
+        repo.index(req.params.nodesType, req.query, function(error, result) {
+          if ((error != null)) {
+            res.send({
+              error: error.fields[0].message
+            });
+            return;
+          }
+          res.send(JSON.stringify(result));
+        });
+      }
     });
     return resource;
   };

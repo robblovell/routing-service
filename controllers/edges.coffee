@@ -35,7 +35,13 @@ module.exports = (app, model) ->
     })
     .index({
         before: (req, res, next) ->
-
+            repo.indexEdge(req.params.edgesType, req.query, (error, result) ->
+                if (error?)
+                    res.send {error: error.fields[0].message}
+                    return
+                res.send JSON.stringify(result)
+                return
+            )
     })
 
     return resource

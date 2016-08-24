@@ -14,6 +14,8 @@
   uuid = require('uuid');
 
   module.exports = iGraphRepository = (function() {
+    var makeQuery;
+
     function iGraphRepository(config) {
       this.config = config;
       this.exec = bind(this.exec, this);
@@ -94,8 +96,54 @@
       return this.run(cypher, example, callback);
     };
 
+    makeQuery = function(query, type) {
+      var example, k, paging, queryStr, v;
+      paging = "";
+      if ((query.skip != null) && (query.limit != null)) {
+        paging += " SKIP " + query.skip;
+      }
+      if (query.limit != null) {
+        paging += " LIMIT " + query.limit;
+      }
+      queryStr = "";
+      if (query.query != null) {
+        queryStr = " WHERE ";
+        example = JSON.parse(query.query);
+        if (typeof example === 'string') {
+          queryStr = " WHERE " + example;
+        } else {
+          for (k in example) {
+            v = example[k];
+            if (typeof v === 'string') {
+              queryStr += type + "." + k + "='" + v + "' and ";
+            } else {
+              queryStr += type + "." + k + "=" + v + " and ";
+            }
+          }
+          queryStr = queryStr.slice(0, -5);
+        }
+      }
+      return [queryStr, paging];
+    };
+
+    iGraphRepository.prototype.index = function(nodesType, query, callback) {
+      var cypher, paging, queryStr, ref;
+      ref = makeQuery(query, 'n'), queryStr = ref[0], paging = ref[1];
+      cypher = "MATCH (n:" + nodesType + ") " + queryStr + " RETURN n " + paging;
+      console.log("Cypher: " + cypher);
+      return this.run(cypher, {}, callback);
+    };
+
     iGraphRepository.prototype.add = function(cypher, callback) {
       throw new Error('not implemented');
+    };
+
+    iGraphRepository.prototype.indexEdge = function(edgesType, query, callback) {
+      var cypher, paging, queryStr, ref;
+      ref = makeQuery(query, 'e'), queryStr = ref[0], paging = ref[1];
+      cypher = "MATCH ()-[e:" + edgesType + "]->() " + queryStr + " RETURN e " + paging;
+      console.log("Cypher: " + cypher);
+      return this.run(cypher, {}, callback);
     };
 
     iGraphRepository.prototype.getEdge = function(example, callback) {
