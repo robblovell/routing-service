@@ -114,47 +114,49 @@ module.exports = class iGraphRepository
         @run(cypher, example, callback)
 
     setEdge: (params, edge, callback) =>
-        makeUpsert = (params, data) =>
-            ###
-                MATCH (a:Zip {id: '019'}), (b:LtlCode {id: '019_11000_200_300'})
-                MERGE (a)-[r:ZIPLTL {id: '019_019_11000_200_300', cost: '34', kind:'LTL' }]->(b)
-                ON CREATE SET r.created=timestamp()
-                ON MATCH SET r.updated=timestamp()
-            ###
+        makeUpsert = (params, edge) =>
+            data = {}
+            for key,value of edge
+                data[key] = value
+            edge.id = uuid.v4() unless (edge.id?)
+            # for logging:
+#            propstring = (("r."+key+"='"+value+"', ") for key,value of edge).reduce((t,s) -> t + s)
+#            propstring = propstring.slice(0,-2)
+#
+#            if data.id? then ifid = " {id:"+data.id+"}" else ""
+#
+#            upsertString = "MATCH "+
+#                "(a:"+params.sourcekind+" {id:'"+params.sourceid+"'}), "+
+#                "(b:"+params.destinationkind+" {id:'"+params.destinationid+"'}) "+
+#                "MERGE (a)-[r:"+params.kind+ifid+"]->(b) "+
+#                "ON CREATE SET r.created=timestamp(), "+propstring+" "+
+#                "ON MATCH SET r.updated=timestamp(), "+propstring
+#            upsertString = combyne(upsertString).render(params)
+#            console.log(upsertString)  # if math.floor(math.random(0,500)) == 1
 
-            data.id = uuid.v4() unless (data.id?)
-            propstring = ((""+key+":'"+value+"', ") for key,value of data).reduce((t,s) -> t + s)
-            propstring = propstring.slice(0,-2)
-            properties = ((""+key+":{"+key+"}, ") for key,value of data).reduce((t,s) -> t + s)
+            if data.id? then ifidprop = " {id:{id}}" else ""
+
+            properties = (("r."+key+"={"+key+"}, ") for key,value of edge).reduce((t,s) -> t + s)
             properties = properties.slice(0,-2) # remove the trailing comma.
-
-            upsertString = "MATCH "+
-                "(a:"+params.sourcekind+" {id:'"+params.sourceid+"'}), "+
-                "(b:"+params.destinationkind+" {id:"+params.destinationid+"}) "+
-                "MERGE (a)-[r:"+params.kind+" {"+propstring+"}]->(b) "+
-                "ON CREATE SET r.created=timestamp() "+
-                "ON MATCH SET r.updated=timestamp()"
-            upsertString = combyne(upsertString).render(params)
-#            console.log(upsertString)  if math.floor(math.random(0,500)) == 1
 
             upsertStatement = "MATCH "+
                 "(a:"+params.sourcekind+" {id:{sourceid}}), "+
                 "(b:"+params.destinationkind+" {id:{destinationid}}) "+
-                "MERGE (a)-[r:"+params.kind+" {"+properties+"}]->(b) "+
-                "ON CREATE SET r.created=timestamp() "+
-                "ON MATCH SET r.updated=timestamp()"
+                "MERGE (a)-[r:"+params.kind+ifidprop+"]->(b) "+
+                "ON CREATE SET r.created=timestamp(), "+properties+" "+
+                "ON MATCH SET r.updated=timestamp(), "+properties
 
             for key,value of params
                 data[key] = value
-#            console.log(upsertStatement)
-            return [data, upsertStatement]
+            console.log(upsertStatement)
+            return [data, edge, upsertStatement]
 
-        [data, upsert] = makeUpsert(params, edge)
+        [data, edge, upsert] = makeUpsert(params, edge)
         if (@buffer? || !callback?)
             @buffer.run(upsert, data)
         else
             session = @neo4j.session()
-            session.run(upsert, edge)
+            session.run(upsert, data)
             .then((result) =>
                 session.close()
                 callback(null, result)
@@ -200,7 +202,36 @@ module.exports = class iGraphRepository
             )
         return
 
-    delete: (id) ->
+    deleteEdge: (edgeid, edgekind, callback) ->
+        makeDelete = (edgeid, edgekind) =>
+            data = {edgeid:edgeid}
+            deleteString = "MATCH "+
+                "()-[r:"+edgekind+" {id:"+edgeid+"}]->() "+
+                "DELETE r"
+
+            console.log(deleteString)
+            deleteStatement = "MATCH "+
+                "()-[r:"+edgekind+" {id:{edgeid}}"+"]->() "+
+                "DELETE r"
+
+            console.log(deleteStatement)
+            return [data, deleteStatement]
+
+        [data, deleteStatement] = makeDelete(edgeid, edgekind)
+        if (@buffer? || !callback?)
+            @buffer.run(deleteStatement, data)
+        else
+            session = @neo4j.session()
+            session.run(deleteStatement, data)
+            .then((result) =>
+                session.close()
+                callback(null, result)
+            )
+            .catch((error) =>
+                session.close()
+                callback(error, null)
+            )
+        return
 
 
     pipeline: () ->

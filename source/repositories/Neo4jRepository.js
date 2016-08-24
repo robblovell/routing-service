@@ -160,58 +160,48 @@
     iGraphRepository.prototype.setEdge = function(params, edge, callback) {
       var data, makeUpsert, ref, session, upsert;
       makeUpsert = (function(_this) {
-        return function(params, data) {
-
-          /*
-              MATCH (a:Zip {id: '019'}), (b:LtlCode {id: '019_11000_200_300'})
-              MERGE (a)-[r:ZIPLTL {id: '019_019_11000_200_300', cost: '34', kind:'LTL' }]->(b)
-              ON CREATE SET r.created=timestamp()
-              ON MATCH SET r.updated=timestamp()
-           */
-          var key, properties, propstring, upsertStatement, upsertString, value;
-          if (!(data.id != null)) {
-            data.id = uuid.v4();
+        return function(params, edge) {
+          var data, ifidprop, key, properties, upsertStatement, value;
+          data = {};
+          for (key in edge) {
+            value = edge[key];
+            data[key] = value;
           }
-          propstring = ((function() {
-            var results1;
-            results1 = [];
-            for (key in data) {
-              value = data[key];
-              results1.push("" + key + ":'" + value + "', ");
-            }
-            return results1;
-          })()).reduce(function(t, s) {
-            return t + s;
-          });
-          propstring = propstring.slice(0, -2);
+          if (!(edge.id != null)) {
+            edge.id = uuid.v4();
+          }
+          if (data.id != null) {
+            ifidprop = " {id:{id}}";
+          } else {
+            "";
+          }
           properties = ((function() {
             var results1;
             results1 = [];
-            for (key in data) {
-              value = data[key];
-              results1.push("" + key + ":{" + key + "}, ");
+            for (key in edge) {
+              value = edge[key];
+              results1.push("r." + key + "={" + key + "}, ");
             }
             return results1;
           })()).reduce(function(t, s) {
             return t + s;
           });
           properties = properties.slice(0, -2);
-          upsertString = "MATCH " + "(a:" + params.sourcekind + " {id:'" + params.sourceid + "'}), " + "(b:" + params.destinationkind + " {id:" + params.destinationid + "}) " + "MERGE (a)-[r:" + params.kind + " {" + propstring + "}]->(b) " + "ON CREATE SET r.created=timestamp() " + "ON MATCH SET r.updated=timestamp()";
-          upsertString = combyne(upsertString).render(params);
-          upsertStatement = "MATCH " + "(a:" + params.sourcekind + " {id:{sourceid}}), " + "(b:" + params.destinationkind + " {id:{destinationid}}) " + "MERGE (a)-[r:" + params.kind + " {" + properties + "}]->(b) " + "ON CREATE SET r.created=timestamp() " + "ON MATCH SET r.updated=timestamp()";
+          upsertStatement = "MATCH " + "(a:" + params.sourcekind + " {id:{sourceid}}), " + "(b:" + params.destinationkind + " {id:{destinationid}}) " + "MERGE (a)-[r:" + params.kind + ifidprop + "]->(b) " + "ON CREATE SET r.created=timestamp(), " + properties + " " + "ON MATCH SET r.updated=timestamp(), " + properties;
           for (key in params) {
             value = params[key];
             data[key] = value;
           }
-          return [data, upsertStatement];
+          console.log(upsertStatement);
+          return [data, edge, upsertStatement];
         };
       })(this);
-      ref = makeUpsert(params, edge), data = ref[0], upsert = ref[1];
+      ref = makeUpsert(params, edge), data = ref[0], edge = ref[1], upsert = ref[2];
       if ((this.buffer != null) || (callback == null)) {
         this.buffer.run(upsert, data);
       } else {
         session = this.neo4j.session();
-        session.run(upsert, edge).then((function(_this) {
+        session.run(upsert, data).then((function(_this) {
           return function(result) {
             session.close();
             return callback(null, result);
@@ -271,7 +261,39 @@
       }
     };
 
-    iGraphRepository.prototype["delete"] = function(id) {};
+    iGraphRepository.prototype.deleteEdge = function(edgeid, edgekind, callback) {
+      var data, deleteStatement, makeDelete, ref, session;
+      makeDelete = (function(_this) {
+        return function(edgeid, edgekind) {
+          var data, deleteStatement, deleteString;
+          data = {
+            edgeid: edgeid
+          };
+          deleteString = "MATCH " + "()-[r:" + edgekind + " {id:" + edgeid + "}]->() " + "DELETE r";
+          console.log(deleteString);
+          deleteStatement = "MATCH " + "()-[r:" + edgekind + " {id:{edgeid}}" + "]->() " + "DELETE r";
+          console.log(deleteStatement);
+          return [data, deleteStatement];
+        };
+      })(this);
+      ref = makeDelete(edgeid, edgekind), data = ref[0], deleteStatement = ref[1];
+      if ((this.buffer != null) || (callback == null)) {
+        this.buffer.run(deleteStatement, data);
+      } else {
+        session = this.neo4j.session();
+        session.run(deleteStatement, data).then((function(_this) {
+          return function(result) {
+            session.close();
+            return callback(null, result);
+          };
+        })(this))["catch"]((function(_this) {
+          return function(error) {
+            session.close();
+            return callback(error, null);
+          };
+        })(this));
+      }
+    };
 
     iGraphRepository.prototype.pipeline = function() {
       this.session = this.neo4j.session();

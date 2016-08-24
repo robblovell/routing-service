@@ -7,10 +7,14 @@
   Schema = require('mongoose').Schema;
 
   EdgeSchema = new Schema({
-    id: String,
-    type: String
+    sourcekind: String,
+    sourceid: String,
+    destinationkind: String,
+    destinationid: String,
+    properties: Schema.Types.Mixed
   }, {
-    strict: false
+    strict: false,
+    _id: false
   });
 
   module.exports = {

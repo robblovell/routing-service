@@ -12,7 +12,7 @@ queryRoute = new QueryRoutes({})
 module.exports = (app, model) ->
     resource = Resource(app, '', 'Routes', model)
     .get()
-    .post({
+    .post({ # todo: move this code snippit out to a separate class and unit test it.
         before: (req, res, next) ->
             queries = []
             makeQuery = (to, sku) ->
@@ -38,7 +38,7 @@ module.exports = (app, model) ->
             return
     })
     .delete()
-    .index({
+    .index({ # todo: move this code snippit out to a separate class and unit test it.
         before: (req, res, next) ->
             if (req.query.query?)
                 req.modelQuery = this.model.find(JSON.parse(req.query.query))

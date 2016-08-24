@@ -21,7 +21,7 @@ npm start
 
 This will start the rest server.
 
-To run imports from files to build the network:
+To run imports from files to build the network (takes about 20 seconds now.:
 
 `npm run import`
 
@@ -29,7 +29,6 @@ The network consists of a warehouse node type where products or "products" can r
 **Warehouses (BDWP and SuperDC's), Seller (Sweeps and doesn't sweep), or Satellite for Warehouses**
 
 TODO:
-* REST endpoint for Routes working
 * Cost updates
 * Inventory updates
 * CLI for imports

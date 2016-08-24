@@ -8,7 +8,7 @@ repo = new Neo4jRepository(repoConfig)
 
 module.exports = (app, model) ->
     resource = Resource(app, '/nodetypes/:nodesType', 'nodes', model)
-    .get({
+    .get({ # todo: move this code snippit out to a separate class and unit test it.
         before: (req, res, next) ->
             example = {id: req.params.nodesId, type: req.params.nodesType}
             console.log(JSON.stringify(example,null,3))
@@ -33,7 +33,7 @@ module.exports = (app, model) ->
         before: (req, res, next) ->
 
     })
-    .index({
+    .index({ # todo: move this code snippit out to a separate class and unit test it.
         before: (req, res, next) ->
 
             repo.index(req.params.nodesType, req.query, (error, result) ->

@@ -25,7 +25,6 @@
           id: req.params.edgesId,
           type: req.params.edgesType
         };
-        console.log(JSON.stringify(example, null, 3));
         repo.getEdge(example, function(error, result) {
           if ((error != null)) {
             res.send({
@@ -37,11 +36,65 @@
         });
       }
     }).put({
-      before: function(req, res, next) {}
+      before: function(req, res, next) {
+        req.body.properties.id = req.params.edgesId;
+        req.body.kind = req.params.edgesType;
+        repo.setEdge(req.body, req.body.properties, function(error, result) {
+          if ((error != null)) {
+            if (error.fields != null) {
+              res.send({
+                error: error.fields[0].message,
+                code: error.fields[0].code
+              });
+            } else {
+              res.send({
+                error: "error in put: " + JSON.stringify(error)
+              });
+            }
+            return;
+          }
+          res.send(JSON.stringify(result));
+        });
+      }
     }).post({
-      before: function(req, res, next) {}
+      before: function(req, res, next) {
+        req.body.kind = req.params.edgesType;
+        repo.setEdge(req.body, req.body.properties, function(error, result) {
+          if ((error != null)) {
+            if (error.fields != null) {
+              res.send({
+                error: error.fields[0].message,
+                code: error.fields[0].code
+              });
+            } else {
+              res.send({
+                error: "error in post: " + JSON.stringify(error)
+              });
+            }
+            return;
+          }
+          res.send(JSON.stringify(result));
+        });
+      }
     })["delete"]({
-      before: function(req, res, next) {}
+      before: function(req, res, next) {
+        repo.deleteEdge(req.params.edgesId, req.params.edgesType, function(error, result) {
+          if ((error != null)) {
+            if (error.fields != null) {
+              res.send({
+                error: error.fields[0].message,
+                code: error.fields[0].code
+              });
+            } else {
+              res.send({
+                error: "error in post: " + JSON.stringify(error)
+              });
+            }
+            return;
+          }
+          res.send(JSON.stringify(result));
+        });
+      }
     }).index({
       before: function(req, res, next) {
         return repo.indexEdge(req.params.edgesType, req.query, function(error, result) {
