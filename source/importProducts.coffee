@@ -10,3 +10,4 @@ productItemId:line.ProductItemId
 importer = new Importer(config)
 
 module.exports = importer
+
