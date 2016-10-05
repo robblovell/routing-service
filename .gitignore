@@ -43,10 +43,7 @@ config/**/*.js
 controllers/**/*.js
 models/**/*.js
 source/**/*.js
-paths/**/*.js
-src/**/*.js
 test/**/*.js
-test_experiments/**/*.js
 test_functional/**/*.js
 app.js
 
