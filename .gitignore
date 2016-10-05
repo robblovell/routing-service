@@ -42,6 +42,7 @@ jspm_packages
 config/**/*.js
 controllers/**/*.js
 models/**/*.js
+source/**/*.js
 paths/**/*.js
 src/**/*.js
 test/**/*.js
