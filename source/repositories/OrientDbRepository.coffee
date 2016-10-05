@@ -1,4 +1,4 @@
-class iGraphRepository
+class OrientDbRepository
     constructor: (@config) ->
 
     find: (example, callback) ->
@@ -40,4 +40,4 @@ class iGraphRepository
     exec: (callback) =>
         throw new Error("not implemented")
 
-module.exports = iGraphRepository
+module.exports = OrientDbRepository
