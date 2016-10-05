@@ -4,7 +4,7 @@ combyne = require('combyne')
 neo4j = require('neo4j-driver').v1
 uuid = require('uuid')
 
-module.exports = class iGraphRepository
+class Neo4jRepository
     constructor: (@config) ->
         @buffer = null
         if !@config.url?
@@ -284,3 +284,6 @@ module.exports = class iGraphRepository
                 callback(error, null)
                 return
         })
+
+
+module.exports = Neo4jRepository

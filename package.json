@@ -1,6 +1,6 @@
 {
   "name": "routing-service",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": true,
   "scripts": {
     "start": "node ./bin/www.js",
@@ -13,7 +13,6 @@
     "babyparse": "^0.4.6",
     "bluebird": "^3.4.1",
     "body-parser": "~1.15.1",
-    "coffeescript-compiler": "^0.1.1",
     "combyne": "^2.0.0",
     "connect-timeout": "^1.7.0",
     "cookie-parser": "~1.4.3",
@@ -37,6 +36,7 @@
   },
   "devDependencies": {
     "azure": "^0.10.6",
+    "coffee-script": "^1.11.1",
     "combyne": "^2.0.0",
     "concurrent-transform": "^1.0.0",
     "gulp": "^3.9.1",
@@ -55,7 +55,7 @@
     "touch": "^1.0.0"
   },
   "engines": {
-    "node": "~6.3.0",
+    "node": "~6.7.0",
     "npm": "~3.10.3"
   }
 }

@@ -22,8 +22,10 @@ module.exports = (app, model) ->
                             result = {sku: sku, routes: result}
                         callback(error, result)
                     )
+
             for sku in req.body.skus
                 queries.push(makeQuery(req.body.to, sku))
+
             async.parallelLimit(queries, 10, (error, result) ->
                 if (error?)
                     res.render('error', {
@@ -34,7 +36,6 @@ module.exports = (app, model) ->
                     req.body.routes = result # todo add the routes properly to the request so they get posted to mongodb and returned.
                     next()
             )
-
             return
     })
     .delete()
@@ -46,5 +47,4 @@ module.exports = (app, model) ->
             next()
             return
     })
-
     return resource
