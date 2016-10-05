@@ -29,22 +29,23 @@ gulp.task('touch', () ->
         )
     )
 )
-
 gulp.task('coffeescripts', () ->
     gulp.src(coffeeFiles)
+    .pipe(sourcemaps.init())
     .pipe(parallelize(coffee({bare: true}).on('error', gutil.log), threads))
-    .pipe(parallelize((if useSourceMaps then sourcemaps.init() else gutil.noop()), threads))
+    .pipe(parallelize(sourcemaps.write('./'), threads))
+    .pipe(parallelize(gulp.dest((file) -> return file.base), threads))
 )
 
-gulp.task('jadescripts', () ->
-    gulp.src(jadeFiles)
-    .pipe(parallelize(jade().on('error', gutil.log), threads))
-)
-
-gulp.task('stylusscripts', () ->
-    gulp.src(stylusFiles)
-    .pipe(parallelize(stylus().on('error', gutil.log), threads))
-)
+#gulp.task('jadescripts', () ->
+#    gulp.src(jadeFiles)
+#    .pipe(parallelize(jade().on('error', gutil.log), threads))
+#)
+#
+#gulp.task('stylusscripts', () ->
+#    gulp.src(stylusFiles)
+#    .pipe(parallelize(stylus().on('error', gutil.log), threads))
+#)
 
 gulp.task('one',  () ->
     return gulp.src('./css/one.styl')
@@ -54,11 +55,11 @@ gulp.task('one',  () ->
 
 gulp.task('watch', () ->
     gulp.watch(coffeeFiles, ['coffeescripts'])
-    gulp.watch(jadeFiles, ['jadescripts'])
-    gulp.watch(stylusFiles, ['stylusscripts'])
+#    gulp.watch(jadeFiles, ['jadescripts'])
+#    gulp.watch(stylusFiles, ['stylusscripts'])
 )
 
-gulp.task('build', ['coffeescripts','jadescripts','stylusscripts'])
+gulp.task('build', ['coffeescripts']) # ,'jadescripts','stylusscripts'])
 
 gulp.task('default', ['watch', 'coffeescripts'])
 
