@@ -1,19 +1,14 @@
 #!/usr/bin/env node
-
 ###*
  * Module dependencies.
  ###
-
 app = require('../app')
 debug = require('debug')('routing-service:server')
 http = require('http')
 
-
-
 ###*
  * Normalize a port into a number, string, or false.
  ###
-
 normalizePort = (val) ->
     port = parseInt(val, 10)
     
@@ -30,7 +25,6 @@ normalizePort = (val) ->
 ###*
  * Event listener for HTTP server "error" event.
  ###
-
 onError = (error) ->
     if (error.syscall != 'listen')
         throw error
@@ -52,7 +46,6 @@ onError = (error) ->
 ###*
  * Event listener for HTTP server "listening" event.
  ###
-
 onListening = () ->
     addr = server.address()
     bind = if typeof addr == 'string' then 'pipe ' + addr else 'port ' + addr.port
@@ -61,20 +54,17 @@ onListening = () ->
 ###*
  * Get port from environment and store in Express.
  ###
-
 port = normalizePort(process.env.PORT || '3000')
 app.set('port', port)
 
 ###*
  * Create HTTP server.
  ###
-
 server = http.createServer(app)
 
 ###*
  * Listen on provided port, on all network interfaces.
  ###
-
 server.listen(port)
 server.on('error', onError)
 server.on('listening', onListening)

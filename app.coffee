@@ -1,13 +1,17 @@
 express = require('express')
 path = require('path')
 cors = require('cors')
+timeout = require('connect-timeout')
 
 favicon = require('serve-favicon')
-logger = require('morgan')
+#logger = require('morgan')
 cookieParser = require('cookie-parser')
 bodyParser = require('body-parser')
 routes = require('./paths/index')
 config = require('./config/configuration')
+
+haltOnTimedout = (req, res, next) ->
+  next() if (!req.timedout)
 
 app = express()
 
@@ -26,11 +30,13 @@ app.use(require('stylus').middleware(path.join(__dirname, 'public')))
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', routes)
+app.use(haltOnTimedout)
+
 config = require('./config/configuration')
 
 mongoose = require('mongoose')
 mongoose.Promise = require('bluebird')
-mongoose.connect(config.db) # connect to our database
+#mongoose.connect(config.db) # connect to our database
 
 route= require('./models/route')
 Routes = require('./controllers/routes')(app, route.model)
@@ -38,29 +44,24 @@ edge= require('./models/edge')
 Edges = require('./controllers/edges')(app, edge.model)
 node= require('./models/node')
 Nodes = require('./controllers/nodes')(app, node.model)
+
 Resources = {
   Routes:Routes
   Edges:Edges
   Nodes:Nodes
 }
+
 swagger = require('./controllers/swagger')
 swagger(app, Resources, '/api', config)
 
-timeout = require('connect-timeout')
-
-app.use(timeout(config.timeout))
-haltOnTimedout = (req, res, next) ->
-  if (!req.timedout)
-    next()
-
+# catch 404 and forward to error handler
+app.use((req, res, next) ->
+  err = new Error('Not Found')
+  err.status = 404
+  next(err)
+)
 app.use(haltOnTimedout)
 
-# catch 404 and forward to error handler
-#app.use((req, res, next) ->
-#  err = new Error('Not Found')
-#  err.status = 404
-#  next(err)
-#)
 # error handlers
 # development error handler
 # will print stacktrace
@@ -75,6 +76,8 @@ if (app.get('env') == 'development' or app.get('env') == 'local')
         error: err
       })
   )
+  app.use(haltOnTimedout)
+
 else
 # production error handler
 # no stacktraces leaked to user
@@ -86,6 +89,7 @@ else
         error: {}
       })
   )
+  app.use(haltOnTimedout)
 
 # production error handler
 # no stacktraces leaked to user
