@@ -46,5 +46,6 @@ source/**/*.js
 test/**/*.js
 test_functional/**/*.js
 app.js
-
+bin/*.js
+paths/*.js
 .idea

@@ -11,7 +11,7 @@ QueryRoutes = require('../source/queries/QueryRoutes')
 queryRoute = new QueryRoutes({})
 module.exports = (app, model) ->
     resource = Resource(app, '', 'Routes', model)
-    .get()
+#    .get()
     .post({ # todo: move this code snippit out to a separate class and unit test it.
         before: (req, res, next) ->
             queries = []
@@ -33,18 +33,19 @@ module.exports = (app, model) ->
                         message: ' Error is' + error.message
                     })
                 else
-                    req.body.routes = result # todo add the routes properly to the request so they get posted to mongodb and returned.
-                    next()
+#                    req.body.routes = result # todo add the routes properly to the request so they get posted to mongodb and returned.
+#                    next()
+                    res.send JSON.stringify(result)
             )
             return
     })
-    .delete()
-    .index({ # todo: move this code snippit out to a separate class and unit test it.
-        before: (req, res, next) ->
-            if (req.query.query?)
-                req.modelQuery = this.model.find(JSON.parse(req.query.query))
-                req.query.query = null
-            next()
-            return
-    })
+#    .delete()
+#    .index({ # todo: move this code snippit out to a separate class and unit test it.
+#        before: (req, res, next) ->
+#            if (req.query.query?)
+#                req.modelQuery = this.model.find(JSON.parse(req.query.query))
+#                req.query.query = null
+#            next()
+#            return
+#    })
     return resource
