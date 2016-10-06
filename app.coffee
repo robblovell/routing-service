@@ -52,6 +52,7 @@ app.use(timeout(config.timeout))
 haltOnTimedout = (req, res, next) ->
   if (!req.timedout)
     next()
+    
 app.use(haltOnTimedout)
 
 # catch 404 and forward to error handler
@@ -64,8 +65,8 @@ app.use(haltOnTimedout)
 # development error handler
 # will print stacktrace
 if (app.get('env') == 'development' or app.get('env') == 'local')
-# development error handleripho
-# will print stacktrace
+  # development error handleripho
+  # will print stacktrace
   app.use((err, req, res, next) ->
     if (err?)
       res.status(err.status || 500)
@@ -73,7 +74,6 @@ if (app.get('env') == 'development' or app.get('env') == 'local')
         message: err.message,
         error: err
       })
-
   )
 else
 # production error handler

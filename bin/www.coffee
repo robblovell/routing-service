@@ -8,26 +8,7 @@ app = require('../app')
 debug = require('debug')('routing-service:server')
 http = require('http')
 
-###*
- * Get port from environment and store in Express.
- ###
 
-port = normalizePort(process.env.PORT || '3000')
-app.set('port', port)
-
-###*
- * Create HTTP server.
- ###
-
-server = http.createServer(app)
-
-###*
- * Listen on provided port, on all network interfaces.
- ###
-
-server.listen(port)
-server.on('error', onError)
-server.on('listening', onListening)
 
 ###*
  * Normalize a port into a number, string, or false.
@@ -77,3 +58,23 @@ onListening = () ->
     bind = if typeof addr == 'string' then 'pipe ' + addr else 'port ' + addr.port
     debug('Listening on ' + bind)
 
+###*
+ * Get port from environment and store in Express.
+ ###
+
+port = normalizePort(process.env.PORT || '3000')
+app.set('port', port)
+
+###*
+ * Create HTTP server.
+ ###
+
+server = http.createServer(app)
+
+###*
+ * Listen on provided port, on all network interfaces.
+ ###
+
+server.listen(port)
+server.on('error', onError)
+server.on('listening', onListening)
