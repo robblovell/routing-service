@@ -1,4 +1,4 @@
-package_json = require('./package.json');
+package_json = require('../package.json');
 config =
     env: process.env.NODE_ENV || 'local'
     db: process.env.DB || "mongodb://localhost:27017"
@@ -7,8 +7,6 @@ config =
     host: process.env.HOST || 'localhost'
     basepath: "/"
     scheme: process.env.SCHEME || 'http'
-#    insightsKey: process.env.INSIGHTS_KEY || ""
-#    segementKey: process.env.SEGMENT_KEY || ""
     version: package_json.version
     timeout: process.env.TIMEOUT || 15000
 

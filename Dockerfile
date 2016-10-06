@@ -1,8 +1,6 @@
 FROM node:6.7.0
 # local
 ARG NODE_ENV
-# 3000
-ARG PORT
 # localhost
 ARG HOST
 # http
@@ -14,14 +12,14 @@ ARG NEO4J_URL
 
 # expose arguments to the program
 ENV NODE_ENV $NODE_ENV
-ENV PORT $PORT
-ENV HOST $HOST:$PORT
+ENV PORT 3000
+ENV HOST $HOST
 ENV SCHEME $SCHEME
 ENV DB $DB
 ENV NEO4J_URL $NEO4J_URL
 
 # expose the given port
-EXPOSE $PORT
+EXPOSE 3000
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
