@@ -1,37 +1,28 @@
 {
-    "containerDefinitions": [
-        {
-            "image": "419539186404.dkr.ecr.us-east-1.amazonaws.com/routing-service:v_%BUILD_NUMBER%",
-            "name": "routing-production",
-            "cpu": 10,
-            "memory": 516,
-            "essential": true,
-            "portMappings": [
-                {
-                    "protocol": "tcp",
-                    "containerPort": 4091,
-                    "hostPort": 4091
-                }
-            ],
-            "environment": [
-            {
-               "name": "environment",
-               "value": "production"
-            },
-            {
-               "name": "service",
-               "value": "routing"
-            },
-            {
-               "name": "NODE_ENV",
-               "value": "production"
-            },
-            {
-               "name": "NEO4J_URL",
-               "value": ""
-            }
-         ]
-        }
-    ],
-     "family": "routing-production"
+    "containerDefinitions": [{
+        "image": "419539186404.dkr.ecr.us-east-1.amazonaws.com/routing-service:v_%BUILD_NUMBER%",
+        "name": "routing-production",
+        "cpu": 10,
+        "memory": 516,
+        "essential": true,
+        "portMappings": [{
+            "protocol": "tcp",
+            "containerPort": 4091,
+            "hostPort": 4091
+        }],
+        "environment": [{
+            "name": "environment",
+            "value": "production"
+        }, {
+            "name": "service",
+            "value": "routing"
+        }, {
+            "name": "NODE_ENV",
+            "value": "production"
+        }, {
+            "name": "NEO4J_URL",
+            "value": ""
+        }]
+    }],
+    "family": "routing-production"
 }
