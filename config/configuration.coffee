@@ -1,8 +1,12 @@
 package_json = require('../package.json');
 
 node_env = if process.env.NODE_ENV? then process.env.NODE_ENV.toLowerCase() else 'local'
-ports = { local: '3000', test: '3000', dev: '8080', ci: '7080', qa: '6080', pe: '5080', production: '4080' }
-host = 'routingservice.builddirect.com'
+ports = { local: '3000', test: '3000', dev: '8091', ci: '7091', qa: '6091', pe: '5091', production: '4091' }
+
+if node_env is not 'production'
+    host = 'routingservice.'+node_env+'.builddirect.com'
+else
+    host = 'routingservice.builddirect.com'
 
 if node_env is 'local'
     config =
@@ -19,7 +23,7 @@ else if node_env is 'test'
 else # node_env is not 'local' or 'test'
     config =
         neo4jurl: process.env.NEO4J_URL
-        port: process.env.EXTERNAL_PORT || '80'
+        port: process.env.EXTERNAL_PORT || '443'
         host: process.env.HOST || host
         scheme: process.env.SCHEME || 'https'
 

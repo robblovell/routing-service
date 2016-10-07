@@ -5,21 +5,18 @@ ARG NODE_ENV
 ARG HOST
 # http
 ARG SCHEME
-# "mongodb://localhost:27017"
-ARG DB
+
 # "bolt://neo4j:macro7@localhost"
 ARG NEO4J_URL
 
 # expose arguments to the program
 ENV NODE_ENV $NODE_ENV
-ENV PORT 8080
+ENV PORT 80
 ENV HOST $HOST
 ENV SCHEME $SCHEME
 #ENV DB $DB
 ENV NEO4J_URL $NEO4J_URL
 
-# expose the given port
-EXPOSE 8080
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
