@@ -101,4 +101,4 @@ else
 #  })
 #)
 
-module.exports = app
+module.exports = [app, config]

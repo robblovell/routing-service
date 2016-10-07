@@ -12,14 +12,14 @@ ARG NEO4J_URL
 
 # expose arguments to the program
 ENV NODE_ENV $NODE_ENV
-ENV PORT 3000
+ENV PORT 8080
 ENV HOST $HOST
 ENV SCHEME $SCHEME
-ENV DB $DB
+#ENV DB $DB
 ENV NEO4J_URL $NEO4J_URL
 
 # expose the given port
-EXPOSE 3000
+EXPOSE 8080
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 

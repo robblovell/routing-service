@@ -2,7 +2,7 @@
 ###*
  * Module dependencies.
  ###
-app = require('../app')
+[app, config] = require('../app')
 debug = require('debug')('routing-service:server')
 http = require('http')
 
@@ -50,11 +50,12 @@ onListening = () ->
     addr = server.address()
     bind = if typeof addr == 'string' then 'pipe ' + addr else 'port ' + addr.port
     debug('Listening on ' + bind)
+    console.log('Listening on '+bind)
 
 ###*
  * Get port from environment and store in Express.
  ###
-port = normalizePort(process.env.PORT || '3000')
+port = normalizePort(config.internal_port)
 app.set('port', port)
 
 ###*
