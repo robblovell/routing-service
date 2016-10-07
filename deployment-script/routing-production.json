@@ -21,7 +21,7 @@
             "value": "production"
         }, {
             "name": "NEO4J_URL",
-            "value": ""
+            "value": "%PROD_KEY%"
         }]
     }],
     "family": "routing-production"

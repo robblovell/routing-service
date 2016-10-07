@@ -21,7 +21,7 @@
             "value": "dev"
         }, {
             "name": "NEO4J_URL",
-            "value": ""
+            "value": "%DEV_KEY%"
         }]
     }],
     "family": "routing-dev"
