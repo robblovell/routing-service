@@ -7,10 +7,7 @@
             "memory": 516,
             "essential": true,
             "logConfiguration": {
-                 "logDriver": "syslog",
-                 "options": {
-                   "syslog-address": "tcp://localhost:514"
-                 }
+                 "logDriver": "syslog"
            },
             "portMappings": [
                 {
@@ -36,7 +33,6 @@
                "name": "NEO4J_URL",
                "value": ""
             }
-         ]
-    ]
+         ],
      "family": "routing-dev"
 }
