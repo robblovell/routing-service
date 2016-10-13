@@ -11,7 +11,7 @@ config = require('../config/configuration')
 repoConfig = {url: config.neo4jurl}
 repo = new Neo4jRepostitory(repoConfig)
 
-sourceMount = process.env.MOUNT_POINT ? 'file://'+__dirname+'/data/'
+sourceMount = process.env.MOUNT_POINT ? 'file://'+__dirname+'/../data/'
 
 #sourceMount = 'https://s3-us-west-1.amazonaws.com/bd-ne04j/'
 
