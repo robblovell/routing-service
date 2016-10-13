@@ -11,11 +11,11 @@ config = require('../config/configuration')
 repoConfig = {url: config.neo4jurl}
 repo = new Neo4jRepostitory(repoConfig)
 
-sourceMount = process.env.MOUNT_POINT ? 'file://'+__dirname+'/data/'
+sourceMount = process.env.MOUNT_POINT ? 'file://'+__dirname+'/../data/'
 #sourceMount = 'https://s3-us-west-1.amazonaws.com/bd-ne04j/'
 
 sourceFilenames = {
-    Products: sourceMount+ 'Products.csv'
+    Products: [sourceMount+ 'sku_upload_1007_01.csv', sourceMount+ 'sku_upload_1007_02.csv', sourceMount+ 'sku_upload_1007_03.csv']
     Satellites: sourceMount+ 'Satellites.csv'
     Warehouses: sourceMount+ 'Warehouses.csv' # 'BDWP.csv'
     Sellers: sourceMount+ 'Sellers.csv'
@@ -27,6 +27,7 @@ describe 'Import Nodes', () ->
     runtest = (importConfig, callback) ->
         console.log("import"+importConfig.nodetype)
         importer = require(importConfig.importer)
+
         importer.import(importConfig.source, repo, (error, results) ->
             if (error?)
                 console.log(error)
