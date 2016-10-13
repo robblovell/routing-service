@@ -41,7 +41,7 @@ describe 'Import Relationships', () ->
     it 'wireup Products To Sellers', (callback) ->
         importer = {
             importer: '../source/edges/wireupProductsToSellers'
-            source: sourceMount+ sourceFilename['ProductsToSellers']
+            source: sourceMount+ sourceFilenames['ProductsToSellers']
         }
         runtest(importer, (error, result) ->
             callback(error, result)

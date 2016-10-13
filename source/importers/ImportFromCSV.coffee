@@ -1,7 +1,7 @@
 iImport = require('./iImport')
 fs = require('fs');
 
-class Importer extends iImport
+class ImporterFromCSV extends iImport
     constructor: (@config={}) ->
 
     # add all to key value store.
@@ -30,4 +30,4 @@ class Importer extends iImport
             )
         return
 
-module.exports = Importer
+module.exports = ImporterFromCSV

@@ -13,24 +13,24 @@ repo = new Neo4jRepostitory(repoConfig)
 
 describe 'Import Nodes', () ->
 
-    runtest = (testImport, callback) ->
-        console.log("import"+testImport.nodetype)
-        importer = require(testImport.importer)
-        importer.import(testImport.source, repo, (error, results) ->
+    runtest = (importConfig, callback) ->
+        console.log("import"+importConfig.nodetype)
+        importer = require(importConfig.importer)
+        importer.import(importConfig.source, repo, (error, results) ->
             if (error?)
                 console.log(error)
                 assert(false)
                 callback(error, result);
                 return
             # do a spot check:
-            repo.get({id: testImport.spotid, type: testImport.nodetype}, (error, result) ->
+            repo.get({id: importConfig.spotid, type: importConfig.nodetype}, (error, result) ->
                 if (error?)
                     assert(false)
                     callback(error, result);
                     return
                 data = result[0]
-                data.id.should.be.equal(testImport.spotid)
-                console.log("completed: "+testImport.nodetype)
+                data.id.should.be.equal(importConfig.spotid)
+                console.log("completed: "+importConfig.nodetype)
                 callback(error, result)
                 return
             )
@@ -53,13 +53,13 @@ describe 'Import Nodes', () ->
         return
 
     it 'Imports products to Neo4j', (callback) ->
-        importer = {
+        importConfig = {
             importer: '../source/nodes/importProducts'
             source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/Products.csv'
             spotid: '10081215'
             nodetype: 'Product'
         }
-        runtest(importer, (error, result) ->
+        runtest(importConfig, (error, result) ->
             callback(error, result)
             return
         )
