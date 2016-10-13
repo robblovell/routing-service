@@ -1,12 +1,14 @@
 iImport = require('./iImport')
 fs = require('fs');
+combyne = require('combyne')
 
 class Importer extends iImport
     constructor: (@config={}) ->
 
     # add all to key value store.
-    import: (source, repo, callback) ->
+    import: (repo, callback) ->
 
+        source = combyne.render({}, @config.template)
         if (source?)
             query = "USING PERIODIC COMMIT 1000 "
             query += "LOAD CSV WITH HEADERS FROM '"+source+"' AS line "

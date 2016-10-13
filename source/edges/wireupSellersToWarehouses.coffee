@@ -1,4 +1,4 @@
-Importer = require('./importers/ImportFromCSV')
+Importer = require('./../importers/ImportFromCSV')
 
 config = {
     cypher: "MATCH (s:Seller {id:line.SellerLocationID}),(b:Warehouse {id:line.BDWPLocationID})

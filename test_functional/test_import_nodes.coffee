@@ -40,7 +40,8 @@ describe 'Import Nodes', () ->
 
     it 'Imports satellites to Neo4j', (callback) ->
         importer = {
-            importer: '../source/importSatellites'
+            importer: '../source/nodes/importSatellites'
+#            source: '../data/Satellites.csv'
             source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/Satellite.csv'  # todo: rename to Satellites
             spotid: '2212'
             nodetype: 'Satellite'
@@ -53,7 +54,7 @@ describe 'Import Nodes', () ->
 
     it 'Imports products to Neo4j', (callback) ->
         importer = {
-            importer: '../source/importProducts'
+            importer: '../source/nodes/importProducts'
             source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/Products.csv'
             spotid: '10081215'
             nodetype: 'Product'
@@ -66,7 +67,7 @@ describe 'Import Nodes', () ->
 
     it 'Imports warehouses to Neo4j', (callback) ->
         importer = {
-            importer: '../source/importWarehouses'
+            importer: '../source/nodes/importWarehouses'
             source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/BDWP.csv' # todo: rename to Warehouses.
             spotid: '2000507'
             nodetype: 'Warehouse'
@@ -79,7 +80,7 @@ describe 'Import Nodes', () ->
 
     it 'Imports sellers to Neo4j', (callback) ->
         importer = {
-            importer: '../source/importSellers'
+            importer: '../source/nodes/importSellers'
             source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/Seller.csv' # todo: rename to Sellers
             spotid: '2000061'
             nodetype: 'Seller'
@@ -92,7 +93,7 @@ describe 'Import Nodes', () ->
 
     it 'Imports zones to Neo4j', (callback) ->
         importer = {
-            importer: '../source/importZones'
+            importer: '../source/nodes/importZones'
             source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/RadiusZips.csv'  # todo: rename to Zones
             spotid: '15'
             nodetype: 'Zone'
@@ -105,7 +106,7 @@ describe 'Import Nodes', () ->
 
     it 'Imports global zone to Neo4j', (callback) ->
         importer = {
-            importer: '../source/importZoneGlobal'
+            importer: '../source/nodes/importGlobalZones'
             source: null
             spotid: '99999'
             nodetype: 'Zone'

@@ -1,14 +1,13 @@
-Importer = require('./importers/ImportFromCSV')
+Importer = require('./../importers/ImportFromCSV')
 
 config = {
-    cypher: "CREATE (:Seller {
+    cypher: "CREATE (:Warehouse {
 id:line.WarehouseId,
 warehouseId:line.WarehouseId,
 pimcoreId:line.PIMCoreWarehouseID,
 postalCode:line.PostalCode,
 name:line.Name,
-isSwept:line.isSwept,
-sweepToWarehouseId:line.BDWPLocationID})"
+isSuperDC:line.isSuperDC})"
 }
 importer = new Importer(config)
 

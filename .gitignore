@@ -38,14 +38,22 @@ jspm_packages
 # Optional REPL history
 .node_repl_history
 
-**/*.js.map
 config/**/*.js
 controllers/**/*.js
 models/**/*.js
+paths/**/*.js
 source/**/*.js
 test/**/*.js
 test_functional/**/*.js
+bin/**/*.js
 app.js
-bin/*.js
-paths/*.js
+config/**/*.js.map
+controllers/**/*.js.map
+models/**/*.js.map
+paths/**/*.js.map
+source/**/*.js.map
+test/**/*.js.map
+test_functional/**/*.js.map
+bin/**/*.js.map
+app.js.map
 .idea

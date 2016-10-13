@@ -1,8 +1,9 @@
-Importer = require('./importers/ImportFromCSV')
+Importer = require('./../importers/ImportFromCSV')
 
 config = {
-    cypher: "MATCH (s:Product {id:line.ProductItemId}),(b:Warehouse {id:line.WarehouseID})
-CREATE (s)-[:BELONGS_TO{
+    cypher: "MATCH (s:Product {id:line.ProductItemId}),(b:Seller {id:line.WarehouseID})
+CREATE (s)-
+[:BELONGS_TO{
 sourceId:line.SourceNodeID,
 inventory:line.ProductAvailability,
 visibility:1,

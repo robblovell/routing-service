@@ -1,8 +1,8 @@
-Importer = require('./importers/ImportFromCSV')
-
+Importer = require('./../importers/ImportFromCSV')
+# todo: test
 config = {
-    cypher: "MATCH (b:Warehouse {id:line.BDWPWarehouseID}),(s:Satellite {id:line.SatelliteWarehouseID})
-CREATE (b)-[:FLOWS_THROUGH{
+    cypher: "MATCH (s:Seller),(s:Satellite {id:line.SatelliteWarehouseID})
+CREATE (s)-[:FLOWS_THROUGH{
 sellerCost:line.sellercost,
 leadTime:line.leadtime,
 bdCost:line.bdcost,

@@ -10,6 +10,19 @@ config = require('../config/configuration')
 
 repoConfig = {url: config.neo4jurl}
 repo = new Neo4jRepostitory(repoConfig)
+sourceFilenames = {
+    ProductsToSellers: 'sku-seller.csv'
+#    ProductsToWarehouses: 'sku-bdwp.csv'
+#    ResuppliersToWarehouses: 'superdc-bdwp.csv'
+#    SatellitesToZones: null
+#    SellersToSatellites: null
+#    SellersToWarehouses: 'seller-bdwp.csv'
+#    SellersToZones: null
+#    WarehousesToSatellites: 'satellite-bdwp.csv'
+#    WarehousesToZones: null
+}
+sourceMount = process.env.MOUNT_POINT ? 'file:///'
+sourceMount = 'https://s3-us-west-1.amazonaws.com/bd-ne04j/'
 
 describe 'Import Relationships', () ->
     runtest = (testImport, callback) ->
@@ -25,19 +38,19 @@ describe 'Import Relationships', () ->
         )
         return
 
-    it 'wireup Product To Sellers', (callback) ->
+    it 'wireup Products To Sellers', (callback) ->
         importer = {
-            importer: '../source/wireupProductToSellers'
-            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/sku-seller.csv'  # todo: rename to product-sellers
+            importer: '../source/edges/wireupProductsToSellers'
+            source: sourceMount+ sourceFilename['ProductsToSellers']
         }
         runtest(importer, (error, result) ->
             callback(error, result)
             return
         )
         return
-    it 'wireup Product To Warehouses', (callback) ->
+    it 'wireup Products To Warehouses', (callback) ->
         importer = {
-            importer: '../source/wireupProductToWarehouses'
+            importer: '../source/edges/wireupProductsToWarehouses'
             source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/sku-bdwp.csv' # todo: rename to product-warehouses
         }
         runtest(importer, (error, result) ->
@@ -45,9 +58,9 @@ describe 'Import Relationships', () ->
             return
         )
         return
-    it 'wireup Resupplier To Warehouses', (callback) ->
+    it 'wireup Resuppliers To Warehouses', (callback) ->
         importer = {
-            importer: '../source/wireupResupplierToWarehouses'
+            importer: '../source/edges/wireupResuppliersToWarehouses'
             source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/superdc-bdwp.csv' # todo: rename to resupplier-warehouses.
         }
         runtest(importer, (error, result) ->
@@ -55,9 +68,30 @@ describe 'Import Relationships', () ->
             return
         )
         return
-    it 'wireup Seller To Warehouses', (callback) ->
+#    it 'wireup Satellites To Zones', (callback) ->
+#        importer = {
+#            importer: '../source/edges/wireupSatellitesToZones'
+#            source: null
+#        }
+#        runtest(importer, (error, result) ->
+#            callback(error, result)
+#            return
+#        )
+#        return
+#    it 'wireup Sellers To Satellites', (callback) ->
+#        importer = {
+#            importer: '../source/edges/wireupSellersToSatellites'
+#            source: null
+#        }
+#        runtest(importer, (error, result) ->
+#            callback(error, result)
+#            return
+#        )
+#        return
+#
+    it 'wireup Sellers To Warehouses', (callback) ->
         importer = {
-            importer: '../source/wireupSellerToWarehouses'
+            importer: '../source/edges/wireupSellersToWarehouses'
             source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/seller-bdwp.csv' # todo: rename to seller-warehouses
         }
         runtest(importer, (error, result) ->
@@ -65,29 +99,10 @@ describe 'Import Relationships', () ->
             return
         )
         return
-    it 'wireup Warehouse To Satellites', (callback) ->
+
+    it 'wireup Sellers To Zones', (callback) ->
         importer = {
-            importer: '../source/wireupWarehouseToSatellites'
-            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/satellite-bdwp.csv'  # todo: warehouse-satelleites
-        }
-        runtest(importer, (error, result) ->
-            callback(error, result)
-            return
-        )
-        return
-    it 'wireup Warehouse To Zones', (callback) ->
-        importer = {
-            importer: '../source/wireupWarehouseToZones'
-            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/Node-ZipRadius.csv'  # todo: warehouse-zones
-        }
-        runtest(importer, (error, result) ->
-            callback(error, result)
-            return
-        )
-        return
-    it 'wireup Sellers To GlobalZone', (callback) ->
-        importer = {
-            importer: '../source/wireupSellersToGlobalZone'
+            importer: '../source/edges/wireupSellersToZones'
             source: null
         }
         runtest(importer, (error, result) ->
@@ -95,9 +110,21 @@ describe 'Import Relationships', () ->
             return
         )
         return
-    it 'wireup Warehouses To GlobalZone', (callback) ->
+
+    it 'wireup Warehouses To Satellites', (callback) ->
         importer = {
-            importer: '../source/wireupWarehousesToGlobalZone'
+            importer: '../source/edges/wireupWarehousesToSatellites'
+            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/satellite-bdwp.csv'  # todo: warehouse-satelleites
+        }
+        runtest(importer, (error, result) ->
+            callback(error, result)
+            return
+        )
+        return
+
+    it 'wireup Warehouses To Zones', (callback) ->
+        importer = {
+            importer: '../source/edges/wireupWarehousesToZones'
             source: null
         }
         runtest(importer, (error, result) ->

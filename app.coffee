@@ -38,15 +38,15 @@ mongoose = require('mongoose')
 mongoose.Promise = require('bluebird')
 #mongoose.connect(config.db) # connect to our database
 
-route= require('./models/route')
-Routes = require('./controllers/routes')(app, route.model)
+import_= require('./models/import')
+Imports = require('./controllers/imports')(app, import_.model)
 edge= require('./models/edge')
 Edges = require('./controllers/edges')(app, edge.model)
 node= require('./models/node')
 Nodes = require('./controllers/nodes')(app, node.model)
 
 Resources = {
-  Routes:Routes
+  Imports:Imports
   Edges:Edges
   Nodes:Nodes
 }
