@@ -6,12 +6,20 @@ Reader = require('../source/importers/ReadHeader')
 describe 'Test Read Header', () ->
 
     it 'reads headers from file', (done) ->
-        reader = new Reader('file:///test/data/importData.csv')
+        reader = new Reader('file://test/data/importData.csv')
         reader.read((error, result) ->
             result.should.be.equal('Header1,Header2,Header3,Header4,Header5,Header6')
             done()
         )
-        
+    it 'reads headers from file with absolute path', (done) ->
+        file = 'file://'+__dirname+'/data/importData.csv'
+        reader = new Reader(file)
+        console.log(file)
+        reader.read((error, result) ->
+            result.should.be.equal('Header1,Header2,Header3,Header4,Header5,Header6')
+            done()
+        )
+        return
     it 'reads headers from https endpoint', (done) ->
         nock('https://example.com')
         .get('/importData.csv')

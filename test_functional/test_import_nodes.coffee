@@ -11,6 +11,17 @@ config = require('../config/configuration')
 repoConfig = {url: config.neo4jurl}
 repo = new Neo4jRepostitory(repoConfig)
 
+sourceMount = process.env.MOUNT_POINT ? 'file://'+__dirname+'/data/'
+#sourceMount = 'https://s3-us-west-1.amazonaws.com/bd-ne04j/'
+
+sourceFilenames = {
+    Products: sourceMount+ 'Products.csv'
+    Satellites: sourceMount+ 'Satellites.csv'
+    Warehouses: sourceMount+ 'Warehouses.csv' # 'BDWP.csv'
+    Sellers: sourceMount+ 'Sellers.csv'
+    Zones: sourceMount + 'Zones.csv'
+}
+
 describe 'Import Nodes', () ->
 
     runtest = (importConfig, callback) ->
@@ -42,7 +53,8 @@ describe 'Import Nodes', () ->
         importer = {
             importer: '../source/nodes/importSatellites'
 #            source: '../data/Satellites.csv'
-            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/Satellite.csv'  # todo: rename to Satellites
+            source: sourceFilenames['Satellites']
+#            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/Satellite.csv'  # todo: rename to Satellites
             spotid: '2212'
             nodetype: 'Satellite'
         }
@@ -55,7 +67,9 @@ describe 'Import Nodes', () ->
     it 'Imports products to Neo4j', (callback) ->
         importConfig = {
             importer: '../source/nodes/importProducts'
-            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/Products.csv'
+            source: sourceFilenames['Products']
+
+#            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/Products.csv'
             spotid: '10081215'
             nodetype: 'Product'
         }
@@ -68,7 +82,9 @@ describe 'Import Nodes', () ->
     it 'Imports warehouses to Neo4j', (callback) ->
         importer = {
             importer: '../source/nodes/importWarehouses'
-            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/BDWP.csv' # todo: rename to Warehouses.
+            source: sourceFilenames['Warehouses']
+
+#            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/BDWP.csv' # todo: rename to Warehouses.
             spotid: '2000507'
             nodetype: 'Warehouse'
         }
@@ -81,7 +97,9 @@ describe 'Import Nodes', () ->
     it 'Imports sellers to Neo4j', (callback) ->
         importer = {
             importer: '../source/nodes/importSellers'
-            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/Seller.csv' # todo: rename to Sellers
+            source: sourceFilenames['Sellers']
+
+#            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/Seller.csv' # todo: rename to Sellers
             spotid: '2000061'
             nodetype: 'Seller'
         }
@@ -94,7 +112,9 @@ describe 'Import Nodes', () ->
     it 'Imports zones to Neo4j', (callback) ->
         importer = {
             importer: '../source/nodes/importZones'
-            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/RadiusZips.csv'  # todo: rename to Zones
+            source: sourceFilenames['Zones']
+
+#            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/RadiusZips.csv'  # todo: rename to Zones
             spotid: '15'
             nodetype: 'Zone'
         }
@@ -103,18 +123,18 @@ describe 'Import Nodes', () ->
             return
         )
         return
-
-    it 'Imports global zone to Neo4j', (callback) ->
-        importer = {
-            importer: '../source/nodes/importGlobalZones'
-            source: null
-            spotid: '99999'
-            nodetype: 'Zone'
-        }
-        runtest(importer, (error, result) ->
-            callback(error, result)
-            return
-        )
-        return
+#
+#    it 'Imports global zone to Neo4j', (callback) ->
+#        importer = {
+#            importer: '../source/nodes/importGlobalZones'
+#            source: null
+#            spotid: '99999'
+#            nodetype: 'Zone'
+#        }
+#        runtest(importer, (error, result) ->
+#            callback(error, result)
+#            return
+#        )
+#        return
 
 

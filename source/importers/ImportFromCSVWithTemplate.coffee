@@ -6,7 +6,7 @@ Reader = require('./ReadHeader')
 class ImporterFromCSVWithTemplate extends iImport
     cypherTemplate = null
     constructor: (@config={}) ->
-        console.log("config: "+@config)
+        console.log("config: "+JSON.stringify(@config))
         cypherTemplate = combyne(@config.cypher)
 
     # add all to key value store.
@@ -25,11 +25,15 @@ class ImporterFromCSVWithTemplate extends iImport
                 data[key] = value
 
             cypher = cypherTemplate.render(data)
+
             console.log("the cypher is:"+cypher)
+            console.log("the source is:"+source)
+
             if (source?)
                 query = "USING PERIODIC COMMIT 1000 "
                 query += "LOAD CSV WITH HEADERS FROM '"+source+"' AS line "
                 query += cypher
+                console.log("QUERY:"+query)
                 repo.run(query, {}, (error, result) =>
                     if (error?)
                         console.log(""+JSON.stringify(error))

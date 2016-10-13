@@ -3,9 +3,11 @@ fs = require('fs');
 
 class ImporterFromCSV extends iImport
     constructor: (@config={}) ->
+        console.log("config: "+JSON.stringify(@config))
 
     # add all to key value store.
     import: (source, repo, callback) ->
+        console.log("the source is:"+source)
 
         if (source?)
             query = "USING PERIODIC COMMIT 1000 "
