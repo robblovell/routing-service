@@ -19,12 +19,12 @@ sourceFilenames = {
     ProductsToSellers: sourceMount+'ProductsToSellers.csv' # 'sku-seller.csv'
     ProductsToWarehouses: sourceMount+'ProductsToWarehouses.csv' # 'sku-bdwp.csv'
     ResuppliersToWarehouses: sourceMount+'ResuppliersToWarehouses.csv' # 'superdc-bdwp.csv'
-    SatellitesToZones: sourceMount+'SatellitesToZones.csv' # 'Node-ZipRadius.csv'
+    SatellitesToRegions: sourceMount+'SatellitesToRegions.csv' # 'Node-ZipRadius.csv'
     SellersToSatellites: null
     SellersToWarehouses: sourceMount+'SellersToWarehouses.csv' # 'seller-bdwp.csv'
-    SellersToZones: null # just to the global zone
+    SellersToRegions: null # just to the global region
     WarehousesToSatellites: sourceMount+'WarehousesToSatellites.csv' # 'satellite-bdwp.csv'
-    WarehousesToZones: null # just to the global zone.
+    WarehousesToRegions: null # just to the global region.
 }
 
 describe 'Import Relationships', () ->
@@ -76,10 +76,10 @@ describe 'Import Relationships', () ->
             return
         )
         return
-    it 'wireup Satellites To Zones', (callback) ->
+    it 'wireup Satellites To Regions', (callback) ->
         importer = {
-            importer: '../source/edges/wireupSatellitesToZones'
-            source: sourceFilenames['SatellitesToZones']
+            importer: '../source/edges/wireupSatellitesToRegions'
+            source: sourceFilenames['SatellitesToRegions']
 
 #            source: null
         }
@@ -113,9 +113,9 @@ describe 'Import Relationships', () ->
         )
         return
 
-    it 'wireup Sellers To Zones', (callback) ->
+    it 'wireup Sellers To Regions', (callback) ->
         importer = {
-            importer: '../source/edges/wireupSellersToZones'
+            importer: '../source/edges/wireupSellersToRegions'
             source: null
         }
         runtest(importer, (error, result) ->
@@ -137,10 +137,10 @@ describe 'Import Relationships', () ->
         )
         return
 
-    it 'wireup Warehouses To Zones', (callback) ->
+    it 'wireup Warehouses To Regions', (callback) ->
         importer = {
-            importer: '../source/edges/wireupWarehousesToZones'
-            source: sourceFilenames['WarehousesToZones']
+            importer: '../source/edges/wireupWarehousesToRegions'
+            source: sourceFilenames['WarehousesToRegions']
         }
         runtest(importer, (error, result) ->
             callback(error, result)

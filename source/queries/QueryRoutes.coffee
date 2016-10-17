@@ -7,7 +7,7 @@ class Query extends iQuery
         -[b:BELONGS_TO]->(warehouse)
         -[:RESUPPLIES | SWEPT_TO *0..2]->()
         -[:FLOWS_THROUGH *0..1]->(leafnode)
-        -[r:LAST_MILE]->(c:Zone)
+        -[r:LAST_MILE]->(c:Region)
         where toInt(b.inventory) > 1 and (r.zip='#{context.to}' or r.zip='000')
         With warehouse, leafnode
         MATCH path=(warehouse)

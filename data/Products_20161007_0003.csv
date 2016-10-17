@@ -1,4 +1,4 @@
-ProductItemId,FreightClass,NMFCCode,ExcludeCourier,isAccessory,isSweepsEligible,isSuperDCEligible,isSIPsEligible
+ProductId,FreightClass,NMFCCode,ExcludeCourier,isAccessory,isSweepsEligible,isSuperdcEligible,SipsEligible
 15022181,100,'070680-04',0,'0','0','0','0'
 15022182,100,'070680-04',0,'0','0','0','0'
 15022183,100,'070680-04',0,'0','0','0','0'

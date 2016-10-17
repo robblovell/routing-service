@@ -1,4 +1,4 @@
-ProductItemId,FreightClass,NMFCCode,ExcludeCourier,isAccessory,isSweepsEligible,isSuperDCEligible,isSIPsEligible
+ProductId,FreightClass,NMFCCode,ExcludeCourier,isAccessory,isSweepsEligible,isSuperdcEligible,SipsEligible
 15000404,55,'037860',0,'1','0','0','0'
 15000405,55,'037860',0,'1','0','0','0'
 15000406,55,'037860',0,'1','0','0','0'

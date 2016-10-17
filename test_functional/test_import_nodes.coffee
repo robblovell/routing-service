@@ -15,11 +15,12 @@ sourceMount = process.env.MOUNT_POINT ? 'file://'+__dirname+'/../data/'
 #sourceMount = 'https://s3-us-west-1.amazonaws.com/bd-ne04j/'
 
 sourceFilenames = {
-    Products: [sourceMount+ 'sku_upload_1007_01.csv', sourceMount+ 'sku_upload_1007_02.csv', sourceMount+ 'sku_upload_1007_03.csv']
+#    Products: [sourceMount+ 'Products_1007_01.csv', sourceMount+ 'sku_upload_1007_02.csv', sourceMount+ 'sku_upload_1007_03.csv']
+    Products: { count: 3, name: 'Products_1007_{number}.csv' }
     Satellites: sourceMount+ 'Satellites.csv'
     Warehouses: sourceMount+ 'Warehouses.csv' # 'BDWP.csv'
     Sellers: sourceMount+ 'Sellers.csv'
-    Zones: sourceMount + 'Zones.csv'
+    Regions: sourceMount + 'Regions.csv'
 }
 
 describe 'Import Nodes', () ->
@@ -110,14 +111,14 @@ describe 'Import Nodes', () ->
         )
         return
 
-    it 'Imports zones to Neo4j', (callback) ->
+    it 'Imports regions to Neo4j', (callback) ->
         importer = {
-            importer: '../source/nodes/importZones'
-            source: sourceFilenames['Zones']
+            importer: '../source/nodes/importRegions'
+            source: sourceFilenames['Regions']
 
-#            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/RadiusZips.csv'  # todo: rename to Zones
+#            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/RadiusZips.csv'  # todo: rename to Regions
             spotid: '15'
-            nodetype: 'Zone'
+            nodetype: 'Region'
         }
         runtest(importer, (error, result) ->
             callback(error, result)
@@ -125,12 +126,12 @@ describe 'Import Nodes', () ->
         )
         return
 #
-#    it 'Imports global zone to Neo4j', (callback) ->
+#    it 'Imports global region to Neo4j', (callback) ->
 #        importer = {
-#            importer: '../source/nodes/importGlobalZones'
+#            importer: '../source/nodes/importGlobalRegions'
 #            source: null
 #            spotid: '99999'
-#            nodetype: 'Zone'
+#            nodetype: 'Region'
 #        }
 #        runtest(importer, (error, result) ->
 #            callback(error, result)

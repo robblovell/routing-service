@@ -7,12 +7,12 @@ edgeMap={
     SellerInventory: 'ProductsToSellers'
     WarehouseInventory: 'ProductsToWarehouses'
     ResupplyLanes: 'ResuppliersToWarehouses'
-    SatelliteZones: 'SatellitesToZones'
+    SatelliteRegions: 'SatellitesToRegions'
     Sips: 'SellersToSatellites'
     Sweeps: 'SellersToWarehouses'
-    SellerZones: 'SellersToZones'
+    SellerRegions: 'SellersToRegions'
     SatelliteLanes: 'WarehousesToSatellites'
-    WarehouseZones: 'WarehousesToZones'
+    WarehouseRegions: 'WarehousesToRegions'
 }
 
 module.exports = (app, model) ->

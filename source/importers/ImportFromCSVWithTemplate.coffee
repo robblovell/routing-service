@@ -9,11 +9,22 @@ class ImporterFromCSVWithTemplate extends iImport
         console.log("config: "+JSON.stringify(@config))
         cypherTemplate = combyne(@config.cypher)
 
+    typeIsArray = Array.isArray || ( value ) -> return {}.toString.call( value ) is '[object Array]'
     # add all to key value store.
     import: (sources, repo, callback) =>
         imports = []
-        for source in sources
-            imports.push(runImports(source, repo))
+
+        if (typeIsArray(sources))
+            for source in sources
+                imports.push(runImports(source, repo))
+        else if (typeof sources is 'object')
+            template = combyne(sources.name)
+            for i in [0...sources.count]
+                data = {number: ("0"+i).slice(-2)}
+                imports.push(runImports(template.render(data), repo))
+        else if typeof sources is 'string'
+            imports.push(runImports(sources, repo))
+
         async.series(imports, callback)
 
     runImports = (source, repo) ->
@@ -31,7 +42,6 @@ class ImporterFromCSVWithTemplate extends iImport
                     data[key] = value
 
                 cypher = cypherTemplate.render(data)
-
                 console.log("the cypher is:"+cypher)
                 console.log("the source is:"+source)
 

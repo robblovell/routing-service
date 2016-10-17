@@ -11,7 +11,7 @@ ImportSchema = new Schema(
     {
         source: [String]
         type: [String] # edge/node
-        name: [String] # Satellite, Warehouse, Seller, Zone, Product
+        name: [String] # Satellite, Warehouse, Seller, Region, Product
     },
     { strict: true }
 )

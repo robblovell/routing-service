@@ -14,12 +14,12 @@ sourceFilenames = {
     ProductsToSellers: 'sku-seller.csv'
     ProductsToWarehouses: 'sku-bdwp.csv'
 #    ResuppliersToWarehouses: 'superdc-bdwp.csv'
-#    SatellitesToZones: null
+#    SatellitesToRegions: null
 #    SellersToSatellites: null
 #    SellersToWarehouses: 'seller-bdwp.csv'
-#    SellersToZones: null
+#    SellersToRegions: null
 #    WarehousesToSatellites: 'satellite-bdwp.csv'
-#    WarehousesToZones: null
+#    WarehousesToRegions: null
 }
 sourceMount = process.env.MOUNT_POINT ? 'file:///'
 #sourceMount = 'https://s3-us-west-1.amazonaws.com/bd-ne04j/'
