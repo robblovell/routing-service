@@ -6,6 +6,8 @@ sutil = require('line-stream-util')
 
 class ReadHeader
     constructor: (@url) ->
+        console.log("URL:"+@url)
+        return
 
     removeWhitespace = (data) ->
         if (data.includes('\r\n'))
@@ -56,5 +58,7 @@ class ReadHeader
                 .on('error',(error) -> callback(error, null))
 
             return
+        else
+            callback("Need url.", null)
 
 module.exports = ReadHeader

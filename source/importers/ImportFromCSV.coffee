@@ -2,17 +2,37 @@ iImport = require('./iImport')
 fs = require('fs');
 
 class ImporterFromCSV extends iImport
+    cypher = null
+    repo = null
     constructor: (@config={}) ->
         console.log("config: "+JSON.stringify(@config))
+        cypher = @config.cypher
+        repo = @config.repo
+        return
+
+    setConfig: (config) ->
+        cypher = config.cypher
+        repo = config.repo
+
+    setCypher: (_cypher) ->
+        cypher = _cypher
+
+    setRepo: (_repo) ->
+        repo = _repo
+
+    setQuery = (source, cypher) ->
+        query = "USING PERIODIC COMMIT 1000 "
+        query += "LOAD CSV WITH HEADERS FROM '"+source+"' AS line "
+        query += cypher
+
+        return query
 
     # add all to key value store.
-    import: (source, repo, callback) ->
+    import: (source, callback) =>
         console.log("the source is:"+source)
 
         if (source?)
-            query = "USING PERIODIC COMMIT 1000 "
-            query += "LOAD CSV WITH HEADERS FROM '"+source+"' AS line "
-            query += @config.cypher
+            query = setQuery(source, cypher)
             repo.run(query, {}, (error, result) =>
                 if (error?)
                     console.log(""+JSON.stringify(error))
@@ -22,7 +42,7 @@ class ImporterFromCSV extends iImport
                 return
             )
         else
-            repo.run(@config.cypher, {}, (error, result) =>
+            repo.run(cypher, {}, (error, result) =>
                 if (error?)
                     console.log(""+JSON.stringify(error))
                     callback(error, null)
@@ -32,4 +52,7 @@ class ImporterFromCSV extends iImport
             )
         return
 
+    # test-code
+    ImporterFromCSV.prototype["testonly_setQuery"] = setQuery
+    # end-test-code
 module.exports = ImporterFromCSV

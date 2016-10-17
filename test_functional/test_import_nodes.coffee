@@ -16,7 +16,11 @@ sourceMount = process.env.MOUNT_POINT ? 'file://'+__dirname+'/../data/'
 
 sourceFilenames = {
 #    Products: [sourceMount+ 'Products_1007_01.csv', sourceMount+ 'sku_upload_1007_02.csv', sourceMount+ 'sku_upload_1007_03.csv']
-    Products: { count: 3, name: 'Products_1007_{number}.csv' }
+    Products: { count: 3, date: "20161007", name:'Products_{{date}}_{{number}}.csv'  }
+#    Satellites: { count: 3, date: "20161007" }
+#    Warehouses: { count: 3, date: "20161007" }
+#    Sellers: { count: 3, date: "20161007" }
+#    Regions: { count: 3, date: "20161007" }
     Satellites: sourceMount+ 'Satellites.csv'
     Warehouses: sourceMount+ 'Warehouses.csv' # 'BDWP.csv'
     Sellers: sourceMount+ 'Sellers.csv'
