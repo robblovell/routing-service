@@ -1,10 +1,6 @@
-Importer = require('./../importers/ImportFromCSVWithTemplate')
+Importer = require('./../importers/ImportCSV')
 
 module.exports = (config) ->
-    config.cypher = "CREATE (:Product {
-id:line.{{header0}},
-ProductItemId:line.{{header0}}
-})"
+    config.type = "Product"
     return new Importer(config)
-
 

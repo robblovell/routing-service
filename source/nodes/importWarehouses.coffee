@@ -1,13 +1,5 @@
-Importer = require('./../importers/ImportFromCSV')
+Importer = require('./../importers/ImportCSV')
 
 module.exports = (config) ->
-
-    config.cypher = "CREATE (:Warehouse {
-id:line.WarehouseId,
-warehouseId:line.WarehouseId,
-pimcoreId:line.PIMCoreWarehouseID,
-postalCode:line.PostalCode,
-name:line.Name,
-isSuperDC:line.isSuperDC})"
-
+    config.type = "Warehouse"
     return new Importer(config)

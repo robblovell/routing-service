@@ -53,6 +53,6 @@ class ImporterFromCSV extends iImport
         return
 
     # test-code
-    ImporterFromCSV.prototype["testonly_setQuery"] = setQuery
+    ImporterFromCSV.prototype["_testaccess_setQuery"] = setQuery
     # end-test-code
 module.exports = ImporterFromCSV

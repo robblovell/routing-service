@@ -12,3 +12,11 @@ id:s.id+'_'+b.id
 }]->(b)"
 
     return new Importer(config)
+
+Importer = require('./../importers/ImportCSV')
+
+module.exports = (config) ->
+    config.type = "SWEPT_TO"
+    config.origin = "Seller"
+    config.destination = "Warehouse"
+    return new Importer(config)

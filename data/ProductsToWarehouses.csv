@@ -1,4 +1,4 @@
-﻿ProductItemId,WarehouseID,SourceNodeID,ProductAvailability
+﻿ProductId,WarehouseId,SourceNodeID,ProductAvailability
 10082128,2000505,233847,0
 10082129,2000505,233847,0
 10082130,2000505,233847,0

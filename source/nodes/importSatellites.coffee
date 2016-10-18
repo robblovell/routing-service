@@ -1,13 +1,6 @@
-Importer = require('./../importers/ImportFromCSV')
+Importer = require('./../importers/ImportCSV')
 
 module.exports = (config) ->
-
-    config.cypher = "CREATE (:Satellite {
-    id:line.WarehouseID,
-    warehouseid:line.WarehouseID,
-    name:line.Name,
-    satelliteToWarehouseId:line.BDWPWarehouseID,
-    postalcode:line.PostalCode})"
-
+    config.type = "Satellite"
     return new Importer(config)
 

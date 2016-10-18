@@ -15,6 +15,6 @@ describe 'Test Import From CSV', () ->
 
     importer = new Importer({cypher: "CREATE (:Product {id:line.id})", repo: repo})
     it 'constructs corret query', () ->
-        query = importer.testonly_setQuery("somefile.csv","CREATE (:Product {id:line.id})")
+        query = importer._testaccess_setQuery("somefile.csv","CREATE (:Product {id:line.id})")
         query.should.be.equal("USING PERIODIC COMMIT 1000 LOAD CSV WITH HEADERS FROM 'somefile.csv' AS line CREATE (:Product {id:line.id})")
         return

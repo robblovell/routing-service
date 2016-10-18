@@ -4,18 +4,27 @@ combyne = require('combyne')
 async = require('async')
 ReadHeader = require('./ReadHeader')
 ImportFromCSV = require('./ImportFromCSV')
+Neo4jMakeUpsert = require('../queries/Neo4jMakeUpsert')
 
-class ImporterFromCSVWithTemplate extends iImport
-    cypherTemplate = null
+class ImporterCSV extends iImport
     Reader = null
     importer = null
     repo = null
+    type = null
+    origin = null
+    destination = null
+    originid = null
+    destinationid = null
     constructor: (@config={}, _reader=ReadHeader) ->
-        console.log("config: "+JSON.stringify(@config))
-        cypherTemplate = combyne(@config.cypher)
+#        console.log("config: "+JSON.stringify(@config))
         importer = new ImportFromCSV(@config)
         Reader = _reader
         repo = @config.repo
+        type = @config.type
+        origin = @config.origin if @config.origin
+        destination = @config.destination if @config.destination
+        originid = @config.originid if @config.originid
+        destinationid = @config.destinationid if @config.destinationid
         return
 
     typeIsArray = Array.isArray || ( value ) -> return {}.toString.call( value ) is '[object Array]'
@@ -46,12 +55,28 @@ class ImporterFromCSVWithTemplate extends iImport
         return
 
     splitResults = (result) ->
-        result = result.split(',')
+        fields = result.split(',')
         data = {}
-        for value,ix in result
+        for value,ix in fields
             key = 'header'+ix
             data[key] = value
-        return data
+        return [fields, data]
+
+    makeCypher = (fields) ->
+        [templateFields, templateData] = splitResults(fields)
+        if origin? and destination?
+            connections = {
+                origin: origin
+                destination: destination
+                originid: originid
+                destinationid: destinationid
+            }
+            upsertStatement = Neo4jMakeUpsert.makeCSVEdgeUpsert(connections, type, templateFields)
+        else
+            upsertStatement = Neo4jMakeUpsert.makeCSVUpsert(type, templateFields)
+        cypherTemplate = combyne(upsertStatement)
+
+        return cypherTemplate.render(templateData)
 
     runImports = (source) =>
         return (callback) =>
@@ -61,17 +86,18 @@ class ImporterFromCSVWithTemplate extends iImport
             reader.read((error, result) =>
                 # result is a comma separated string:
                 # holes in the template are labeled: header #
-                data = splitResults(result)
-                importer.setCypher (cypherTemplate.render(data))
+
+                importer.setCypher (makeCypher(result))
                 importer.import(source, callback)
                 return
             )
 
     # test-code
-    ImporterFromCSVWithTemplate.prototype["_testaccess_runImports"] = runImports
-    ImporterFromCSVWithTemplate.prototype["_testaccess_splitResults"] = splitResults
-    ImporterFromCSVWithTemplate.prototype["_testaccess_renderFilenames"] = renderFilenames
+    ImporterCSV.prototype["_testaccess_makeCypher"] = makeCypher
+    ImporterCSV.prototype["_testaccess_runImports"] = runImports
+    ImporterCSV.prototype["_testaccess_splitResults"] = splitResults
+    ImporterCSV.prototype["_testaccess_renderFilenames"] = renderFilenames
     # end-test-code
 
 
-module.exports = ImporterFromCSVWithTemplate
+module.exports = ImporterCSV
