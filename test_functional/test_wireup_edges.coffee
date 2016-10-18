@@ -28,10 +28,10 @@ sourceFilenames = {
 }
 
 describe 'Import Relationships', () ->
-    runtest = (testImport, callback) ->
-        console.log("import" + testImport.importer)
-        importer = require(testImport.importer)
-        importer.import(testImport.source, repo, (error, results) ->
+    runtest = (importConfig, callback) ->
+        console.log("import" + importConfig.importer)
+        importer = require(importConfig.importer)(importConfig)
+        importer.import(importConfig.source, (error, results) ->
             if (error?)
                 console.log(error)
                 assert(false)
@@ -42,48 +42,45 @@ describe 'Import Relationships', () ->
         return
 
     it 'wireup Products To Sellers', (callback) ->
-        importer = {
+        importConfig = {
             importer: '../source/edges/wireupProductsToSellers'
             source: sourceFilenames['ProductsToSellers']
+            repo: repo
         }
-        runtest(importer, (error, result) ->
+        runtest(importConfig, (error, result) ->
             callback(error, result)
             return
         )
         return
     it 'wireup Products To Warehouses', (callback) ->
-        importer = {
+        importConfig = {
             importer: '../source/edges/wireupProductsToWarehouses'
             source: sourceFilenames['ProductsToWarehouses']
-
-#            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/sku-bdwp.csv' # todo: rename to product-warehouses
+            repo: repo
         }
-        runtest(importer, (error, result) ->
+        runtest(importConfig, (error, result) ->
             callback(error, result)
             return
         )
         return
     it 'wireup Resuppliers To Warehouses', (callback) ->
-        importer = {
+        importConfig = {
             importer: '../source/edges/wireupResuppliersToWarehouses'
-
             source: sourceFilenames['ResuppliersToWarehouses']
-
-#            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/superdc-bdwp.csv' # todo: rename to resupplier-warehouses.
+            repo: repo
         }
-        runtest(importer, (error, result) ->
+        runtest(importConfig, (error, result) ->
             callback(error, result)
             return
         )
         return
     it 'wireup Satellites To Regions', (callback) ->
-        importer = {
+        importConfig = {
             importer: '../source/edges/wireupSatellitesToRegions'
             source: sourceFilenames['SatellitesToRegions']
-
-#            source: null
+            repo: repo
         }
-        runtest(importer, (error, result) ->
+        runtest(importConfig, (error, result) ->
             callback(error, result)
             return
         )
@@ -101,48 +98,48 @@ describe 'Import Relationships', () ->
 #        return
 #
     it 'wireup Sellers To Warehouses', (callback) ->
-        importer = {
+        importConfig = {
             importer: '../source/edges/wireupSellersToWarehouses'
             source: sourceFilenames['SellersToWarehouses']
-
-#            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/seller-bdwp.csv' # todo: rename to seller-warehouses
+            repo: repo
         }
-        runtest(importer, (error, result) ->
+        runtest(importConfig, (error, result) ->
             callback(error, result)
             return
         )
         return
 
     it 'wireup Sellers To Regions', (callback) ->
-        importer = {
+        importConfig = {
             importer: '../source/edges/wireupSellersToRegions'
             source: null
+            repo: repo
         }
-        runtest(importer, (error, result) ->
+        runtest(importConfig, (error, result) ->
             callback(error, result)
             return
         )
         return
 
     it 'wireup Warehouses To Satellites', (callback) ->
-        importer = {
+        importConfig = {
             importer: '../source/edges/wireupWarehousesToSatellites'
             source: sourceFilenames['WarehousesToSatellites']
-
-#            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/satellite-bdwp.csv'  # todo: warehouse-satelleites
+            repo: repo
         }
-        runtest(importer, (error, result) ->
+        runtest(importConfig, (error, result) ->
             callback(error, result)
             return
         )
         return
 
     it 'wireup Warehouses To Regions', (callback) ->
-        importer = {
+        importConfig = {
             importer: '../source/edges/wireupWarehousesToRegions'
             source: sourceFilenames['WarehousesToRegions']
+            repo: repo
         }
-        runtest(importer, (error, result) ->
+        runtest(importConfig, (error, result) ->
             callback(error, result)
             return
         )

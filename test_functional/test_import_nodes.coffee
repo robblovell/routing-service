@@ -16,7 +16,7 @@ sourceMount = process.env.MOUNT_POINT ? 'file://'+__dirname+'/../data/'
 
 sourceFilenames = {
 #    Products: [sourceMount+ 'Products_1007_01.csv', sourceMount+ 'sku_upload_1007_02.csv', sourceMount+ 'sku_upload_1007_03.csv']
-    Products: { count: 3, date: "20161007", name:'Products_{{date}}_{{number}}.csv'  }
+    Products: { count: 2, date: "20161007", template:sourceMount+ 'Products_{{date}}_{{number}}.csv'  }
 #    Satellites: { count: 3, date: "20161007" }
 #    Warehouses: { count: 3, date: "20161007" }
 #    Sellers: { count: 3, date: "20161007" }
@@ -31,9 +31,10 @@ describe 'Import Nodes', () ->
 
     runtest = (importConfig, callback) ->
         console.log("import"+importConfig.nodetype)
-        importer = require(importConfig.importer)
 
-        importer.import(importConfig.source, repo, (error, results) ->
+        importer = require(importConfig.importer)(importConfig)
+
+        importer.import(importConfig.source, (error, results) ->
             if (error?)
                 console.log(error)
                 assert(false)
@@ -55,29 +56,27 @@ describe 'Import Nodes', () ->
         )
         return
 
-    it 'Imports satellites to Neo4j', (callback) ->
-        importer = {
-            importer: '../source/nodes/importSatellites'
-#            source: '../data/Satellites.csv'
-            source: sourceFilenames['Satellites']
-#            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/Satellite.csv'  # todo: rename to Satellites
-            spotid: '2212'
-            nodetype: 'Satellite'
+    it 'Imports products to Neo4j', (callback) ->
+        importConfig = {
+            importer: '../source/nodes/importProducts'
+            source: sourceFilenames['Products']
+            spotid: '15000404'
+            nodetype: 'Product'
+            repo: repo
         }
-        runtest(importer, (error, result) ->
+        runtest(importConfig, (error, result) ->
             callback(error, result)
             return
         )
         return
 
-    it 'Imports products to Neo4j', (callback) ->
+    it 'Imports satellites to Neo4j', (callback) ->
         importConfig = {
-            importer: '../source/nodes/importProducts'
-            source: sourceFilenames['Products']
-
-#            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/Products.csv'
-            spotid: '10081215'
-            nodetype: 'Product'
+            importer: '../source/nodes/importSatellites'
+            source: sourceFilenames['Satellites']
+            spotid: '2212'
+            nodetype: 'Satellite'
+            repo: repo
         }
         runtest(importConfig, (error, result) ->
             callback(error, result)
@@ -86,45 +85,42 @@ describe 'Import Nodes', () ->
         return
 
     it 'Imports warehouses to Neo4j', (callback) ->
-        importer = {
+        importConfig = {
             importer: '../source/nodes/importWarehouses'
             source: sourceFilenames['Warehouses']
-
-#            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/BDWP.csv' # todo: rename to Warehouses.
             spotid: '2000507'
             nodetype: 'Warehouse'
+            repo: repo
         }
-        runtest(importer, (error, result) ->
+        runtest(importConfig, (error, result) ->
             callback(error, result)
             return
         )
         return
 
     it 'Imports sellers to Neo4j', (callback) ->
-        importer = {
+        importConfig = {
             importer: '../source/nodes/importSellers'
             source: sourceFilenames['Sellers']
-
-#            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/Seller.csv' # todo: rename to Sellers
             spotid: '2000061'
             nodetype: 'Seller'
+            repo: repo
         }
-        runtest(importer, (error, result) ->
+        runtest(importConfig, (error, result) ->
             callback(error, result)
             return
         )
         return
 
     it 'Imports regions to Neo4j', (callback) ->
-        importer = {
+        importConfig = {
             importer: '../source/nodes/importRegions'
             source: sourceFilenames['Regions']
-
-#            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/RadiusZips.csv'  # todo: rename to Regions
             spotid: '15'
             nodetype: 'Region'
+            repo: repo
         }
-        runtest(importer, (error, result) ->
+        runtest(importConfig, (error, result) ->
             callback(error, result)
             return
         )

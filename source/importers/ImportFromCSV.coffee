@@ -5,7 +5,7 @@ class ImporterFromCSV extends iImport
     cypher = null
     repo = null
     constructor: (@config={}) ->
-        console.log("config: "+JSON.stringify(@config))
+#        console.log("config: "+JSON.stringify(@config))
         cypher = @config.cypher
         repo = @config.repo
         return

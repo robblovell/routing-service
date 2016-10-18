@@ -2,7 +2,7 @@ iImport = require('./iImport')
 fs = require('fs');
 combyne = require('combyne')
 async = require('async')
-
+ReadHeader = require('./ReadHeader')
 ImportFromCSV = require('./ImportFromCSV')
 
 class ImporterFromCSVWithTemplate extends iImport
@@ -10,7 +10,7 @@ class ImporterFromCSVWithTemplate extends iImport
     Reader = null
     importer = null
     repo = null
-    constructor: (@config={}, _reader) ->
+    constructor: (@config={}, _reader=ReadHeader) ->
         console.log("config: "+JSON.stringify(@config))
         cypherTemplate = combyne(@config.cypher)
         importer = new ImportFromCSV(@config)
@@ -22,9 +22,9 @@ class ImporterFromCSVWithTemplate extends iImport
 
     renderFilenames = (sources) ->
         imports = []
-        template = combyne(sources.name)
+        template = combyne(sources.template)
         for i in [0...sources.count]
-            data = {number: ("0"+i).slice(-2), date: sources.date}
+            data = {number: ("0000"+i).slice(-4), date: sources.date}
             imports.push(template.render(data))
         return imports
 

@@ -58,9 +58,8 @@ describe 'Test Import From CSV With Template', () ->
         )
         return
 
-
     it 'correctly names files that are imported from objects', (done) ->
-        sources = { count: 3, date: "20161007", name:'Products_{{date}}_{{number}}.csv' }
+        sources = { count: 3, date: "20161007", template:'Products_{{date}}_{{number}}.csv' }
         importer.import(sources, (error, result) ->
             done()
         )
@@ -77,11 +76,11 @@ describe 'Test Import From CSV With Template', () ->
             done()
         )
     it 'renders filenames correctly', (done) ->
-        sources = { count: 3, date: "20161007", name:'Products_{{date}}_{{number}}.csv' }
+        sources = { count: 3, date: "20161007", template:'Products_{{date}}_{{number}}.csv' }
 
         imports = importer.testonly_renderFilenames(sources)
-        imports[0].should.be.equal('Products_20161007_00.csv')
-        imports[1].should.be.equal('Products_20161007_01.csv')
-        imports[2].should.be.equal('Products_20161007_02.csv')
+        imports[0].should.be.equal('Products_20161007_0000.csv')
+        imports[1].should.be.equal('Products_20161007_0001.csv')
+        imports[2].should.be.equal('Products_20161007_0002.csv')
         done()
 

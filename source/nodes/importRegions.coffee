@@ -1,10 +1,9 @@
 Importer = require('./../importers/ImportFromCSV')
 
-config = {
-    cypher: "CREATE (:Region {
+module.exports = (config) ->
+
+    config.cypher =  "CREATE (:Region {
 id:line.RadiusZipId,
 zip:line.RadiusZip})"
-}
-importer = new Importer(config)
 
-module.exports = importer
+    return new Importer(config)

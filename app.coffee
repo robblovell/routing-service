@@ -39,7 +39,7 @@ mongoose.Promise = require('bluebird')
 #mongoose.connect(config.db) # connect to our database
 
 import_= require('./models/import')
-Imports = require('./controllers/imports')(app, import_.model)
+Imports = require('./controllers/imports')(app, import_.model, config)
 edge= require('./models/edge')
 Edges = require('./controllers/edges')(app, edge.model)
 node= require('./models/node')

@@ -2,7 +2,9 @@ mongoose = require('mongoose')
 Resource = require('resourcejs')
 async = require('async')
 config = require('../config/configuration')
+Neo4jRepostitory = require('../source/repositories/Neo4jRepository')
 
+repo = new Neo4jRepostitory(repoConfig)
 edgeMap={
     SellerInventory: 'ProductsToSellers'
     WarehouseInventory: 'ProductsToWarehouses'
@@ -15,30 +17,44 @@ edgeMap={
     WarehouseRegions: 'WarehousesToRegions'
 }
 
-module.exports = (app, model) ->
+module.exports = (app, model, config) ->
     resource = Resource(app, '', 'Imports', model)
 #    .get()
     .post({
         before: (req, res, next) ->
-            Importer = {
-                source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/Satellite.csv'
-                name: 'Satellites'
-            }
+            importConfig = req.body
+            if !importConfig.mount?
+                importConfig.mount = config.mountPoint
 
-            if Importer.name.includes('To')
-                Importer.importer = '../source/import'+Importer.name
-            else if edgeMap[Importer.name]?
-                Importer.importer = '../source/wireup'+edgemap[Importer.name]
+            if !importConfig.date?
+                console.log("No date given")
+
+            if importConfig.name.includes('To')
+                importConfig.importer = '../source/import'+importConfig.name
+            else if edgeMap[importConfig.name]?
+                importConfig.importer = '../source/wireup'+edgemap[importConfig.name]
             else
-                Importer.importer = '../source/wireup'+Importer.name
+                importConfig.importer = '../source/wireup'+importConfig.name
 
-            console.log("import" + Importer.importer)
-            importer = require(Importer.importer)
-            importer.import(Importer.source, repo, (error, results) ->
-                if (error?)
-                    console.log(error)
-                else if (results?)
-                    console.log(results)
+            if !importConfig.source?
+                importConfig.source = importConfig.mount+'/'+importConfig.name+'_{{date}}_{{number}}'
+
+            ## if a template is given and doesn't contains file:// or https:// add the mount point:
+            else if !importConfig.source.includes('://')
+                importConfig.source = importConfig.mount+'/'+importConf.template
+
+            if importConfig.source.includes ('{{') and (!importConfig.date? or !importConfig.count?)
+                console.log("A date and count field must be given if a template is used")
+
+            importConfig.repo = repo
+            console.log("import" + importConfig.importer)
+            importer = require(importConfig.importer)(importConfig)
+            importer.import(importConfig.source, (error, result) ->
+                if error?
+                    res.send {error: error, code: 400}
+                else
+                    res.send JSON.stringify(result)
+
                 return
             )
             return
