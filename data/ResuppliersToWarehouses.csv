@@ -1,4 +1,4 @@
-﻿SuperDCLocationId,WarehouseId,bdcost,leadtime,sellercost,custcost
+﻿SuperDCId,WarehouseId,bdcost,leadtime,sellercost,custcost
 2000507,2000505,15,6,0,0
 2000507,2000507,48,1,0,0
 2000507,2000511,92,4,0,0

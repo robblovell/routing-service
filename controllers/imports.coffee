@@ -3,6 +3,7 @@ Resource = require('resourcejs')
 async = require('async')
 config = require('../config/configuration')
 Neo4jRepostitory = require('../source/repositories/Neo4jRepository')
+repoConfig = {url: config.neo4jurl}
 
 repo = new Neo4jRepostitory(repoConfig)
 edgeMap={
