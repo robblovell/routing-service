@@ -14,18 +14,22 @@ if node_env is 'local'
         port: process.env.EXTERNAL_PORT || '3000'
         host: process.env.HOST || 'localhost'
         scheme: process.env.SCHEME || 'http'
+        mountPoint: process.env.MOUNT_POINT || './data'
 else if node_env is 'test'
     config =
         neo4jurl: process.env.NEO4J_URL || "bolt://develop:k3qPB4V2yxPNAivieu3B@sb10.stations.graphenedb.com:24786"
         port: process.env.EXTERNAL_PORT || '3000'
         host: process.env.HOST || 'localhost'
         scheme: process.env.SCHEME || 'http'
+        mountPoint: process.env.MOUNT_POINT || './data'
+
 else # node_env is not 'local' or 'test'
     config =
         neo4jurl: process.env.NEO4J_URL
         port: process.env.EXTERNAL_PORT || '443'
         host: process.env.HOST || host
         scheme: process.env.SCHEME || 'https'
+        mountPoint: process.env.MOUNT_POINT || 'https://s3-us-west-1.amazonaws.com/bd-freightengine'
 
     if !config.neo4jurl?
         console.log("no neo4j database connection string specified.")

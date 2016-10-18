@@ -11,7 +11,7 @@ config = require('../../config/configuration')
 repoConfig = {url: config.neo4jurl}
 repo = new Neo4jRepostitory(repoConfig)
 
-describe 'Import Relationship Warehouses To GlobalZone', () ->
+describe 'Import Relationship Warehouses To GlobalRegion', () ->
     runtest = (testImport, callback) ->
         console.log("import" + testImport.importer)
         importer = require(testImport.importer)
@@ -25,9 +25,9 @@ describe 'Import Relationship Warehouses To GlobalZone', () ->
         )
         return
 
-    it 'wireup Warehouses To GlobalZone', (callback) ->
+    it 'wireup Warehouses To GlobalRegion', (callback) ->
         importer = {
-            importer: '../../source/wireupWarehousesToGlobalZone'
+            importer: '../../source/wireupWarehousesToGlobalRegion'
             source: null
         }
         runtest(importer, (error, result) ->

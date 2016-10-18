@@ -28,6 +28,16 @@ To run imports from files to build the network (takes about 20 seconds now.:
 The network consists of a warehouse node type where products or "products" can reside: 
 **Warehouses (BDWP and SuperDC's), Seller (Sweeps and doesn't sweep), or Satellite for Warehouses**
 
+Docker: to build and run a docker image locally:
+
+docker build -t bd-routingservice .
+
+docker run -it -p 3000:3000 -e NODE_ENV=local --rm --name routingservice bd-routingservice
+
+cleanup: 
+docker rm -v $(docker ps -a -q -f status=exited)
+
+docker rmi -v $(docker images)
 TODO:
 
 * CLI for imports
