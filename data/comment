@@ -1,0 +1,13 @@
+The endpoint is a PUT to /edges with data:
+{
+        sourcekind: [Product]
+        sourceid: [ProductId(SKU)]
+        destinationkind: [Warehouse or Seller]
+        destinationid: [WarehouseId or SellerId]
+        properties:
+        {
+            ProductAvailability: [Number]
+        }
+},
+
+
