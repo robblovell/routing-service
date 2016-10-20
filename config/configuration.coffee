@@ -26,7 +26,7 @@ else if node_env is 'test'
 else # node_env is not 'local' or 'test'
     config =
         neo4jurl: process.env.NEO4J_URL
-        port: process.env.EXTERNAL_PORT || '443'
+        port: process.env.EXTERNAL_PORT || ports[node_env]
         host: process.env.HOST || host
         scheme: process.env.SCHEME || 'https'
         mountPoint: process.env.MOUNT_POINT || 'https://s3-us-west-1.amazonaws.com/bd-freightengine'
