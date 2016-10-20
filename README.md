@@ -30,15 +30,14 @@ The network consists of a warehouse node type where products or "products" can r
 
 Docker: to build and run a docker image locally:
 
-docker build -t bd-routingservice .
+docker build -t m-routingservice . -f Docker_micro.docker 
 
 docker run -it -p 3000:3000 -e NODE_ENV=local --rm --name routingservice bd-routingservice
 
+docker stop [container id]
+
 cleanup: 
 docker rm -v $(docker ps -a -q -f status=exited)
-
-docker rmi -v $(docker images)
-
 
 TODO:
 
