@@ -3,10 +3,10 @@ Schema = require('mongoose').Schema
 
 EdgeSchema = new Schema(
     {
-        sourcekind: String
-        sourceid: String
-        destinationkind: String
-        destinationid: String
+        sourceKind: String
+        sourceId: String
+        destinationKind: String
+        destinationId: String
         properties: Schema.Types.Mixed
     },
     { strict: false, _id: false }

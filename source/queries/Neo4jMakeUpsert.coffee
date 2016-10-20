@@ -25,8 +25,8 @@ Neo4jMakeUpsert = {
         sourceNodeIdName = connections.originid ? "id"
         destinationNodeIdName = connections.destinationid ? "id"
 
-        properties = "e.idOrigin=line.{{header0}}, e.idTarget=line.{{header1}},"
-        properties += "e.origin='"+sourceNodeType+"', e.target='"+destinationNodeType+"'"
+        properties = "e.sourceId=line.{{header0}}, e.destinationId=line.{{header1}},"
+        properties += "e.sourceKind='"+sourceNodeType+"', e.destinationKind='"+destinationNodeType+"'"
         for field,i in edgeFields
             properties += ",e." + field + "=line.{{header" + i + "}}"
 
@@ -37,7 +37,7 @@ Neo4jMakeUpsert = {
                 "(a:" + sourceNodeType + " { "+sourceNodeIdName+":line.{{header0}} }), " +
                 "(b:" + destinationNodeType + " { "+destinationNodeIdName+":line.{{header1}} }) " +
                 "MERGE " +
-                "(a)-[e:" + edgeType + " { idOrigin:line.{{header0}}, idTarget:line.{{header1}} }]->(b) " +
+                "(a)-[e:" + edgeType + " { sourceId:line.{{header0}}, destinationId:line.{{header1}} }]->(b) " +
                 " ON CREATE SET " + create +
                 " ON MATCH SET " + update
 }
