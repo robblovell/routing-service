@@ -14,10 +14,13 @@ if node_env is 'local'
         port: process.env.EXTERNAL_PORT || '3000'
         host: process.env.HOST || 'localhost'
         scheme: process.env.SCHEME || 'http'
-        mountPoint: process.env.MOUNT_POINT || './data'
+        mountPoint: process.env.MOUNT_POINT || 'file://'+__dirname+'/../data/'
+#config.mountPoint = process.env.MOUNT_POINT || 'https://s3-us-west-1.amazonaws.com/bd-freightengine/'
+
 else if node_env is 'test'
     config =
         neo4jurl: process.env.NEO4J_URL || "bolt://develop:k3qPB4V2yxPNAivieu3B@sb10.stations.graphenedb.com:24786"
+#        neo4jurl: process.env.NEO4J_URL || "bolt://freightengine_dev:bOfUDCSGYsmMxfNwIsMC@db-pznqlogzz2dkqiyplaiy.graphenedb.com:24786"
         port: process.env.EXTERNAL_PORT || '3000'
         host: process.env.HOST || 'localhost'
         scheme: process.env.SCHEME || 'http'

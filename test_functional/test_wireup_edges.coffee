@@ -9,29 +9,30 @@ Papa = require('babyparse')
 config = require('../config/configuration')
 
 repoConfig = {url: config.neo4jurl}
-repo = new Neo4jRepostitory(repoConfig)
 
-sourceMount = process.env.MOUNT_POINT ? 'file://'+__dirname+'/../data/'
-
-#sourceMount = 'https://s3-us-west-1.amazonaws.com/bd-ne04j/'
+sourceMount = config.mountPoint
 
 sourceFilenames = {
-    ProductsToSellers: sourceMount+'ProductsToSellers.csv' # 'sku-seller.csv'
-    ProductsToWarehouses: sourceMount+'ProductsToWarehouses.csv' # 'sku-bdwp.csv'
-    ResuppliersToWarehouses: sourceMount+'ResuppliersToWarehouses.csv' # 'superdc-bdwp.csv'
-    SatellitesToRegions: sourceMount+'SatellitesToRegions.csv' # 'Node-ZipRadius.csv'
-    SellersToSatellites: null
-    SellersToWarehouses: sourceMount+'SellersToWarehouses.csv' # 'seller-bdwp.csv'
-    SellersToRegions: null # just to the global region
-    WarehousesToSatellites: sourceMount+'WarehousesToSatellites.csv' # 'satellite-bdwp.csv'
-    WarehousesToRegions: null # just to the global region.
+    ResuppliersResuppliesWarehouses: sourceMount+'ResuppliersResuppliesWarehouses_20161020.csv' # 'superdc-bdwp.csv'
+    SatellitesLastMileRegions: sourceMount+'SatellitesLastMileRegions_20161020.csv' # 'Node-ZipRadius.csv'
+    SellersSweptToWarehouses: sourceMount+'SellersSweptToWarehouses_20161020.csv' # 'seller-bdwp.csv'
+    SellersSipsToWarehouses: sourceMount+'SellersSipsToWarehouses_20161020.csv' # 'seller-bdwp.csv'
+    SellersLastMileRegions: null # just to the global region
+    WarehousesFlowsThroughSatellites: sourceMount+'WarehousesFlowsThroughSatellites_20161020.csv' # 'satellite-bdwp.csv'
+    WarehousesLastMileRegions: null # just to the global region.
+    ProductsBelongsToWarehouses: sourceMount+'ProductsBelongsToWarehouses_20161020.csv' # 'sku-bdwp.csv'
+#    ProductsBelongsToSellers: sourceMount+'ProductsBelongsToSellers_20161020.csv' # 'sku-seller.csv'
+    ProductsBelongsToSellers: { count: 27, date: "20161020", template:sourceMount+ 'ProductsBelongsToSellers_{{date}}.csv_{{characters}}', characters: true }
+
 }
 
 describe 'Import Relationships', () ->
     runtest = (importConfig, callback) ->
-        console.log("import" + importConfig.importer)
-        importer = require(importConfig.importer)(importConfig)
-        importer.import(importConfig.source, (error, results) ->
+        console.log("importer used: " + importConfig.importer)
+        console.log("from file: " + importConfig.source)
+
+        _importer = require(importConfig.importer)(importConfig)
+        _importer.import(importConfig.source, (error, results) ->
             if (error?)
                 console.log(error)
                 assert(false)
@@ -40,68 +41,35 @@ describe 'Import Relationships', () ->
             return
         )
         return
-
-    it 'wireup Products To Sellers', (callback) ->
-        importConfig = {
-            importer: '../source/edges/wireupProductsToSellers'
-            source: sourceFilenames['ProductsToSellers']
-            repo: repo
-        }
-        runtest(importConfig, (error, result) ->
-            callback(error, result)
-            return
-        )
-        return
-    it 'wireup Products To Warehouses', (callback) ->
-        importConfig = {
-            importer: '../source/edges/wireupProductsToWarehouses'
-            source: sourceFilenames['ProductsToWarehouses']
-            repo: repo
-        }
-        runtest(importConfig, (error, result) ->
-            callback(error, result)
-            return
-        )
-        return
-    it 'wireup Resuppliers To Warehouses', (callback) ->
-        importConfig = {
-            importer: '../source/edges/wireupResuppliersToWarehouses'
-            source: sourceFilenames['ResuppliersToWarehouses']
-            repo: repo
-        }
-        runtest(importConfig, (error, result) ->
-            callback(error, result)
-            return
-        )
-        return
-    it 'wireup Satellites To Regions', (callback) ->
-        importConfig = {
-            importer: '../source/edges/wireupSatellitesToRegions'
-            source: sourceFilenames['SatellitesToRegions']
-            repo: repo
-        }
-        runtest(importConfig, (error, result) ->
-            callback(error, result)
-            return
-        )
-        return
-# sips
-#    it 'wireup Sellers To Satellites', (callback) ->
-#        importer = {
-#            importer: '../source/edges/wireupSellersToSatellites'
-#            source: null
-#        }
-#        runtest(importer, (error, result) ->
-#            callback(error, result)
+#
+#    makeTest = (importConfig) ->
+#        return (callback) ->
+#            runtest(importConfig, (error, result) ->
+#                callback(error, result)
+#                return
+#            )
+#    it 'wires up edges', (done) ->
+#        wireups = []
+#        for importername,filename of sourceFilenames
+#            importConfig = {
+#                importer: '../source/edges/wireup'+importername
+#                source: filename
+#                repo: repo
+#            }
+#            wireups.push (makeTest(importConfig))
+#
+#        async.series(wireups, (error, result) ->
+#            assert(false) if error?
+#            done() if result?
 #            return
 #        )
 #        return
-#
-    it 'wireup Sellers To Warehouses', (callback) ->
+
+    it 'wireup Resuppliers Resupplies Warehouses', (callback) ->
         importConfig = {
-            importer: '../source/edges/wireupSellersToWarehouses'
-            source: sourceFilenames['SellersToWarehouses']
-            repo: repo
+            importer: '../source/edges/wireupResuppliersResuppliesWarehouses'
+            source: sourceFilenames['ResuppliersResuppliesWarehouses']
+            repo: new Neo4jRepostitory(repoConfig)
         }
         runtest(importConfig, (error, result) ->
             callback(error, result)
@@ -109,11 +77,71 @@ describe 'Import Relationships', () ->
         )
         return
 
-    it 'wireup Sellers To Regions', (callback) ->
+    it 'wireup Satellites Last Mile Regions', (callback) ->
         importConfig = {
-            importer: '../source/edges/wireupSellersToRegions'
+            importer: '../source/edges/wireupSatellitesLastMileRegions'
+            source: sourceFilenames['SatellitesLastMileRegions']
+            repo: new Neo4jRepostitory(repoConfig)
+        }
+        runtest(importConfig, (error, result) ->
+            callback(error, result)
+            return
+        )
+        return
+## sips
+    it 'wireup Sellers Sips To Warehouses', (callback) ->
+        importConfig = {
+            importer: '../source/edges/wireupSellersSipsToWarehouses'
+            source: sourceFilenames['SellersSipsToWarehouses']
+            repo: new Neo4jRepostitory(repoConfig)
+        }
+        runtest(importConfig, (error, result) ->
+            callback(error, result)
+            return
+        )
+        return
+## sweeps
+    it 'wireup Sellers Swept To Warehouses', (callback) ->
+        importConfig = {
+            importer: '../source/edges/wireupSellersSweptToWarehouses'
+            source: sourceFilenames['SellersSweptToWarehouses']
+            repo: new Neo4jRepostitory(repoConfig)
+        }
+        runtest(importConfig, (error, result) ->
+            callback(error, result)
+            return
+        )
+        return
+# Last Mile (Seller)
+    it 'wireup Sellers Last Mile Regions', (callback) ->
+        importConfig = {
+            importer: '../source/edges/wireupSellersLastMileRegions'
             source: null
-            repo: repo
+            repo: new Neo4jRepostitory(repoConfig)
+        }
+        runtest(importConfig, (error, result) ->
+            callback(error, result)
+            return
+        )
+        return
+#
+    it 'wireup Warehouses Flows Through Satellites', (callback) ->
+        importConfig = {
+            importer: '../source/edges/wireupWarehousesFlowsThroughSatellites'
+            source: sourceFilenames['WarehousesFlowsThroughSatellites']
+            repo: new Neo4jRepostitory(repoConfig)
+        }
+        runtest(importConfig, (error, result) ->
+            callback(error, result)
+            return
+        )
+        return
+#
+    it 'wireup Warehouses Last Mile Regions', (callback) ->
+        importConfig = {
+            importer: '../source/edges/wireupWarehousesLastMileRegions'
+            source: null
+            repo: new Neo4jRepostitory(repoConfig)
         }
         runtest(importConfig, (error, result) ->
             callback(error, result)
@@ -121,11 +149,11 @@ describe 'Import Relationships', () ->
         )
         return
 
-    it 'wireup Warehouses To Satellites', (callback) ->
+    it 'wireup Products Belongs To Sellers', (callback) ->
         importConfig = {
-            importer: '../source/edges/wireupWarehousesToSatellites'
-            source: sourceFilenames['WarehousesToSatellites']
-            repo: repo
+            importer: '../source/edges/wireupProductsBelongsToSellers'
+            source: sourceFilenames['ProductsBelongsToSellers']
+            repo: new Neo4jRepostitory(repoConfig)
         }
         runtest(importConfig, (error, result) ->
             callback(error, result)
@@ -133,11 +161,11 @@ describe 'Import Relationships', () ->
         )
         return
 
-    it 'wireup Warehouses To Regions', (callback) ->
+    it 'wireup Products Belongs To Warehouses', (callback) ->
         importConfig = {
-            importer: '../source/edges/wireupWarehousesToRegions'
-            source: sourceFilenames['WarehousesToRegions']
-            repo: repo
+            importer: '../source/edges/wireupProductsBelongsToWarehouses'
+            source: sourceFilenames['ProductsBelongsToWarehouses']
+            repo: new Neo4jRepostitory(repoConfig)
         }
         runtest(importConfig, (error, result) ->
             callback(error, result)
