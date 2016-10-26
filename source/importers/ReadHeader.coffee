@@ -29,6 +29,7 @@ class ReadHeader
                 body = ''
                 i = 0
                 response.on('data', (chunk) ->
+                    https.abort()
                     i++
                     body += chunk
                     result = removeWhitespace(body)
