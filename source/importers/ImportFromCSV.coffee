@@ -22,7 +22,7 @@ class ImporterFromCSV extends iImport
         repo = _repo
 
     setQuery = (source, cypher) ->
-        query = "USING PERIODIC COMMIT 100 "
+        query = "USING PERIODIC COMMIT 1000 "
         query += "LOAD CSV WITH HEADERS FROM '"+source+"' AS line "
         query += cypher
 

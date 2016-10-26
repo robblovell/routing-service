@@ -25,7 +25,7 @@ sourceFilenames = {
 
 describe 'Import Nodes', () ->
 
-    runtest = (importConfig, callback) ->
+    runtest = (importConfig, done) ->
         console.log("import"+importConfig.nodetype)
 
         importer = require(importConfig.importer)(importConfig)
@@ -34,7 +34,7 @@ describe 'Import Nodes', () ->
             if (error?)
                 console.log(error)
                 assert(false)
-                callback(error, result);
+                done(error, result);
                 return
             # do a spot check:
             repo.get({id: importConfig.spotid, type: importConfig.nodetype}, (error, result) ->
@@ -45,14 +45,14 @@ describe 'Import Nodes', () ->
                 data = result[0]
                 data.id.should.be.equal(importConfig.spotid)
                 console.log("completed: "+importConfig.nodetype)
-                callback(error, result)
+                done(error, result)
                 return
             )
             return
         )
         return
 
-    it 'Imports satellites to Neo4j', (callback) ->
+    it 'Imports satellites to Neo4j', (done) ->
         importConfig = {
             importer: '../source/nodes/importSatellites'
             source: sourceFilenames['Satellites']
@@ -61,12 +61,12 @@ describe 'Import Nodes', () ->
             repo: repo
         }
         runtest(importConfig, (error, result) ->
-            callback(error, result)
+            done(error, result)
             return
         )
         return
 
-    it 'Imports warehouses to Neo4j', (callback) ->
+    it 'Imports warehouses to Neo4j', (done) ->
         importConfig = {
             importer: '../source/nodes/importWarehouses'
             source: sourceFilenames['Warehouses']
@@ -75,12 +75,12 @@ describe 'Import Nodes', () ->
             repo: repo
         }
         runtest(importConfig, (error, result) ->
-            callback(error, result)
+            done(error, result)
             return
         )
         return
 
-    it 'Imports sellers to Neo4j', (callback) ->
+    it 'Imports sellers to Neo4j', (done) ->
         importConfig = {
             importer: '../source/nodes/importSellers'
             source: sourceFilenames['Sellers']
@@ -89,12 +89,12 @@ describe 'Import Nodes', () ->
             repo: repo
         }
         runtest(importConfig, (error, result) ->
-            callback(error, result)
+            done(error, result)
             return
         )
         return
 
-    it 'Imports regions to Neo4j', (callback) ->
+    it 'Imports regions to Neo4j', (done) ->
         importConfig = {
             importer: '../source/nodes/importRegions'
             source: sourceFilenames['Regions']
@@ -103,12 +103,12 @@ describe 'Import Nodes', () ->
             repo: repo
         }
         runtest(importConfig, (error, result) ->
-            callback(error, result)
+            done(error, result)
             return
         )
         return
 
-    it 'Imports products to Neo4j', (callback) ->
+    it 'Imports products to Neo4j', (done) ->
         @timeout(300000)
 
         importConfig = {
@@ -119,7 +119,7 @@ describe 'Import Nodes', () ->
             repo: repo
         }
         runtest(importConfig, (error, result) ->
-            callback(error, result)
+            done(error, result)
             return
         )
         return
