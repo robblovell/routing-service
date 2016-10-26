@@ -24,6 +24,7 @@ sourceFilenames = {
 }
 
 describe 'Import Nodes', () ->
+    @timeout(10*60*1000) # 10 minutes
 
     runtest = (importConfig, done) ->
         console.log("import"+importConfig.nodetype)
