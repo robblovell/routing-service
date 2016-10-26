@@ -11,20 +11,16 @@ config = require('../config/configuration')
 repoConfig = {url: config.neo4jurl}
 repo = new Neo4jRepostitory(repoConfig)
 
-sourceMount = process.env.MOUNT_POINT ? 'file://'+__dirname+'/../data/'
-#sourceMount = 'https://s3-us-west-1.amazonaws.com/bd-ne04j/'
+sourceMount = config.mountPoint
 
 sourceFilenames = {
-#    Products: [sourceMount+ 'Products_1007_01.csv', sourceMount+ 'sku_upload_1007_02.csv', sourceMount+ 'sku_upload_1007_03.csv']
-    Products: { count: 2, date: "20161007", template:sourceMount+ 'Products_{{date}}_{{number}}.csv'  }
-#    Satellites: { count: 3, date: "20161007" }
-#    Warehouses: { count: 3, date: "20161007" }
-#    Sellers: { count: 3, date: "20161007" }
-#    Regions: { count: 3, date: "20161007" }
-    Satellites: sourceMount+ 'Satellites.csv'
-    Warehouses: sourceMount+ 'Warehouses.csv' # 'BDWP.csv'
-    Sellers: sourceMount+ 'Sellers.csv'
-    Regions: sourceMount + 'Regions.csv'
+    Satellites: sourceMount+ 'Satellites_20161020.csv'
+    Warehouses: sourceMount+ 'Warehouses_20161020.csv' # 'BDWP.csv'
+    Sellers: sourceMount+ 'Sellers_20161020.csv'
+    Products: sourceMount+ 'Products_20161020.csv'
+#    Products: { count: 22, date: "20161020", template:sourceMount+ 'Products_{{date}}.csv_{{characters}}', characters: true }
+    Regions: sourceMount + 'Regions_20161020.csv'
+#    Regions: { count: 57, date: "20161020", template:sourceMount+ 'Regions_{{date}}.csv_{{characters}}', characters: true }
 }
 
 describe 'Import Nodes', () ->
@@ -56,20 +52,6 @@ describe 'Import Nodes', () ->
         )
         return
 
-    it 'Imports products to Neo4j', (callback) ->
-        importConfig = {
-            importer: '../source/nodes/importProducts'
-            source: sourceFilenames['Products']
-            spotid: '15000404'
-            nodetype: 'Product'
-            repo: repo
-        }
-        runtest(importConfig, (error, result) ->
-            callback(error, result)
-            return
-        )
-        return
-
     it 'Imports satellites to Neo4j', (callback) ->
         importConfig = {
             importer: '../source/nodes/importSatellites'
@@ -88,7 +70,7 @@ describe 'Import Nodes', () ->
         importConfig = {
             importer: '../source/nodes/importWarehouses'
             source: sourceFilenames['Warehouses']
-            spotid: '2000507'
+            spotid: '69392'
             nodetype: 'Warehouse'
             repo: repo
         }
@@ -102,7 +84,7 @@ describe 'Import Nodes', () ->
         importConfig = {
             importer: '../source/nodes/importSellers'
             source: sourceFilenames['Sellers']
-            spotid: '2000061'
+            spotid: '70554'
             nodetype: 'Seller'
             repo: repo
         }
@@ -125,6 +107,23 @@ describe 'Import Nodes', () ->
             return
         )
         return
+
+    it 'Imports products to Neo4j', (callback) ->
+        @timeout(300000)
+
+        importConfig = {
+            importer: '../source/nodes/importProducts'
+            source: sourceFilenames['Products']
+            spotid: '15000404'
+            nodetype: 'Product'
+            repo: repo
+        }
+        runtest(importConfig, (error, result) ->
+            callback(error, result)
+            return
+        )
+        return
+
 #
 #    it 'Imports global region to Neo4j', (callback) ->
 #        importer = {

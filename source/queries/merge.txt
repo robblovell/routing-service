@@ -1,0 +1,33 @@
+
+MERGE (a:Warehouse { WarehouseId:'128081' })-[e:RESUPPLIES { sourceId:'128081', destinationId:'69392' }]->
+(b:Warehouse { WarehouseId:'69392' })  
+ON CREATE SET e.created=timestamp(), e.sourceId='128081', e.destinationId='69392',e.sourceKind='Warehouse', 
+e.destinationKind='Warehouse',e.ResupplierId='128081',e.WarehouseId='69392',e.SellerCost='10',e.BuildDirectCost='10',
+e.CustomerCost='10',e.LaneLeadTime='10' 
+ON MATCH SET e.updated=timestamp(),e.sourceId='128081', e.destinationId='69392',e.sourceKind='Warehouse', 
+e.destinationKind='Warehouse',e.ResupplierId='128081',e.WarehouseId='69392',e.SellerCost='10',e.BuildDirectCost='10',
+e.CustomerCost='10',e.LaneLeadTime='10'
+
+
+
+MATCH (a:Warehouse { WarehouseId:'128081' }),
+(b:Warehouse { WarehouseId:'69392' }) 
+MERGE (a)-[e:RESUPPLIES { sourceId:'128081', destinationId:'69392' }]->(b)
+ON CREATE SET e.created=timestamp(), e.sourceId='128081', e.destinationId='69392',e.sourceKind='Warehouse', 
+e.destinationKind='Warehouse',e.ResupplierId='128081',e.WarehouseId='69392',e.SellerCost='10',e.BuildDirectCost='10',
+e.CustomerCost='10',e.LaneLeadTime='10' 
+ON MATCH SET e.updated=timestamp(),e.sourceId='128081', e.destinationId='69392',e.sourceKind='Warehouse', 
+e.destinationKind='Warehouse',e.ResupplierId='128081',e.WarehouseId='69392',e.SellerCost='10',e.BuildDirectCost='10',
+e.CustomerCost='10',e.LaneLeadTime='10'
+
+
+MATCH (a:Seller { id:line.SellerId }),(b:Warehouse { id:line.WarehouseId })
+MERGE (a)-[e:SIPS_TO { sourceId:line.SellerId, destinationId:line.WarehouseId }]->(b)
+ON CREATE SET e.created=timestamp(), e.sourceId=line.SellerId, e.destinationId=line.WarehouseId,
+e.sourceKind='Seller', e.destinationKind='Warehouse',e.SellerId=line.SellerId,e.WarehouseId=line.WarehouseId,
+e.SellerCost=line.SellerCost,e.BuildDirectCost=line.BuildDirectCost,e.CustomerCost=line.CustomerCost,
+e.LaneLeadTime=line.LaneLeadTime
+ON MATCH SET e.updated=timestamp(), e.sourceId=line.SellerId, e.destinationId=line.WarehouseId,
+e.sourceKind='Seller', e.destinationKind='Warehouse',e.SellerId=line.SellerId,e.WarehouseId=line.WarehouseId,
+e.SellerCost=line.SellerCost,e.BuildDirectCost=line.BuildDirectCost,e.CustomerCost=line.CustomerCost,
+e.LaneLeadTime=line.LaneLeadTime

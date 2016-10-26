@@ -25,8 +25,13 @@ Neo4jMakeUpsert = {
         sourceNodeIdName = connections.originid ? "id"
         destinationNodeIdName = connections.destinationid ? "id"
 
-        properties = "e.sourceId=line.{{header0}}, e.destinationId=line.{{header1}},"
-        properties += "e.sourceKind='"+sourceNodeType+"', e.destinationKind='"+destinationNodeType+"'"
+        sourceMatchNodeType = connections.originmatchtype ? sourceNodeType
+        destinationMatchNodeType = connections.destinationmatchtype ? destinationNodeType
+        sourceMatchIdName = connections.originmatchidname ? sourceNodeIdName
+        destinationIdName = connections.destinationmatchidname ? destinationNodeIdName
+
+        properties = "e.sourceId=line.{{header0}},e.destinationId=line.{{header1}},"
+        properties += "e.sourceKind='"+sourceNodeType+"',e.destinationKind='"+destinationNodeType+"'"
         for field,i in edgeFields
             properties += ",e." + field + "=line.{{header" + i + "}}"
 
@@ -34,10 +39,16 @@ Neo4jMakeUpsert = {
         update = "e.updated=timestamp(), " + properties
 
         return "MATCH " +
-                "(a:" + sourceNodeType + " { "+sourceNodeIdName+":line.{{header0}} }), " +
-                "(b:" + destinationNodeType + " { "+destinationNodeIdName+":line.{{header1}} }) " +
+                "(a:" + sourceMatchNodeType + " { "+sourceMatchIdName+":line.{{header0}} })"+
+                ","+
+#                "-[:" +edgeType+" { sourceId:line.{{header0}}, destinationId:line.{{header1}} }]->"+
+                "(b:" + destinationMatchNodeType + " { "+destinationIdName+":line.{{header1}} }) " +
                 "MERGE " +
-                "(a)-[e:" + edgeType + " { sourceId:line.{{header0}}, destinationId:line.{{header1}} }]->(b) " +
+                "(a)-"+
+                "[e:" + edgeType +
+                " { sourceId:line.{{header0}}, destinationId:line.{{header1}} }"+
+                "]"+
+                "->(b)" +
                 " ON CREATE SET " + create +
                 " ON MATCH SET " + update
 }

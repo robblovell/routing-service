@@ -15,6 +15,7 @@ class ImporterCSV extends iImport
     destination = null
     originid = null
     destinationid = null
+    config = null
     constructor: (@config={}, _reader=ReadHeader) ->
 #        console.log("config: "+JSON.stringify(@config))
         importer = new ImportFromCSV(@config)
@@ -25,6 +26,7 @@ class ImporterCSV extends iImport
         destination = @config.destination if @config.destination
         originid = @config.originid if @config.originid
         destinationid = @config.destinationid if @config.destinationid
+        config = @config
         return
 
     typeIsArray = Array.isArray || ( value ) -> return {}.toString.call( value ) is '[object Array]'
@@ -32,9 +34,18 @@ class ImporterCSV extends iImport
     renderFilenames = (sources) ->
         imports = []
         template = combyne(sources.template)
-        for i in [0...sources.count]
-            data = {number: ("0000"+i).slice(-4), date: sources.date}
-            imports.push(template.render(data))
+        if sources.characters
+            for i in [0...sources.count] # assumes always less than 26.
+                d0 = String.fromCharCode(97 + i%26)
+                d1 = if i < 26 then 'a' else String.fromCharCode(97 + (i/26)%26)
+                d2 = if i < 26*2 then 'a' else String.fromCharCode(97 + (i/(26*26))%26)
+                d3 = if i < 26*3 then 'a' else String.fromCharCode(97 + (i/(26*26*26))%26)
+                data = {characters: d3+d2+d1+d0, date: sources.date}
+                imports.push(template.render(data))
+        else
+            for i in [0...sources.count]
+                data = {number: ("0000"+i).slice(-4), date: sources.date}
+                imports.push(template.render(data))
         return imports
 
     # add all to key value store.\
@@ -65,13 +76,7 @@ class ImporterCSV extends iImport
     makeCypher = (fields) ->
         [templateFields, templateData] = splitResults(fields)
         if origin? and destination?
-            connections = {
-                origin: origin
-                destination: destination
-                originid: originid
-                destinationid: destinationid
-            }
-            upsertStatement = Neo4jMakeUpsert.makeCSVEdgeUpsert(connections, type, templateFields)
+            upsertStatement = Neo4jMakeUpsert.makeCSVEdgeUpsert(config, type, templateFields)
         else
             upsertStatement = Neo4jMakeUpsert.makeCSVUpsert(type, templateFields)
         cypherTemplate = combyne(upsertStatement)
@@ -83,9 +88,12 @@ class ImporterCSV extends iImport
             reader = new Reader(source) # file that will be imported.
             # get the header names, these are the values that need to be plugged into the template.
 
+            console.log("TIME --------------------->: "+new Date().toLocaleString())
+            console.log("Reading file: "+source)
             reader.read((error, result) =>
                 # result is a comma separated string:
                 # holes in the template are labeled: header #
+                console.log("Importing file: "+source)
 
                 importer.setCypher (makeCypher(result))
                 importer.import(source, callback)

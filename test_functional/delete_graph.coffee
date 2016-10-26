@@ -12,6 +12,7 @@ describe 'Delete Graph', () ->
         console.log("Delete edges")
 
         repo.run("MATCH ()-[r]->() DELETE r", {}, (error, result) ->
+            console.log("error deleting edges:"+error) if error?
             console.log("Delete nodes")
 
             repo.run("MATCH (n) delete n", {}, (error, result) ->

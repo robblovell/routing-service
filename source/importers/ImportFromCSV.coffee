@@ -16,12 +16,13 @@ class ImporterFromCSV extends iImport
 
     setCypher: (_cypher) ->
         cypher = _cypher
+        return
 
     setRepo: (_repo) ->
         repo = _repo
 
     setQuery = (source, cypher) ->
-        query = "USING PERIODIC COMMIT 1000 "
+        query = "USING PERIODIC COMMIT 100 "
         query += "LOAD CSV WITH HEADERS FROM '"+source+"' AS line "
         query += cypher
 
@@ -33,9 +34,10 @@ class ImporterFromCSV extends iImport
 
         if (source?)
             query = setQuery(source, cypher)
+            console.log("QUERY: "+query)
             repo.run(query, {}, (error, result) =>
                 if (error?)
-                    console.log(""+JSON.stringify(error))
+                    console.log("Error: "+JSON.stringify(error))
                     callback(error, null)
                 else
                     callback(null, result)
