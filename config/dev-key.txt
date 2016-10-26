@@ -1,1 +1,1 @@
-bolt://freightengine_dev:bOfUDCSGYsmMxfNwIsMC@db-pznqlogzz2dkqiyplaiy.graphenedb.com:24786
+bolt://freightengine_dev:bOfUDCSGYsmMxfNwIsMC@db-pznqlogzz2dkqiyplaiy.graphenedb.com:24786/db/data/
