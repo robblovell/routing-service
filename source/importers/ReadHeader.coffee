@@ -25,11 +25,11 @@ class ReadHeader
                     console.log(body);
             )
 
-            https.get(@url).on('response', (response) ->
+            httpsCall = https.get(@url).on('response', (response) ->
                 body = ''
                 i = 0
                 response.on('data', (chunk) ->
-                    https.abort()
+                    httpsCall.abort()
                     i++
                     body += chunk
                     result = removeWhitespace(body)
