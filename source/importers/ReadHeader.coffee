@@ -1,6 +1,4 @@
 fs = require('fs')
-request = require('request')
-#http = require('http');
 https = require('https');
 sutil = require('line-stream-util')
 
@@ -19,26 +17,17 @@ class ReadHeader
         return data
     read: (callback) ->
         if (@url.includes("https"))
-            console.log("https")
-            request(@url, (error, response, body) ->
-                if (!error && response.statusCode == 200)
-                    console.log(body);
-            )
-
-            https.get(@url).on('response', (response) ->
+            httpsCall = https.get(@url).on('response', (response) ->
                 body = ''
                 i = 0
                 response.on('data', (chunk) ->
+                    httpsCall.abort()
                     i++
                     body += chunk
                     result = removeWhitespace(body)
-
-                    console.log('BODY Part: ' +result)
                     callback(null, result)
                 )
                 response.on('end', () ->
-                    console.log(body)
-                    console.log('Finished')
                 )
             )
             return

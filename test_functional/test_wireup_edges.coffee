@@ -27,6 +27,8 @@ sourceFilenames = {
 }
 
 describe 'Import Relationships', () ->
+    @timeout(40*60*1000) # 40 minutes
+
     runtest = (importConfig, callback) ->
         console.log("importer used: " + importConfig.importer)
         console.log("from file: " + importConfig.source)

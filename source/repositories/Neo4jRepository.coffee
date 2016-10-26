@@ -47,7 +47,7 @@ class Neo4jRepository extends iGraphRepository
                 return
             )
             .catch((error) =>
-                console.log("Error:"+error)
+                console.log("Error:"+JSON.stringify(error))
                 session.close()
                 callback(error, null)
                 return

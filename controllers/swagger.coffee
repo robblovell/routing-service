@@ -6,7 +6,18 @@ module.exports = (app, resources, spec='/spec', config) ->
     _.each(resources, (resource) ->
 
         swagger = resource.swagger()
-
+        if (swagger.paths["/edgetypes/{edgesType}/edges/{edgesId}"]?)
+            idHelpString = 'The id of the edge that will be updated. The id is a combination of source and destination node ids of the form: sourceId_destinationId'
+            typeHelpString = "The neo4j 'Relationship Type' of the edge/relationship"
+            swagger.paths["/edgetypes/{edgesType}/edges/{edgesId}"].put.parameters[0].description=idHelpString
+            swagger.paths["/edgetypes/{edgesType}/edges/{edgesId}"].put.parameters[2].description=typeHelpString
+            swagger.paths["/edgetypes/{edgesType}/edges/{edgesId}"].get.parameters[0].description=idHelpString
+            swagger.paths["/edgetypes/{edgesType}/edges/{edgesId}"].get.parameters[1].description=typeHelpString
+            swagger.paths["/edgetypes/{edgesType}/edges/{edgesId}"].delete.parameters[0].description=idHelpString
+            swagger.paths["/edgetypes/{edgesType}/edges/{edgesId}"].delete.parameters[1].description=typeHelpString
+        if (swagger.paths["/edgetypes/{edgesType}/edges"]?)
+            swagger.paths["/edgetypes/{edgesType}/edges"].post.parameters[1].description=typeHelpString
+            swagger.paths["/edgetypes/{edgesType}/edges"].get.parameters[5].description=typeHelpString
         paths = _.assign(paths, swagger.paths)
         definitions = _.assign(definitions, swagger.definitions)
     )

@@ -29,7 +29,8 @@ class ImporterCSV extends iImport
         config = @config
         return
 
-    typeIsArray = Array.isArray || ( value ) -> return {}.toString.call( value ) is '[object Array]'
+    typeIsArray = require('../utils/typeIsArray')
+#    Array.isArray || ( value ) -> return {}.toString.call( value ) is '[object Array]'
 
     renderFilenames = (sources) ->
         imports = []
@@ -88,15 +89,17 @@ class ImporterCSV extends iImport
             reader = new Reader(source) # file that will be imported.
             # get the header names, these are the values that need to be plugged into the template.
 
+            initiated = false
             console.log("TIME --------------------->: "+new Date().toLocaleString())
             console.log("Reading file: "+source)
             reader.read((error, result) =>
                 # result is a comma separated string:
                 # holes in the template are labeled: header #
-                console.log("Importing file: "+source)
-
-                importer.setCypher (makeCypher(result))
-                importer.import(source, callback)
+                if (!initiated)
+                    initiated = true
+                    console.log("Importing file: "+source)
+                    importer.setCypher (makeCypher(result))
+                    importer.import(source, callback)
                 return
             )
 

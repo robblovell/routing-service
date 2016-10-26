@@ -4,9 +4,9 @@ Schema = require('mongoose').Schema
 EdgeSchema = new Schema(
     {
         sourceKind: String
-        sourceId: String
+#        sourceId: String
         destinationKind: String
-        destinationId: String
+#        destinationId: String
         properties: Schema.Types.Mixed
     },
     { strict: false, _id: false }

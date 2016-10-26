@@ -22,7 +22,7 @@ class ImporterFromCSV extends iImport
         repo = _repo
 
     setQuery = (source, cypher) ->
-        query = "USING PERIODIC COMMIT 100 "
+        query = "USING PERIODIC COMMIT 1000 "
         query += "LOAD CSV WITH HEADERS FROM '"+source+"' AS line "
         query += cypher
 
@@ -30,7 +30,7 @@ class ImporterFromCSV extends iImport
 
     # add all to key value store.
     import: (source, callback) =>
-        console.log("the source is:"+source)
+#        console.log("the source is:"+source)
 
         if (source?)
             query = setQuery(source, cypher)

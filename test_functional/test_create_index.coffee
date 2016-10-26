@@ -10,6 +10,7 @@ repo = new Neo4jRepostitory(repoConfig)
 
 describe 'Create Indexes', () ->
     nodes = ["Product", "Region", "Warehouse", "Seller", "Satellite"]
+    @timeout(5*60*1000) # 5 minutes
 
     makeNodeIndexCreator = (node) ->
         return (done) ->
