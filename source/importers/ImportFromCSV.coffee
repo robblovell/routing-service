@@ -30,7 +30,7 @@ class ImporterFromCSV extends iImport
 
     # add all to key value store.
     import: (source, callback) =>
-        console.log("the source is:"+source)
+#        console.log("the source is:"+source)
 
         if (source?)
             query = setQuery(source, cypher)
