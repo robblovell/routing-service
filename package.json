@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www.js",
     "test": "mocha test/**/*.js",
-    "import": "mocha test_functional/**/*.js",
+    "import": "mocha test_functional",
     "build": "gulp build"
   },
   "dependencies": {
