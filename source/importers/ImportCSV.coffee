@@ -29,7 +29,8 @@ class ImporterCSV extends iImport
         config = @config
         return
 
-    typeIsArray = Array.isArray || ( value ) -> return {}.toString.call( value ) is '[object Array]'
+    typeIsArray = require('../utils/typeIsArray')
+#    Array.isArray || ( value ) -> return {}.toString.call( value ) is '[object Array]'
 
     renderFilenames = (sources) ->
         imports = []
