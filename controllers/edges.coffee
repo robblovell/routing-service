@@ -22,7 +22,14 @@ module.exports = (app, model) ->
     })
     .put({
         before: (req, res, next) -> # todo: move this code snippit out to a separate class and unit test it.
-            req.body.properties.id = req.params.edgesId
+            body = req.body
+            ids = req.params.edgesId.split('_')
+            if (!body.sourceId || !body.destinationId)
+                if (!body.sourceId and ids.length > 0)
+                    body.sourceId = ids[0]
+                if (!body.destinationId and ids.length > 1)
+                    body.destinationId = ids[1]
+
             # TODO:: same code as post?
             req.body.kind = req.params.edgesType
             repo.setEdge(req.body, req.body.properties, (error, result) ->

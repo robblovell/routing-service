@@ -31,7 +31,8 @@ Neo4jMakeUpsert = {
         destinationIdName = connections.destinationmatchidname ? destinationNodeIdName
 
         properties = "e.sourceId=line.{{header0}},e.destinationId=line.{{header1}},"
-        properties += "e.sourceKind='"+sourceNodeType+"',e.destinationKind='"+destinationNodeType+"'"
+        properties += "e.sourceKind='"+sourceNodeType+"',e.destinationKind='"+destinationNodeType+"',"
+        properties += "e.id=(line.{{header0}}+'_'+line.{{header1}})"
         for field,i in edgeFields
             properties += ",e." + field + "=line.{{header" + i + "}}"
 

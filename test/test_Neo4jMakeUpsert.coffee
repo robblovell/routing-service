@@ -27,14 +27,7 @@ n.isSuperdcEligible=line.{{header6}},n.SipsEligible=line.{{header7}}")
             destination: "node2"
         }
         upsertStatement = Neo4jMakeUpsert.makeCSVEdgeUpsert(connections, "EDGE", nodeFields)
-        upsertStatement.should.be.equal("MATCH (a:node1 { id:line.{{header0}} }), (b:node2 { id:line.{{header1}} }) \
-MERGE (a)-[e:EDGE { idOrigin:line.{{header0}}, idTarget:line.{{header1}} }]->(b)  \
-ON CREATE SET e.created=timestamp(), e.idOrigin=line.{{header0}}, e.idTarget=line.{{header1}},\
-e.origin='node1', e.target='node2',\
-e.Node1Id=line.{{header0}},e.Node2Id=line.{{header1}},e.Field1=line.{{header2}},e.Field2=line.{{header3}} \
-ON MATCH SET e.updated=timestamp(), e.idOrigin=line.{{header0}}, e.idTarget=line.{{header1}},\
-e.origin='node1', e.target='node2',e.Node1Id=line.{{header0}},\
-e.Node2Id=line.{{header1}},e.Field1=line.{{header2}},e.Field2=line.{{header3}}")
+        upsertStatement.should.be.equal("MATCH (a:node1 { id:line.{{header0}} }),(b:node2 { id:line.{{header1}} }) MERGE (a)-[e:EDGE { sourceId:line.{{header0}}, destinationId:line.{{header1}} }]->(b) ON CREATE SET e.created=timestamp(), e.sourceId=line.{{header0}},e.destinationId=line.{{header1}},e.sourceKind='node1',e.destinationKind='node2',e.id=line.{{header0}}_line.{{header1}},e.Node1Id=line.{{header0}},e.Node2Id=line.{{header1}},e.Field1=line.{{header2}},e.Field2=line.{{header3}} ON MATCH SET e.updated=timestamp(), e.sourceId=line.{{header0}},e.destinationId=line.{{header1}},e.sourceKind='node1',e.destinationKind='node2',e.id=line.{{header0}}_line.{{header1}},e.Node1Id=line.{{header0}},e.Node2Id=line.{{header1}},e.Field1=line.{{header2}},e.Field2=line.{{header3}}")
 
         return
 
@@ -48,13 +41,6 @@ e.Node2Id=line.{{header1}},e.Field1=line.{{header2}},e.Field2=line.{{header3}}")
             destinationid: "node_id"
         }
         upsertStatement = Neo4jMakeUpsert.makeCSVEdgeUpsert(connections, "EDGE", nodeFields)
-        upsertStatement.should.be.equal("MATCH (a:node1 { nodeid:line.{{header0}} }), (b:node1 { node_id:line.{{header1}} }) \
-MERGE (a)-[e:EDGE { idOrigin:line.{{header0}}, idTarget:line.{{header1}} }]->(b)  \
-ON CREATE SET e.created=timestamp(), e.idOrigin=line.{{header0}}, \
-e.idTarget=line.{{header1}},e.origin='node1', e.target='node1',\
-e.Node1Id=line.{{header0}},e.Node2Id=line.{{header1}},e.Field1=line.{{header2}},e.Field2=line.{{header3}} \
-ON MATCH SET e.updated=timestamp(), e.idOrigin=line.{{header0}}, e.idTarget=line.{{header1}},\
-e.origin='node1', e.target='node1',\
-e.Node1Id=line.{{header0}},e.Node2Id=line.{{header1}},e.Field1=line.{{header2}},e.Field2=line.{{header3}}")
+        upsertStatement.should.be.equal("MATCH (a:node1 { nodeid:line.{{header0}} }),(b:node1 { node_id:line.{{header1}} }) MERGE (a)-[e:EDGE { sourceId:line.{{header0}}, destinationId:line.{{header1}} }]->(b) ON CREATE SET e.created=timestamp(), e.sourceId=line.{{header0}},e.destinationId=line.{{header1}},e.sourceKind='node1',e.destinationKind='node1',e.id=line.{{header0}}_line.{{header1}},e.Node1Id=line.{{header0}},e.Node2Id=line.{{header1}},e.Field1=line.{{header2}},e.Field2=line.{{header3}} ON MATCH SET e.updated=timestamp(), e.sourceId=line.{{header0}},e.destinationId=line.{{header1}},e.sourceKind='node1',e.destinationKind='node1',e.id=line.{{header0}}_line.{{header1}},e.Node1Id=line.{{header0}},e.Node2Id=line.{{header1}},e.Field1=line.{{header2}},e.Field2=line.{{header3}}")
 
         return

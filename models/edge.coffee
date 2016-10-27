@@ -3,6 +3,7 @@ Schema = require('mongoose').Schema
 
 EdgeSchema = new Schema(
     {
+        id: String
         sourceKind: String
 #        sourceId: String
         destinationKind: String

@@ -4,9 +4,9 @@ node_env = if process.env.NODE_ENV? then process.env.NODE_ENV.toLowerCase() else
 ports = { local: '3000', test: '3000', dev: '8091', ci: '7091', qa: '6091', pe: '5091', production: '4091' }
 
 if node_env is 'production'
-    host = 'routingservice.builddirect.com'
+    host = 'routing.builddirect.com'
 else
-    host = 'routingservice.'+node_env+'.builddirect.com'
+    host = 'routing.'+node_env+'.builddirect.com'
 
 if node_env is 'local'
     config =
