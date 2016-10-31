@@ -19,11 +19,11 @@ if node_env is 'local'
 
 else if node_env is 'test'
     config =
-        neo4jurl: process.env.NEO4J_URL || "bolt://frieghtengine_candidate:D9ots4vokheLnKg0AeUj@db-wdh1sr8hxxymoodzlpou.graphenedb.com:24786"
+        neo4jurl: process.env.NEO4J_URL || "bolt://freightengine_candidate:oH0PicFqk6DYfJVW05Db@db-5bxcsjneuc9dpli9hpdx.graphenedb.com:24786"
         port: process.env.EXTERNAL_PORT || '3000'
         host: process.env.HOST || 'localhost'
         scheme: process.env.SCHEME || 'http'
-        mountPoint: process.env.MOUNT_POINT || 'https://s3-us-west-1.amazonaws.com/bd-freightengine-candidate/'
+        mountPoint: process.env.MOUNT_POINT || 'https://s3.amazonaws.com/bd-freightengine-candidate/'
 
 else # node_env is not 'local' or 'test'
     config =
