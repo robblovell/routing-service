@@ -1,7 +1,7 @@
-SellerId,WarehouseId,SellerCost,BuildDirectCost,CustomerCost,LaneLeadTime,isSip,isSweep,isResupply
-70525,69400,50,200,0,1,1,0,0
-97716,69400,50,200,0,1,1,0,0
-147729,69400,50,180,0,1,1,0,0
-94231,69394,50,400,0,1,1,0,0
-108884,69394,50,250,0,1,1,0,0
-148170,69394,50,250,0,1,1,0,0
+SellerId,WarehouseId,SellerCost,BuildDirectCost,CustomerCost,LaneLeadTime,isSip,isSweep
+70525,69400,50,200,0,1,1,0
+97716,69400,50,200,0,1,1,0
+147729,69400,50,180,0,1,1,0
+94231,69394,50,400,0,1,1,0
+108884,69394,50,250,0,1,1,0
+148170,69394,50,250,0,1,1,0

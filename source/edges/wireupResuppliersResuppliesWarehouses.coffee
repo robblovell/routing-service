@@ -1,8 +1,7 @@
 Importer = require('./../importers/ImportCSV')
 
 module.exports = (config) ->
-#    config.type = "RESUPPLIES"
-    config.type = "TRANSFERS"
+    config.type = "RESUPPLIES"
     config.origin = "Warehouse"
     config.originid = "ResupplierId"
     config.originmatchidname = "WarehouseId"
