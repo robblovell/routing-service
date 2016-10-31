@@ -58,7 +58,7 @@ describe 'Import Nodes', () ->
             importer: '../source/nodes/importSatellites'
             source: sourceFilenames['Satellites']
             spotid: '2212'
-            nodetype: 'Satellite'
+            nodetype: 'Warehouse'
             repo: repo
         }
         runtest(importConfig, (error, result) ->

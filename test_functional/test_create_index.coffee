@@ -9,7 +9,7 @@ repoConfig = {url: config.neo4jurl}
 repo = new Neo4jRepostitory(repoConfig)
 
 describe 'Create Indexes', () ->
-    nodes = ["Product", "Region", "Warehouse", "Satellite"]
+    nodes = ["Product", "Region", "Warehouse"]
     @timeout(5*60*1000) # 5 minutes
 
     makeNodeIndexCreator = (node) ->
@@ -30,7 +30,26 @@ describe 'Create Indexes', () ->
         async.series(commands, (error, result) ->
             done()
         )
+    indexes = { Warehouse: ["Resupplier", "Satellite", "Seller"]}
 
+    makeNodeIdCreator = (node,name) ->
+        return (done) ->
+            repo.pipeline()
+
+            repo.run("CREATE INDEX ON :"+node+"("+name+"Id)", {})
+            repo.exec((error, result) ->
+                done()
+            )
+    it 'Creates id Node Id Indexes', (done) ->
+        commands = []
+        for node in nodes
+            if indexes[node]? and indexes[node].length > 0
+                for name in indexes[node]
+                    commands.push(makeNodeIdCreator(node, name))
+
+        async.series(commands, (error, result) ->
+            done()
+        )
 #    edges = ["BELONGS_TO", "FLOWS_THROUGH", "SWEPT_TO", "SIPS_TO", "DELIVERS_TO", "RESUPPLIES"]
 #
 #    makeEdgeIndexCreator = (edge) ->

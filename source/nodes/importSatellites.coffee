@@ -1,6 +1,7 @@
 Importer = require('./../importers/ImportCSV')
 
 module.exports = (config) ->
-    config.type = "Satellite"
+    config.type = "Warehouse"
+    config.fieldMap = {SatelliteId: "WarehouseId"}
     return new Importer(config)
 
