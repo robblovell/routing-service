@@ -76,9 +76,7 @@ class ImporterCSV extends iImport
             data[key] = value
         return [fields, data]
     remapFields = (templateFields, fieldMap) ->
-        for v,i in templateFields
-            if fieldMap[v]
-                templateFields[
+
         reutrn templateFields
 
     makeCypher = (fields) ->
