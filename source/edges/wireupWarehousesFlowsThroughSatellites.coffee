@@ -17,7 +17,8 @@
 Importer = require('./../importers/ImportCSV')
 
 module.exports = (config) ->
-    config.type = "FLOWS_THROUGH"
+#    config.type = "FLOWS_THROUGH"
+    config.type = "TRANSFERS"
     config.origin = "Warehouse"
     config.destination = "Satellite"
     return new Importer(config)

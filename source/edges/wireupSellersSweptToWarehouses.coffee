@@ -16,7 +16,8 @@
 Importer = require('./../importers/ImportCSV')
 
 module.exports = (config) ->
-    config.type = "SWEPT_TO"
+#    config.type = "SWEPT_TO"
+    config.type = "TRANSFERS"
     config.origin = "Warehouse"
     config.originid = "SellerId"
     config.originmatchidname = "WarehouseId"
