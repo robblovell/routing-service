@@ -76,14 +76,16 @@ class ImporterCSV extends iImport
             data[key] = value
         return [fields, data]
     remapFields = (templateFields, fieldMap) ->
-
-        reutrn templateFields
+        for v,i in templateFields
+            if fieldMap[v]
+                templateFields[i] = fieldMap[v]
+        return templateFields
 
     makeCypher = (fields) ->
         [templateFields, templateData] = splitResults(fields)
         # map field names if necessary
-        if config.fieldMap?
-            remapFields(templateFields, fieldMap)
+        if fieldMap?
+            templateFields = remapFields(templateFields, fieldMap)
 
         if origin? and destination?
             upsertStatement = Neo4jMakeUpsert.makeCSVEdgeUpsert(config, type, templateFields)
