@@ -21,8 +21,8 @@ sourceFilenames = {
     WarehousesFlowsThroughSatellites: sourceMount+'WarehousesFlowsThroughSatellites_20161020.csv' # 'satellite-bdwp.csv'
     WarehousesLastMileRegions: null # just to the global region.
     ProductsBelongsToWarehouses: sourceMount+'ProductsBelongsToWarehouses_20161020.csv' # 'sku-bdwp.csv'
-#    ProductsBelongsToSellers: sourceMount+'ProductsBelongsToSellers_20161020.csv' # 'sku-seller.csv'
-    ProductsBelongsToSellers: { count: 27, date: "20161020", template:sourceMount+ 'ProductsBelongsToSellers_{{date}}.csv_{{characters}}', characters: true }
+    ProductsBelongsToSellers: sourceMount+'ProductsBelongsToSellers_20161020.csv' # 'sku-seller.csv'
+#    ProductsBelongsToSellers: { count: 27, date: "20161020", template:sourceMount+ 'ProductsBelongsToSellers_{{date}}.csv_{{characters}}', characters: true }
 
 }
 

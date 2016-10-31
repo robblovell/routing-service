@@ -31,7 +31,7 @@ else # node_env is not 'local' or 'test'
         neo4jurl: process.env.NEO4J_URL
         port: process.env.EXTERNAL_PORT || ports[node_env]
         host: process.env.HOST || host
-        scheme: process.env.SCHEME || 'https'
+        scheme: process.env.SCHEME || 'http'
 
     if (node_env is 'dev')
         config.neo4jurl = process.env.NEO4J_URL || "bolt://develop:k3qPB4V2yxPNAivieu3B@sb10.stations.graphenedb.com:24786/db/data/"

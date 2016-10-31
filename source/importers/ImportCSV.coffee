@@ -16,6 +16,7 @@ class ImporterCSV extends iImport
     originid = null
     destinationid = null
     config = null
+    fieldMap = null
     constructor: (@config={}, _reader=ReadHeader) ->
 #        console.log("config: "+JSON.stringify(@config))
         importer = new ImportFromCSV(@config)
@@ -26,6 +27,7 @@ class ImporterCSV extends iImport
         destination = @config.destination if @config.destination
         originid = @config.originid if @config.originid
         destinationid = @config.destinationid if @config.destinationid
+        fieldMap = @config.fieldMap || null
         config = @config
         return
 
@@ -73,9 +75,18 @@ class ImporterCSV extends iImport
             key = 'header'+ix
             data[key] = value
         return [fields, data]
+    remapFields = (templateFields, fieldMap) ->
+        for v,i in templateFields
+            if fieldMap[v]
+                templateFields[
+        reutrn templateFields
 
     makeCypher = (fields) ->
         [templateFields, templateData] = splitResults(fields)
+        # map field names if necessary
+        if config.fieldMap?
+            remapFields(templateFields, fieldMap)
+
         if origin? and destination?
             upsertStatement = Neo4jMakeUpsert.makeCSVEdgeUpsert(config, type, templateFields)
         else
