@@ -86,7 +86,7 @@ describe 'Import Nodes', () ->
             importer: '../source/nodes/importSellers'
             source: sourceFilenames['Sellers']
             spotid: '70554'
-            nodetype: 'Seller'
+            nodetype: 'Warehouse'
             repo: repo
         }
         runtest(importConfig, (error, result) ->
