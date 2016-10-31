@@ -77,7 +77,7 @@ class ImporterCSV extends iImport
         return [fields, data]
     remapFields = (templateFields, fieldMap) ->
 
-        reutrn templateFields
+        return templateFields
 
     makeCypher = (fields) ->
         [templateFields, templateData] = splitResults(fields)
