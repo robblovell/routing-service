@@ -37,7 +37,7 @@ else # node_env is not 'local' or 'test'
         config.mountPoint = process.env.MOUNT_POINT || 'https://s3-us-west-1.amazonaws.com/bd-freightengine/'
 
     else if (node_env is 'production')
-        config.neo4jurl = process.env.NEO4J_URL || "bolt://freightengine:eQWqMGYgjLsBR2MDVQ7U@db-oanzgatxwapdpu22t3kv.graphenedb.com:24786/db/data/"
+        config.neo4jurl = process.env.NEO4J_URL || "bolt://freightengine:eQWqMGYgjLsBR2MDVQ7U@db-oanzgatxwapdpu22t3kv.graphenedb.com:24780/db/data/"
         config.mountPoint = process.env.MOUNT_POINT || 'https://s3-us-west-1.amazonaws.com/bd-freightengine/'
 
     if !config.neo4jurl?
