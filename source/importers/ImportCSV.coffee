@@ -17,6 +17,8 @@ class ImporterCSV extends iImport
     destinationid = null
     config = null
     fieldMap = null
+    injectFields = null
+
     constructor: (@config={}, _reader=ReadHeader) ->
 #        console.log("config: "+JSON.stringify(@config))
         importer = new ImportFromCSV(@config)
@@ -28,6 +30,7 @@ class ImporterCSV extends iImport
         originid = @config.originid if @config.originid
         destinationid = @config.destinationid if @config.destinationid
         fieldMap = @config.fieldMap || null
+        injectFields = @config.injectFields || null
         config = @config
         return
 
@@ -68,9 +71,6 @@ class ImporterCSV extends iImport
         async.series(imports, callback)
         return
 
-    injectFields = (templateFields, injectioMap) ->
-        return templateFields
-
     splitResults = (result) ->
         fields = result.split(',')
         data = {}
@@ -89,12 +89,12 @@ class ImporterCSV extends iImport
         [templateFields, templateData] = splitResults(fields)
         # map field names if necessary
         if config.fieldMap?
-            remapFields(templateFields, fieldMap)
+            templateFields = remapFields(templateFields, fieldMap)
 
         if origin? and destination?
-            upsertStatement = Neo4jMakeUpsert.makeCSVEdgeUpsert(config, type, templateFields)
+            upsertStatement = Neo4jMakeUpsert.makeCSVEdgeUpsert(config, type, templateFields, injectFields)
         else
-            upsertStatement = Neo4jMakeUpsert.makeCSVUpsert(type, templateFields)
+            upsertStatement = Neo4jMakeUpsert.makeCSVUpsert(type, templateFields, injectFields)
         cypherTemplate = combyne(upsertStatement)
 
         return cypherTemplate.render(templateData)
@@ -123,6 +123,7 @@ class ImporterCSV extends iImport
     ImporterCSV.prototype["_testaccess_runImports"] = runImports
     ImporterCSV.prototype["_testaccess_splitResults"] = splitResults
     ImporterCSV.prototype["_testaccess_renderFilenames"] = renderFilenames
+    ImporterCSV.prototype["_testaccess_remapFields"] = remapFields
     # end-test-code
 
 module.exports = ImporterCSV

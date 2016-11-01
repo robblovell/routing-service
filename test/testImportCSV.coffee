@@ -61,7 +61,27 @@ ON MATCH SET n.updated=timestamp(), \
 n.id=line.one,n.one=line.one,n.two=line.two,n.three=line.three")
         done()
 
+    it 'makes cypher from csv header data with replaced and injected fields', (done) ->
+        config2 = {}
+        config2.fieldMap = {SellerId: "WarehouseId"}
+        config2.fieldMap = {one: 'a'}
+        config2.injectFields = {four: '1'}
+        config2.cypher = "CREATE (:Product {id:line.{{header0}}})"
+        config2.repo = repo
+
+        importer2 = new Importer(config2, ReadHeader)
+
+        result = importer2._testaccess_makeCypher("one,two,three")
+        result.should.be.equal("MERGE (n:undefined { id: line.one }) \
+ON CREATE SET n.created=timestamp(), \
+n.id=line.one,n.a=line.one,n.two=line.two,n.three=line.three,four='1' \
+ON MATCH SET n.updated=timestamp(), \
+n.id=line.one,n.a=line.one,n.two=line.two,n.three=line.three,four='1'")
+        done()
+
     it 'makes reader function and sets cypher', (done) ->
+        importer = new Importer({cypher: "CREATE (:Product {id:line.{{header0}}})", repo: repo}, ReadHeader)
+
         func = importer._testaccess_runImports("./somefile.csv", null)
         (typeof func).should.be.equal("function")
         func((error, result) ->
@@ -101,6 +121,15 @@ ON MATCH SET n.updated=timestamp(), n.id=line.one,n.one=line.one,n.two=line.two,
         imports[0].should.be.equal('Products_20161007_0000.csv')
         imports[1].should.be.equal('Products_20161007_0001.csv')
         imports[2].should.be.equal('Products_20161007_0002.csv')
+        done()
+        return
+
+    it 'remaps fields', (done) ->
+        templateFields = ['one', 'two', 'three']
+        fieldMap = {one: 'a', three: 'b'}
+        templateFields = importer._testaccess_remapFields(templateFields, fieldMap)
+        templateFields[0].should.be.equal('a')
+        templateFields[2].should.be.equal('b')
         done()
         return
 

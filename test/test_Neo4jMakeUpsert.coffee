@@ -19,6 +19,22 @@ n.ExcludeCourier=line.{{header3}},n.isAccessory=line.{{header4}},n.isSweepsEligi
 n.isSuperdcEligible=line.{{header6}},n.SipsEligible=line.{{header7}}")
         return
 
+    it 'it constructs CSV node upsert statement and injects fields.', () ->
+        nodeFields = ["ProductId","FreightClass","NMFCCode","ExcludeCourier",
+            "isAccessory","isSweepsEligible","isSuperdcEligible","SipsEligible"]
+        injectFields = {isSip: '1', isSweep: 0}
+
+        upsertStatement = Neo4jMakeUpsert.makeCSVUpsert("Product", nodeFields, injectFields)
+        upsertStatement.should.be.equal("MERGE (n:Product { id: line.{{header0}} }) \
+ON CREATE SET n.created=timestamp(), n.id=line.{{header0}},n.ProductId=line.{{header0}},\
+n.FreightClass=line.{{header1}},n.NMFCCode=line.{{header2}},n.ExcludeCourier=line.{{header3}},\
+n.isAccessory=line.{{header4}},n.isSweepsEligible=line.{{header5}},n.isSuperdcEligible=line.{{header6}},\
+n.SipsEligible=line.{{header7}},isSip='1',isSweep='0' ON MATCH SET n.updated=timestamp(), n.id=line.{{header0}},\
+n.ProductId=line.{{header0}},n.FreightClass=line.{{header1}},n.NMFCCode=line.{{header2}},\
+n.ExcludeCourier=line.{{header3}},n.isAccessory=line.{{header4}},n.isSweepsEligible=line.{{header5}},\
+n.isSuperdcEligible=line.{{header6}},n.SipsEligible=line.{{header7}},isSip='1',isSweep='0'")
+        return
+
     it 'it constructs CSV edge upsert statement with assumed id names.', () ->
         nodeFields = ["Node1Id","Node2Id","Field1","Field2"]
 

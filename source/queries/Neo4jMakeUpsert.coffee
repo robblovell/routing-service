@@ -7,19 +7,24 @@ Neo4jMakeUpsert = {
 # a combyne template with the frorm { header#: value }
 # nodeType is the type of node in neo4j
 # nodeFields is the list of fields in the node.
-    makeCSVUpsert: (nodeType, nodeFields) ->
+    makeCSVUpsert: (nodeType, nodeFields, injectedFields=null) ->
         properties = "n.id=line.{{header0}}"
         for field,i in nodeFields
             properties += ",n." + field + "=line.{{header" + i + "}}"
 
-        create = "n.created=timestamp(), " + properties
-        update = "n.updated=timestamp(), " + properties
+        injected = ""
+        if injectedFields?
+            for field,value of injectedFields
+                injected += ",#{field}='#{value}'"
+
+        create = "n.created=timestamp(), " + properties + injected
+        update = "n.updated=timestamp(), " + properties + injected
 
         return "MERGE (n:" + nodeType + " { id: line.{{header0}} })" +
                 " ON CREATE SET " + create +
                 " ON MATCH SET " + update
 
-    makeCSVEdgeUpsert: (connections, edgeType, edgeFields) ->
+    makeCSVEdgeUpsert: (connections, edgeType, edgeFields, injectedFields=null) ->
         sourceNodeType = connections.origin
         destinationNodeType  = connections.destination
         sourceNodeIdName = connections.originid ? "id"
@@ -36,8 +41,13 @@ Neo4jMakeUpsert = {
         for field,i in edgeFields
             properties += ",e." + field + "=line.{{header" + i + "}}"
 
-        create = "e.created=timestamp(), " + properties
-        update = "e.updated=timestamp(), " + properties
+        injected = ""
+        if injectedFields?
+            for field,value of injectedFields
+                injected += ",#{field}='#{value}'"
+
+        create = "e.created=timestamp(), " + properties + injected
+        update = "e.updated=timestamp(), " + properties + injected
 
         return "MATCH " +
                 "(a:" + sourceMatchNodeType + " { "+sourceMatchIdName+":line.{{header0}} })"+

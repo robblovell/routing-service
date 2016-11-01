@@ -38,6 +38,6 @@ describe 'Test Read Header', () ->
         process.env.NODE_ENV = 'test'
         config = require_config()
 
-        JSON.stringify(config).should.be.equal('{"neo4jurl":"bolt://develop:k3qPB4V2yxPNAivieu3B@sb10.stations.graphenedb.com:24786/db/data/","port":"3000","host":"localhost","scheme":"http","mountPoint":"file://'+base_dir+'/../data/","env":"test","internal_port":"3000","basepath":"/","version":"0.1.3","timeout":15000,"host_url":"localhost:3000"}')
+        JSON.stringify(config).should.be.equal('{"neo4jurl":"bolt://freightengine_candidate:oH0PicFqk6DYfJVW05Db@db-5bxcsjneuc9dpli9hpdx.graphenedb.com:24786","port":"3000","host":"localhost","scheme":"http","mountPoint":"https://s3.amazonaws.com/bd-freightengine-candidate/","env":"test","internal_port":"3000","basepath":"/","version":"0.1.3","timeout":15000,"host_url":"localhost:3000"}')
         done()
         return
