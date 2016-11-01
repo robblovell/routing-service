@@ -25,5 +25,6 @@ module.exports = (config) ->
     config.destinationid = "SatelliteId"
     config.destinationmatchidname = "WarehouseId"
     config.fieldMap = {SatelliteId: "WarehouseId"}
+    config.injectFields = {isSip: '0', isSweep: '0', type: 'FLOWS_THROUGH'}
 
     return new Importer(config)

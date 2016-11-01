@@ -10,7 +10,7 @@ module.exports = (config) ->
     config.destination = "Warehouse"
 
     config.fieldMap = {SellerId: "WarehouseId"}
-    config.injectFields = {isSip: '1', isSweep: '0'}
+    config.injectFields = {isSip: '1', isSweep: '0', type: 'SIPS_TO'}
 
     return new Importer(config)
 
