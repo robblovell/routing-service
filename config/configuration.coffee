@@ -19,7 +19,7 @@ if node_env is 'local'
 
 else if node_env is 'test'
     config =
-        neo4jurl: process.env.NEO4J_URL || "bolt://develop:k3qPB4V2yxPNAivieu3B@sb10.stations.graphenedb.com:24786/db/data/"
+        neo4jurl: process.env.NEO4J_URL || "bolt://develop:k3qPB4V2yxPNAivieu3B@sb10.stations.graphenedb.com:24786"
 #        neo4jurl: process.env.NEO4J_URL || "bolt://freightengine_dev:bOfUDCSGYsmMxfNwIsMC@db-pznqlogzz2dkqiyplaiy.graphenedb.com:24786"
         port: process.env.EXTERNAL_PORT || '3000'
         host: process.env.HOST || 'localhost'
@@ -34,11 +34,11 @@ else # node_env is not 'local' or 'test'
         scheme: process.env.SCHEME || 'http'
 
     if (node_env is 'dev')
-        config.neo4jurl = process.env.NEO4J_URL || "bolt://develop:k3qPB4V2yxPNAivieu3B@sb10.stations.graphenedb.com:24786/db/data/"
+        config.neo4jurl = process.env.NEO4J_URL || "bolt://develop:k3qPB4V2yxPNAivieu3B@sb10.stations.graphenedb.com:24786"
         config.mountPoint = process.env.MOUNT_POINT || 'https://s3-us-west-1.amazonaws.com/bd-freightengine/'
 
     else if (node_env is 'production')
-        config.neo4jurl = process.env.NEO4J_URL || "bolt://freightengine:eQWqMGYgjLsBR2MDVQ7U@db-oanzgatxwapdpu22t3kv.graphenedb.com:24786/db/data/"
+        config.neo4jurl = process.env.NEO4J_URL || "bolt://freightengine:eQWqMGYgjLsBR2MDVQ7U@db-oanzgatxwapdpu22t3kv.graphenedb.com:24786"
         config.mountPoint = process.env.MOUNT_POINT || 'https://s3-us-west-1.amazonaws.com/bd-freightengine/'
 
     if !config.neo4jurl?
