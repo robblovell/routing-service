@@ -68,6 +68,9 @@ class ImporterCSV extends iImport
         async.series(imports, callback)
         return
 
+    injectFields = (templateFields, injectioMap) ->
+        return templateFields
+
     splitResults = (result) ->
         fields = result.split(',')
         data = {}
@@ -75,6 +78,7 @@ class ImporterCSV extends iImport
             key = 'header'+ix
             data[key] = value
         return [fields, data]
+
     remapFields = (templateFields, fieldMap) ->
         for v,i in templateFields
             if fieldMap[v]
@@ -120,6 +124,5 @@ class ImporterCSV extends iImport
     ImporterCSV.prototype["_testaccess_splitResults"] = splitResults
     ImporterCSV.prototype["_testaccess_renderFilenames"] = renderFilenames
     # end-test-code
-
 
 module.exports = ImporterCSV
