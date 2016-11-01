@@ -15,7 +15,7 @@ Neo4jMakeUpsert = {
         injected = ""
         if injectedFields?
             for field,value of injectedFields
-                injected += ",#{field}='#{value}'"
+                injected += ",n.#{field}='#{value}'"
 
         create = "n.created=timestamp(), " + properties + injected
         update = "n.updated=timestamp(), " + properties + injected
@@ -44,7 +44,7 @@ Neo4jMakeUpsert = {
         injected = ""
         if injectedFields?
             for field,value of injectedFields
-                injected += ",#{field}='#{value}'"
+                injected += ",e.#{field}='#{value}'"
 
         create = "e.created=timestamp(), " + properties + injected
         update = "e.updated=timestamp(), " + properties + injected

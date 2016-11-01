@@ -74,9 +74,9 @@ n.id=line.one,n.one=line.one,n.two=line.two,n.three=line.three")
         result = importer2._testaccess_makeCypher("one,two,three")
         result.should.be.equal("MERGE (n:undefined { id: line.one }) \
 ON CREATE SET n.created=timestamp(), \
-n.id=line.one,n.a=line.one,n.two=line.two,n.three=line.three,four='1' \
+n.id=line.one,n.a=line.one,n.two=line.two,n.three=line.three,n.four='1' \
 ON MATCH SET n.updated=timestamp(), \
-n.id=line.one,n.a=line.one,n.two=line.two,n.three=line.three,four='1'")
+n.id=line.one,n.a=line.one,n.two=line.two,n.three=line.three,n.four='1'")
         done()
 
     it 'makes reader function and sets cypher', (done) ->
