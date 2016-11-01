@@ -20,5 +20,10 @@ module.exports = (config) ->
 #    config.type = "FLOWS_THROUGH"
     config.type = "TRANSFERS"
     config.origin = "Warehouse"
-    config.destination = "Satellite"
+
+    config.destination = "Warehouse"
+    config.destinationid = "SatelliteId"
+    config.destinationmatchidname = "WarehouseId"
+    config.fieldMap = {SatelliteId: "WarehouseId"}
+
     return new Importer(config)
