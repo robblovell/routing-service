@@ -1,14 +1,13 @@
-FROM node:6.7.0
+FROM alpine
+RUN apk update && apk upgrade
+RUN apk add nodejs git
+RUN npm install gulp coffee-script -g
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-
-COPY package.json /usr/src/app/
+WORKDIR /app
+COPY package.json /app
 RUN npm install
-RUN npm install gulp -g
-RUN npm install coffee-script -g
 
-COPY . /usr/src/app
+COPY . /app
 RUN gulp build
 
 # local
@@ -17,7 +16,6 @@ ARG NODE_ENV
 ARG HOST
 # http
 ARG SCHEME
-
 # "bolt://neo4j:macro7@localhost"
 ARG NEO4J_URL
 

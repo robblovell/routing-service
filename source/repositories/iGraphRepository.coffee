@@ -16,6 +16,12 @@ class iGraphRepository
     add: (cypher, callback) ->
         throw new Error 'not implemented'
 
+    set: (id, obj, callback) =>
+        throw new Error("not implemented")
+
+    delete: (nodeid, nodekind, callback) ->
+        throw new Error("not implemented")
+
     indexEdge: (edgesType, query, callback) ->
         throw new Error("not implemented")
 
@@ -25,13 +31,7 @@ class iGraphRepository
     setEdge: (params, edge, callback) =>
         throw new Error("not implemented")
 
-    set: (id, obj, callback) =>
-        throw new Error("not implemented")
-
     deleteEdge: (edgeid, edgekind, callback) ->
-        throw new Error("not implemented")
-
-    delete: (nodeid, nodekind, callback) ->
         throw new Error("not implemented")
 
     pipeline: () ->

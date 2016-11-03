@@ -6,47 +6,22 @@ module.exports = (app, resources, spec='/spec', config) ->
     _.each(resources, (resource) ->
 
         swagger = resource.swagger()
-#        if (swagger.paths["/routes"]?)
-#            swagger.paths["/routes"].get.parameters.push({
-#                    name: 'query',
-#                    in: 'query',
-#                    description: 'Query by example. Pass a JSON object to find, for example: {"to": "313"}.',
-#                    type: 'string',
-#                    required: false,
-#                    default: ''
-#                }
-#            )
-#        if (swagger.paths["/nodetypes/{nodesType}/nodes"]?)
-#            swagger.paths["/nodetypes/{nodesType}/nodes"].get.parameters.push({
-#                    name: 'query',
-#                    in: 'query',
-#                    description: 'Query by example. Pass a JSON object or where clause string to find. JSON example: {"postalCode": "60440", "name": "BDWP IL - Bolingbrook"}  Where Clause Example: "n.postalCode  = \'60440\' and n.name = \'BDWP IL - Bolingbrook\'" (include the quotes).',
-#                    type: 'string',
-#                    required: false,
-#                    default: ''
-#                }
-#            )
-#        if (swagger.paths["/edgetypes/{edgesType}/edges"]?)
-#            swagger.paths["/edgetypes/{edgesType}/edges"].get.parameters.push({
-#                    name: 'query',
-#                    in: 'query',
-#                    description: 'Query by example. Pass a JSON object or where clause string to find. JSON example: {"id": "2000507_2000819"}  Where Clause Example: "toInt(e.leadTime)>2 and toInt(e.sellerCost)=0" (include the quotes).',
-#                    type: 'string',
-#                    required: false,
-#                    default: ''
-#                }
-#            )
+        if (swagger.paths["/edgetypes/{edgesType}/edges/{edgesId}"]?)
+            idHelpString = 'The id of the edge that will be updated. The id is a combination of source and destination node ids of the form: sourceId_destinationId'
+            typeHelpString = "The neo4j 'Relationship Type' of the edge/relationship"
+            swagger.paths["/edgetypes/{edgesType}/edges/{edgesId}"].put.parameters[0].description=idHelpString
+            swagger.paths["/edgetypes/{edgesType}/edges/{edgesId}"].put.parameters[2].description=typeHelpString
+            swagger.paths["/edgetypes/{edgesType}/edges/{edgesId}"].get.parameters[0].description=idHelpString
+            swagger.paths["/edgetypes/{edgesType}/edges/{edgesId}"].get.parameters[1].description=typeHelpString
+            swagger.paths["/edgetypes/{edgesType}/edges/{edgesId}"].delete.parameters[0].description=idHelpString
+            swagger.paths["/edgetypes/{edgesType}/edges/{edgesId}"].delete.parameters[1].description=typeHelpString
+        if (swagger.paths["/edgetypes/{edgesType}/edges"]?)
+            swagger.paths["/edgetypes/{edgesType}/edges"].post.parameters[1].description=typeHelpString
+            swagger.paths["/edgetypes/{edgesType}/edges"].get.parameters[5].description=typeHelpString
         paths = _.assign(paths, swagger.paths)
         definitions = _.assign(definitions, swagger.definitions)
     )
-#    for path,verbs of paths
-#        if verbs?
-#            for key, verb of verbs
-#                if verb.parameters
-#                    for parameter,i in verb.parameters
-#                        if parameter.name? and parameter.name is 'count'
-#                            verb.parameters.splice(i, 1)
-#                            break
+
     # Define the specification.
     specification = {
         swagger: '2.0',

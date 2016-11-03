@@ -4,7 +4,7 @@ combyne = require('combyne')
 neo4j = require('neo4j-driver').v1
 uuid = require('uuid')
 
-class Neo4jRepository
+class Neo4jRepository extends iGraphRepository
     constructor: (@config) ->
         @buffer = null
         if !@config.url?
@@ -47,7 +47,7 @@ class Neo4jRepository
                 return
             )
             .catch((error) =>
-                console.log("Error:"+error)
+                console.log("Error:"+JSON.stringify(error))
                 session.close()
                 callback(error, null)
                 return
@@ -140,8 +140,8 @@ class Neo4jRepository
             properties = properties.slice(0,-2) # remove the trailing comma.
 
             upsertStatement = "MATCH "+
-                "(a:"+params.sourcekind+" {id:{sourceid}}), "+
-                "(b:"+params.destinationkind+" {id:{destinationid}}) "+
+                "(a:"+params.sourceKind+" {id:{sourceId}}), "+
+                "(b:"+params.destinationKind+" {id:{destinationId}}) "+
                 "MERGE (a)-[r:"+params.kind+ifidprop+"]->(b) "+
                 "ON CREATE SET r.created=timestamp(), "+properties+" "+
                 "ON MATCH SET r.updated=timestamp(), "+properties

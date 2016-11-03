@@ -1,0 +1,9 @@
+FROM alpine
+RUN apk update && apk upgrade
+RUN apk add nodejs
+
+WORKDIR /app
+ADD . /app
+EXPOSE 3000
+
+CMD [ "npm", "start" ]

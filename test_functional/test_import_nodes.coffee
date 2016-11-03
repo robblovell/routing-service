@@ -11,109 +11,132 @@ config = require('../config/configuration')
 repoConfig = {url: config.neo4jurl}
 repo = new Neo4jRepostitory(repoConfig)
 
-describe 'Import Nodes', () ->
+sourceMount = config.mountPoint
 
-    runtest = (testImport, callback) ->
-        console.log("import"+testImport.nodetype)
-        importer = require(testImport.importer)
-        importer.import(testImport.source, repo, (error, results) ->
+sourceFilenames = {
+    Satellites: sourceMount+ 'Satellites_20161020.csv'
+    Warehouses: sourceMount+ 'Warehouses_20161020.csv' # 'BDWP.csv'
+    Sellers: sourceMount+ 'Sellers_20161020.csv'
+    Products: sourceMount+ 'Products_20161020.csv'
+#    Products: { count: 22, date: "20161020", template:sourceMount+ 'Products_{{date}}.csv_{{characters}}', characters: true }
+    Regions: sourceMount + 'Regions_20161020.csv'
+#    Regions: { count: 57, date: "20161020", template:sourceMount+ 'Regions_{{date}}.csv_{{characters}}', characters: true }
+}
+
+describe 'Import Nodes', () ->
+    @timeout(10*60*1000) # 10 minutes
+
+    runtest = (importConfig, done) ->
+        console.log("import"+importConfig.nodetype)
+
+        importer = require(importConfig.importer)(importConfig)
+
+        importer.import(importConfig.source, (error, results) ->
             if (error?)
                 console.log(error)
                 assert(false)
-                callback(error, result);
+                done(error, result);
                 return
             # do a spot check:
-            repo.get({id: testImport.spotid, type: testImport.nodetype}, (error, result) ->
+            repo.get({id: importConfig.spotid, type: importConfig.nodetype}, (error, result) ->
                 if (error?)
                     assert(false)
                     callback(error, result);
                     return
                 data = result[0]
-                data.id.should.be.equal(testImport.spotid)
-                console.log("completed: "+testImport.nodetype)
-                callback(error, result)
+                data.id.should.be.equal(importConfig.spotid)
+                console.log("completed: "+importConfig.nodetype)
+                done(error, result)
                 return
             )
             return
         )
         return
 
-    it 'Imports satellites to Neo4j', (callback) ->
-        importer = {
-            importer: '../source/importSatellites'
-            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/Satellite.csv'  # todo: rename to Satellites
+    it 'Imports satellites to Neo4j', (done) ->
+        importConfig = {
+            importer: '../source/nodes/importSatellites'
+            source: sourceFilenames['Satellites']
             spotid: '2212'
             nodetype: 'Satellite'
+            repo: repo
         }
-        runtest(importer, (error, result) ->
-            callback(error, result)
+        runtest(importConfig, (error, result) ->
+            done(error, result)
             return
         )
         return
 
-    it 'Imports products to Neo4j', (callback) ->
-        importer = {
-            importer: '../source/importProducts'
-            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/Products.csv'
-            spotid: '10081215'
-            nodetype: 'Product'
-        }
-        runtest(importer, (error, result) ->
-            callback(error, result)
-            return
-        )
-        return
-
-    it 'Imports warehouses to Neo4j', (callback) ->
-        importer = {
-            importer: '../source/importWarehouses'
-            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/BDWP.csv' # todo: rename to Warehouses.
-            spotid: '2000507'
+    it 'Imports warehouses to Neo4j', (done) ->
+        importConfig = {
+            importer: '../source/nodes/importWarehouses'
+            source: sourceFilenames['Warehouses']
+            spotid: '69392'
             nodetype: 'Warehouse'
+            repo: repo
         }
-        runtest(importer, (error, result) ->
-            callback(error, result)
+        runtest(importConfig, (error, result) ->
+            done(error, result)
             return
         )
         return
 
-    it 'Imports sellers to Neo4j', (callback) ->
-        importer = {
-            importer: '../source/importSellers'
-            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/Seller.csv' # todo: rename to Sellers
-            spotid: '2000061'
+    it 'Imports sellers to Neo4j', (done) ->
+        importConfig = {
+            importer: '../source/nodes/importSellers'
+            source: sourceFilenames['Sellers']
+            spotid: '70554'
             nodetype: 'Seller'
+            repo: repo
         }
-        runtest(importer, (error, result) ->
-            callback(error, result)
+        runtest(importConfig, (error, result) ->
+            done(error, result)
             return
         )
         return
 
-    it 'Imports zones to Neo4j', (callback) ->
-        importer = {
-            importer: '../source/importZones'
-            source: 'https://s3-us-west-1.amazonaws.com/bd-ne04j/RadiusZips.csv'  # todo: rename to Zones
+    it 'Imports regions to Neo4j', (done) ->
+        importConfig = {
+            importer: '../source/nodes/importRegions'
+            source: sourceFilenames['Regions']
             spotid: '15'
-            nodetype: 'Zone'
+            nodetype: 'Region'
+            repo: repo
         }
-        runtest(importer, (error, result) ->
-            callback(error, result)
+        runtest(importConfig, (error, result) ->
+            done(error, result)
             return
         )
         return
 
-    it 'Imports global zone to Neo4j', (callback) ->
-        importer = {
-            importer: '../source/importZoneGlobal'
-            source: null
-            spotid: '99999'
-            nodetype: 'Zone'
+    it 'Imports products to Neo4j', (done) ->
+        @timeout(300000)
+
+        importConfig = {
+            importer: '../source/nodes/importProducts'
+            source: sourceFilenames['Products']
+            spotid: '15000404'
+            nodetype: 'Product'
+            repo: repo
         }
-        runtest(importer, (error, result) ->
-            callback(error, result)
+        runtest(importConfig, (error, result) ->
+            done(error, result)
             return
         )
         return
+
+#
+#    it 'Imports global region to Neo4j', (callback) ->
+#        importer = {
+#            importer: '../source/nodes/importGlobalRegions'
+#            source: null
+#            spotid: '99999'
+#            nodetype: 'Region'
+#        }
+#        runtest(importer, (error, result) ->
+#            callback(error, result)
+#            return
+#        )
+#        return
 
 
