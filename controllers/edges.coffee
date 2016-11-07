@@ -1,48 +1,14 @@
 mongoose = require('mongoose')
 Resource = require('resourcejs')
-Neo4jRepository = require('../source/repositories/Neo4jRepository')
-config = require('../config/configuration')
+edgeHandler = require('./handlers/edgesHandlers')
 
-repoConfig = {url: config.neo4jurl}
-repo = new Neo4jRepository(repoConfig)
-
-module.exports = (app, model) ->
+module.exports = (app, model, repo) ->
     resource = Resource(app, '/edgetypes/:edgesType', 'edges', model)
     .get({ # todo: move this code snippit out to a separate class and unit test it.
-        before: (req, res, next) ->
-            example = {id: req.params.edgesId, type: req.params.edgesType}
-            repo.getEdge(example, (error, result) ->
-                if (error?)
-                    res.send {error: Error.message}
-                    return
-                res.send JSON.stringify(result)
-                return
-            )
-            return
+        before: edgeHandler(repo).get
     })
     .put({
-        before: (req, res, next) -> # todo: move this code snippit out to a separate class and unit test it.
-            body = req.body
-            ids = req.params.edgesId.split('_')
-            if (!body.sourceId || !body.destinationId)
-                if (!body.sourceId and ids.length > 0)
-                    body.sourceId = ids[0]
-                if (!body.destinationId and ids.length > 1)
-                    body.destinationId = ids[1]
-
-            # TODO:: same code as post?
-            req.body.kind = req.params.edgesType
-            repo.setEdge(req.body, req.body.properties, (error, result) ->
-                if (error?)
-                    if error.fields?
-                        res.send {error: error.fields[0].message, code: error.fields[0].code}
-                    else
-                        res.send {error: "error in put: "+JSON.stringify(error)}
-                    return
-                res.send JSON.stringify(result)
-                return
-            )
-            return
+        before: edgeHandler(repo).put
     })
     .post({
         before: (req, res, next) -> # todo: move this code snippit out to a separate class and unit test it.
