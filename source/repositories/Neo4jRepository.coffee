@@ -118,7 +118,8 @@ class Neo4jRepository extends iGraphRepository
             data = {}
             for key,value of edge
                 data[key] = value
-            edge.id = uuid.v4() unless (edge.id?)
+
+            params.id = uuid.v4() unless (params.id?)
             # for logging:
 #            propstring = (("r."+key+"='"+value+"', ") for key,value of edge).reduce((t,s) -> t + s)
 #            propstring = propstring.slice(0,-2)
@@ -134,21 +135,23 @@ class Neo4jRepository extends iGraphRepository
 #            upsertString = combyne(upsertString).render(params)
 #            console.log(upsertString)  # if math.floor(math.random(0,500)) == 1
 
-            if data.id? then ifidprop = " {id:{id}}" else ""
 
             properties = (("r."+key+"={"+key+"}, ") for key,value of edge).reduce((t,s) -> t + s)
             properties = properties.slice(0,-2) # remove the trailing comma.
+
+            if properties.id? then ifidprop = " {id:{id}}" else ifidprop = ""
 
             upsertStatement = "MATCH "+
                 "(a:"+params.sourceKind+" {id:{sourceId}}), "+
                 "(b:"+params.destinationKind+" {id:{destinationId}}) "+
                 "MERGE (a)-[r:"+params.kind+ifidprop+"]->(b) "+
-                "ON CREATE SET r.created=timestamp(), "+properties+" "+
+#                "ON CREATE SET r.created=timestamp(), "+properties+" "+
                 "ON MATCH SET r.updated=timestamp(), "+properties
 
             for key,value of params
                 data[key] = value
             console.log(upsertStatement)
+            console.log(JSON.stringify(data))
             return [data, edge, upsertStatement]
 
         [data, edge, upsert] = makeUpsert(params, edge)
