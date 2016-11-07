@@ -39,10 +39,16 @@ mongoose = require('mongoose')
 mongoose.Promise = require('bluebird')
 #mongoose.connect(config.db) # connect to our database
 
+Neo4jRepository = require('./source/repositories/Neo4jRepository')
+config = require('./config/configuration')
+
+repoConfig = {url: config.neo4jurl}
+repo = new Neo4jRepository(repoConfig)
+
 import_= require('./models/import')
 Imports = require('./controllers/imports')(app, import_.model, config)
 edge= require('./models/edge')
-Edges = require('./controllers/edges')(app, edge.model)
+Edges = require('./controllers/edges')(app, edge.model, repo)
 node= require('./models/node')
 Nodes = require('./controllers/nodes')(app, node.model)
 
