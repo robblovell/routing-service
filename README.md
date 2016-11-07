@@ -39,6 +39,12 @@ docker stop [container id]
 cleanup: 
 docker rm -v $(docker ps -a -q -f status=exited)
 
+Continuous Integration:
+
+The build and test pipeline is at: jk.builddirect.com as routing service.
+
+Deployment is to AWS through a build pipeline: https://console.aws.amazon.com/codepipeline/home?region=us-east-1#/view/routing-service
+
 TODO:
 
 * CLI for imports
