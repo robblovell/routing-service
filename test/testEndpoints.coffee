@@ -28,10 +28,10 @@ describe 'Test Read Header', () ->
             { }
         )
 
-    it 'updates edge with id_id in path', (done) ->
+    it 'updates edge with id_id in path (sets id explicitly(', (done) ->
         putContents = {
-            body: { kind: "EDGE", properties: {prop: 1} }#,sourceId: '1234', destinationId: '5678' }
-            params: { edgesId: '1234_5678', type: 'EDGE' },
+            body: { kind: "EDGE", properties: {prop: 1} , id: '222'}
+            params: { edgesId: '1234_5678', type: 'EDGE'},
 
         }
         calls = 0
@@ -39,6 +39,7 @@ describe 'Test Read Header', () ->
             setEdge: (body, properties, callback) ->
                 body.sourceId.should.be.equal('1234')
                 body.destinationId.should.be.equal('5678')
+                body.id.should.be.equal("222")
                 properties.should.be.equal(putContents.body.properties)
                 calls+=1
                 callback(null, {calls: calls})
@@ -55,9 +56,9 @@ describe 'Test Read Header', () ->
             },
             { }
         )
-    it 'updates edge with ids set explicitly', (done) ->
+    it 'updates edge with ids set explicitly (id set implicitly)', (done) ->
         putContents = {
-            body: { kind: "EDGE", properties: {prop: 1},sourceId: '1234', destinationId: '5678' }
+            body: { kind: "EDGE", properties: {prop: 1}, sourceId: '1234', destinationId: '5678' }
             params: { edgesId: '1234_5678', type: 'EDGE' },
 
         }
@@ -66,6 +67,7 @@ describe 'Test Read Header', () ->
             setEdge: (body, properties, callback) ->
                 body.sourceId.should.be.equal('1234')
                 body.destinationId.should.be.equal('5678')
+                body.id.should.be.equal("1234_5678")
                 properties.should.be.equal(putContents.body.properties)
                 calls+=1
                 callback(null, {calls: calls})
