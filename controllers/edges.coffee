@@ -17,14 +17,7 @@ module.exports = (app, model, repo) ->
         before: edgeHandler(repo).delete
     })
     .index({ # todo: move this code snippit out to a separate class and unit test it.
-        before: (req, res, next) ->
-            repo.indexEdge(req.params.edgesType, req.query, (error, result) ->
-                if (error?)
-                    res.send {error: error.fields[0].message}
-                    return
-                res.send JSON.stringify(result)
-                return
-            )
+        before: edgeHandler(repo).index
     })
 
     return resource

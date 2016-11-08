@@ -21,7 +21,7 @@ describe 'Test Read Header', () ->
             ,
             {
                 send: (value) ->
-                    value.should.be.equal('{"StatusCode":200,"Content":{"calls":1}}')
+                    value.should.be.equal('{"StatusCode":200,"Success":true,"Contents":{"calls":1}}')
                     done()
                     return
             },
@@ -50,7 +50,7 @@ describe 'Test Read Header', () ->
         ,
             {
                 send: (value) ->
-                    value.should.be.equal('{"StatusCode":200,"Content":{"calls":1}}')
+                    value.should.be.equal('{"StatusCode":200,"Success":true,"Contents":{"calls":1}}')
                     done()
                     return
             },
@@ -78,7 +78,7 @@ describe 'Test Read Header', () ->
         ,
             {
                 send: (value) ->
-                    value.should.be.equal('{"StatusCode":200,"Content":{"calls":1}}')
+                    value.should.be.equal('{"StatusCode":200,"Success":true,"Contents":{"calls":1}}')
                     done()
                     return
             },
@@ -106,8 +106,10 @@ describe 'Test Read Header', () ->
         ,
             {
                 send: (value) ->
-                    value.error.should.be.equal("Must set the id in the path")
+                    value = JSON.parse(value)
+                    value.Contents.should.be.equal("Must set the id in the path")
                     value.StatusCode.should.be.equal(400)
+                    value.Success.should.be.equal(false)
                     done()
                     return
             },
