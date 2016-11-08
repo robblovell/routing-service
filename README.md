@@ -43,7 +43,8 @@ Continuous Integration:
 
 The build and test pipeline is at: jk.builddirect.com as routing service.
 
-Deployment is to AWS through a build pipeline: https://console.aws.amazon.com/codepipeline/home?region=us-east-1#/view/routing-service
+Deployment is to AWS through a build pipeline: 
+https://console.aws.amazon.com/codepipeline/home?region=us-east-1#/view/routing-service
 
 TODO:
 

@@ -14,13 +14,13 @@ repo = new Neo4jRepostitory(repoConfig)
 sourceMount = config.mountPoint
 
 sourceFilenames = {
-    Satellites: sourceMount+ 'Satellites_20161020.csv'
-    Warehouses: sourceMount+ 'Warehouses_20161020.csv' # 'BDWP.csv'
-    Sellers: sourceMount+ 'Sellers_20161020.csv'
-    Products: sourceMount+ 'Products_20161020.csv'
-#    Products: { count: 22, date: "20161020", template:sourceMount+ 'Products_{{date}}.csv_{{characters}}', characters: true }
-    Regions: sourceMount + 'Regions_20161020.csv'
-#    Regions: { count: 57, date: "20161020", template:sourceMount+ 'Regions_{{date}}.csv_{{characters}}', characters: true }
+    Satellites: sourceMount+ 'Satellites_20161102.csv'
+    Warehouses: sourceMount+ 'Warehouses_20161102.csv' # 'BDWP.csv'
+    Sellers: sourceMount+ 'Sellers_20161102.csv'
+    Products: sourceMount+ 'Products_20161102.csv'
+#    Products: { count: 22, date: "20161102", template:sourceMount+ 'Products_{{date}}.csv_{{characters}}', characters: true }
+    Regions: sourceMount + 'Regions_20161102.csv'
+#    Regions: { count: 57, date: "20161102", template:sourceMount+ 'Regions_{{date}}.csv_{{characters}}', characters: true }
 }
 
 describe 'Import Nodes', () ->
