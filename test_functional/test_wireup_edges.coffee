@@ -13,16 +13,16 @@ repoConfig = {url: config.neo4jurl}
 sourceMount = config.mountPoint
 
 sourceFilenames = {
-    ResuppliersResuppliesWarehouses: sourceMount+'ResuppliersResuppliesWarehouses_20161020.csv' # 'superdc-bdwp.csv'
-    SatellitesLastMileRegions: sourceMount+'SatellitesLastMileRegions_20161020.csv' # 'Node-ZipRadius.csv'
-    SellersSweptToWarehouses: sourceMount+'SellersSweptToWarehouses_20161020.csv' # 'seller-bdwp.csv'
-    SellersSipsToWarehouses: sourceMount+'SellersSipsToWarehouses_20161020.csv' # 'seller-bdwp.csv'
+    ResuppliersResuppliesWarehouses: sourceMount+'ResuppliersResuppliesWarehouses_20161102.csv' # 'superdc-bdwp.csv'
+    SatellitesLastMileRegions: sourceMount+'SatellitesLastMileRegions_20161102.csv' # 'Node-ZipRadius.csv'
+    SellersSweptToWarehouses: sourceMount+'SellersSweptToWarehouses_20161102.csv' # 'seller-bdwp.csv'
+    SellersSipsToWarehouses: sourceMount+'SellersSipsToWarehouses_20161102.csv' # 'seller-bdwp.csv'
     SellersLastMileRegions: null # just to the global region
-    WarehousesFlowsThroughSatellites: sourceMount+'WarehousesFlowsThroughSatellites_20161020.csv' # 'satellite-bdwp.csv'
+    WarehousesFlowsThroughSatellites: sourceMount+'WarehousesFlowsThroughSatellites_20161102.csv' # 'satellite-bdwp.csv'
     WarehousesLastMileRegions: null # just to the global region.
-    ProductsBelongsToWarehouses: sourceMount+'ProductsBelongsToWarehouses_20161020.csv' # 'sku-bdwp.csv'
-    ProductsBelongsToSellers: sourceMount+'ProductsBelongsToSellers_20161020.csv' # 'sku-seller.csv'
-#    ProductsBelongsToSellers: { count: 27, date: "20161020", template:sourceMount+ 'ProductsBelongsToSellers_{{date}}.csv_{{characters}}', characters: true }
+    ProductsBelongsToWarehouses: sourceMount+'ProductsBelongsToWarehouses_20161102.csv' # 'sku-bdwp.csv'
+    ProductsBelongsToSellers: sourceMount+'ProductsBelongsToSellers_20161102.csv' # 'sku-seller.csv'
+#    ProductsBelongsToSellers: { count: 27, date: "20161102", template:sourceMount+ 'ProductsBelongsToSellers_{{date}}.csv_{{characters}}', characters: true }
 
 }
 

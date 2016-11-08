@@ -142,11 +142,10 @@ class Neo4jRepository extends iGraphRepository
             if properties.id? then ifidprop = " {id:{id}}" else ifidprop = ""
 
             upsertStatement = "MATCH "+
-                "(a:"+params.sourceKind+" {id:{sourceId}}), "+
+                "(a:"+params.sourceKind+" {id:{sourceId}})"+
+                "-[r:"+params.kind+ifidprop+"]->"+
                 "(b:"+params.destinationKind+" {id:{destinationId}}) "+
-                "MERGE (a)-[r:"+params.kind+ifidprop+"]->(b) "+
-#                "ON CREATE SET r.created=timestamp(), "+properties+" "+
-                "ON MATCH SET r.updated=timestamp(), "+properties
+                "SET r.updated=timestamp(), "+properties
 
             for key,value of params
                 data[key] = value
