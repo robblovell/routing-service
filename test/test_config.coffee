@@ -22,7 +22,7 @@ describe 'Test Read Header', () ->
         process.env.NODE_ENV = 'dev'
         config = require_config()
 
-        JSON.stringify(config).should.be.equal('{"neo4jurl":"bolt://develop:k3qPB4V2yxPNAivieu3B@sb10.stations.graphenedb.com:24786","port":"8091","host":"routing.dev.builddirect.com","scheme":"http","mountPoint":"https://s3-us-west-1.amazonaws.com/bd-freightengine/","env":"dev","internal_port":"8091","basepath":"/","version":"'+config.version+'","timeout":15000,"host_url":"routing.dev.builddirect.com:8091"}')
+        JSON.stringify(config).should.be.equal('{"neo4jurl":"bolt://develop:k3qPB4V2yxPNAivieu3B@sb10.stations.graphenedb.com:24786","port":80,"host":"routing.dev.builddirect.com","scheme":"http","mountPoint":"https://s3-us-west-1.amazonaws.com/bd-freightengine/","env":"dev","internal_port":"8091","basepath":"/","version":"'+config.version+'","timeout":15000,"host_url":"routing.dev.builddirect.com:80"}')
         done()
         return
 
@@ -30,7 +30,7 @@ describe 'Test Read Header', () ->
         process.env.NODE_ENV = 'production'
         config = require_config()
 
-        JSON.stringify(config).should.be.equal('{"neo4jurl":"bolt://freightengine:eQWqMGYgjLsBR2MDVQ7U@db-oanzgatxwapdpu22t3kv.graphenedb.com:24786","port":"4091","host":"routing.builddirect.com","scheme":"http","mountPoint":"https://s3-us-west-1.amazonaws.com/bd-freightengine/","env":"production","internal_port":"4091","basepath":"/","version":"'+config.version+'","timeout":15000,"host_url":"routing.builddirect.com:4091"}')
+        JSON.stringify(config).should.be.equal('{"neo4jurl":"bolt://freightengine:eQWqMGYgjLsBR2MDVQ7U@db-oanzgatxwapdpu22t3kv.graphenedb.com:24786","port":80,"host":"routing.builddirect.com","scheme":"http","mountPoint":"https://s3-us-west-1.amazonaws.com/bd-freightengine/","env":"production","internal_port":"4091","basepath":"/","version":"'+config.version+'","timeout":15000,"host_url":"routing.builddirect.com:80"}')
         done()
         return
 

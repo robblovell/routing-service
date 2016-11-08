@@ -11,34 +11,10 @@ module.exports = (app, model, repo) ->
         before: edgeHandler(repo).put
     })
     .post({
-        before: (req, res, next) -> # todo: move this code snippit out to a separate class and unit test it.
-            req.body.kind = req.params.edgesType
-            repo.setEdge(req.body, req.body.properties, (error, result) ->
-                if (error?)
-                    if error.fields?
-                        res.send {error: error.fields[0].message, code: error.fields[0].code}
-                    else
-                        res.send {error: "error in post: "+JSON.stringify(error)}
-                    return
-                res.send JSON.stringify(result)
-                return
-            )
-            return
+        before: edgeHandler(repo).post
     })
     .delete({
-        before: (req, res, next) ->
-            repo.deleteEdge(req.params.edgesId, req.params.edgesType, (error, result) ->
-                if (error?)
-                    if error.fields?
-                        res.send {error: error.fields[0].message, code: error.fields[0].code}
-                    else
-                        res.send {error: "error in post: "+JSON.stringify(error)}
-                    return
-                res.send JSON.stringify(result)
-                return
-            )
-            return
-
+        before: edgeHandler(repo).delete
     })
     .index({ # todo: move this code snippit out to a separate class and unit test it.
         before: (req, res, next) ->

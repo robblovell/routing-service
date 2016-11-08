@@ -21,7 +21,7 @@ describe 'Test Read Header', () ->
             ,
             {
                 send: (value) ->
-                    value.should.be.equal('{"calls":1}')
+                    value.should.be.equal('{"StatusCode":200,"Content":{"calls":1}}')
                     done()
                     return
             },
@@ -50,7 +50,7 @@ describe 'Test Read Header', () ->
         ,
             {
                 send: (value) ->
-                    value.should.be.equal('{"calls":1}')
+                    value.should.be.equal('{"StatusCode":200,"Content":{"calls":1}}')
                     done()
                     return
             },
@@ -78,7 +78,7 @@ describe 'Test Read Header', () ->
         ,
             {
                 send: (value) ->
-                    value.should.be.equal('{"calls":1}')
+                    value.should.be.equal('{"StatusCode":200,"Content":{"calls":1}}')
                     done()
                     return
             },
@@ -107,7 +107,7 @@ describe 'Test Read Header', () ->
             {
                 send: (value) ->
                     value.error.should.be.equal("Must set the id in the path")
-                    value.code.should.be.equal(400)
+                    value.StatusCode.should.be.equal(400)
                     done()
                     return
             },
