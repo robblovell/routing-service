@@ -30,7 +30,7 @@ else if node_env is 'test'
 else # node_env is not 'local' or 'test'
     config =
         neo4jurl: process.env.NEO4J_URL
-        port: process.env.EXTERNAL_PORT || ports[node_env]
+        port: process.env.EXTERNAL_PORT || 80
         host: process.env.HOST || host
         scheme: process.env.SCHEME || 'http'
 
